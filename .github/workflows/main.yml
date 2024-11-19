@@ -22,7 +22,6 @@ jobs:
       - name: Load maui workload
         run: |
           dotnet workload install maui-android
-          dotnet workload install maui
         shell: bash
 
       - name: Install ABP CLI
