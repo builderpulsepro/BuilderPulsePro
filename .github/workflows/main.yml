@@ -1,0 +1,118 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy ASP.Net Core with BlazorServer to Azure Web App
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x'
+          include-prerelease: true
+
+      - name: Install ABP CLI
+        run: |
+          dotnet tool install -g Volo.Abp.Cli
+          abp install-libs
+        shell: bash
+    
+      - name: Build with dotnet
+        run: dotnet build --configuration Release
+
+      - name: Run migrations
+        run: dotnet run -- "${{ secrets.CONNECTION_STRING }}" # Set your connection string as a secret in your repository settings
+        working-directory: ./src/blazorservertierdemo.DbMigrator  # Replace with your project name
+
+      - name: dotnet publish authserver
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/authserver
+        working-directory: ./src/blazorservertierdemo.AuthServer # Replace with your project name
+
+      - name: Generate authserver.pfx
+        run: dotnet dev-certs https -v -ep ${{env.DOTNET_ROOT}}/authserver/authserver.pfx -p 2D7AA457-5D33-48D6-936F-C48E5EF468ED # Replace with your password
+
+      - name: dotnet publish apihost
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/apihost
+        working-directory: ./src/blazorservertierdemo.HttpApi.Host # Replace with your project name
+
+      - name: dotnet publish webapp
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/webapp
+        working-directory: ./src/blazorservertierdemo.Blazor # Replace with your project name
+
+      - name: Upload artifact for authserver
+        uses: actions/upload-artifact@v4
+        with:
+          name: .net-authserver
+          path: ${{env.DOTNET_ROOT}}/authserver
+      
+      - name: Upload artifact for apihost
+        uses: actions/upload-artifact@v4
+        with:
+          name: .net-apihost
+          path: ${{env.DOTNET_ROOT}}/apihost
+
+      - name: Upload artifact for webapp
+        uses: actions/upload-artifact@v4
+        with:
+          name: .net-webapp
+          path: ${{env.DOTNET_ROOT}}/webapp
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp-3.outputs.webapp-url }}
+
+    steps:
+      - name: Download artifact from authserver
+        uses: actions/download-artifact@v4
+        with:
+          name: .net-authserver
+          path: ./authserver
+
+      - name: Deploy authserver
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'authserver-blazorserver' # Replace with your app name
+          slot-name: 'Production'
+          publish-profile: ${{ secrets.authserverblazorserverPublishSettings }} # Set your Azure Web App to publish your profile as a secret in your repository settings
+          package: ./authserver
+
+      - name: Download artifact from apihost
+        uses: actions/download-artifact@v4
+        with:
+          name: .net-apihost
+          path: ./apihost
+
+      - name: Deploy apihost
+        id: deploy-to-webapp-2
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'apihost-blazorserver' # Replace with your app name
+          slot-name: 'Production'
+          publish-profile: ${{ secrets.apihostblazorserverPublishSettings }} # Set your Azure Web App to publish your profile as a secret in your repository settings
+          package: ./apihost
+
+      - name: Download artifact from webapp
+        uses: actions/download-artifact@v4
+        with:
+          name: .net-webapp
+          path: ./webapp
+
+      - name: Deploy webapp
+        id: deploy-to-webapp-3
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'webapp-blazorserver' # Replace with your app name
+          slot-name: 'Production'
+          publish-profile: ${{ secrets.webappblazorserverPublishSettings }} # Set your Azure Web App publish your profile as a secret in your repository settings
