@@ -133,7 +133,7 @@ jobs:
           name: .net-publicweb
           path: ./publicweb
 
-      - name: Deploy webapp
+      - name: Deploy public web
         id: deploy-to-webpublic-3
         uses: azure/webapps-deploy@v3
         with:
