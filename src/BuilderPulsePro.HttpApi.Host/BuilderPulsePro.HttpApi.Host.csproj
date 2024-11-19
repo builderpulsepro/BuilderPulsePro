@@ -8,6 +8,7 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <RootNamespace>BuilderPulsePro</RootNamespace>
     <PreserveCompilationReferences>true</PreserveCompilationReferences>
+		<RuntimeIdentifier>linux-x64</RuntimeIdentifier>
   </PropertyGroup>
 
   <ItemGroup>
