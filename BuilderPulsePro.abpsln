@@ -1,0 +1,43 @@
+{
+  "id": "3c510984-9789-4cd8-bd35-09e2aef8c012",
+  "template": "app",
+  "versions": {
+    "LeptonX": "3.3.3",
+    "AbpFramework": "8.3.3",
+    "AbpCommercial": "8.3.3",
+    "AbpStudio": "0.9.6",
+    "TargetDotnetFramework": "net8.0"
+  },
+  "modules": {
+    "BuilderPulsePro": {
+      "path": "BuilderPulsePro.abpmdl"
+    }
+  },
+  "runProfiles": {
+    "Default": {
+      "path": "etc/abp-studio/run-profiles/Default.abprun.json"
+    }
+  },
+  "options": {
+    "httpRequests": {
+      "ignoredUrls": [
+        "^/metrics$"
+      ]
+    }
+  },
+  "creatingStudioConfiguration": {
+    "template": "app",
+    "createdAbpStudioVersion": "0.9.6",
+    "tiered": "true",
+    "uiFramework": "blazor-server",
+    "databaseProvider": "ef",
+    "databaseManagementSystem": "mysql",
+    "separateTenantSchema": "false",
+    "theme": "leptonx",
+    "themeStyle": "system",
+    "mobileFramework": "maui",
+    "publicWebsite": "true",
+    "optionalModules": "GDPR TextTemplateManagement LanguageManagement",
+    "socialLogin": ""
+  }
+}

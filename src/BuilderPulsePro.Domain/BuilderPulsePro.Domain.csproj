@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>BuilderPulsePro</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BuilderPulsePro.Domain.Shared\BuilderPulsePro.Domain.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.Emailing" Version="8.3.3" />
+    <PackageReference Include="Volo.Abp.Caching" Version="8.3.3" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.Domain.Identity" Version="8.3.3" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.Domain.OpenIddict" Version="8.3.3" />
+    <PackageReference Include="Volo.Abp.BackgroundJobs.Domain" Version="8.3.3" />
+    <PackageReference Include="Volo.Abp.FeatureManagement.Domain" Version="8.3.3" />
+    <PackageReference Include="Volo.Abp.SettingManagement.Domain" Version="8.3.3" />
+    <PackageReference Include="Volo.Abp.BlobStoring.Database.Domain" Version="8.3.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.OpenIddict.Pro.Domain" Version="8.3.3" />
+    <PackageReference Include="Volo.Abp.Identity.Pro.Domain" Version="8.3.3" />
+    <PackageReference Include="Volo.Abp.Commercial.SuiteTemplates" Version="8.3.3" />
+    <PackageReference Include="Volo.Abp.LanguageManagement.Domain" Version="8.3.3" />
+    <PackageReference Include="Volo.Abp.TextTemplateManagement.Domain" Version="8.3.3" />
+    <PackageReference Include="Volo.Abp.Gdpr.Domain" Version="8.3.3" />
+    <PackageReference Include="Volo.CmsKit.Pro.Domain" Version="8.3.3" />
+  </ItemGroup>
+
+</Project>

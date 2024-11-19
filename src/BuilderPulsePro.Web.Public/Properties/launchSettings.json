@@ -1,0 +1,27 @@
+{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "https://builderpulsepro-dev-publicweb-adbvhxbyfpb4bjec.westus-01.azurewebsites.net/",
+      "sslPort": 44339
+    }
+  },
+  "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "BuilderPulsePro.Web.Public": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "applicationUrl": "https://builderpulsepro-dev-publicweb-adbvhxbyfpb4bjec.westus-01.azurewebsites.net/",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

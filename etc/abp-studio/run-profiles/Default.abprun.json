@@ -1,0 +1,57 @@
+﻿{
+  "applications": {
+    "Docker-Dependencies": {
+      "type": "cli",
+      "startCommand": "./up.ps1",
+      "stopCommand": "./down.ps1",
+      "workingDirectory": "../../docker",
+      "folder": "infrastructure",
+      "execution": {
+        "order": 5
+      }
+    },
+    "BuilderPulsePro.Maui": {
+      "type": "dotnet-project",
+      "path": "../../../src/BuilderPulsePro.Maui/BuilderPulsePro.Maui.csproj",
+      "execution": {
+        "order": 0
+      }
+    },
+    "BuilderPulsePro.Web.Public": {
+      "type": "dotnet-project",
+      "launchUrl": "https://localhost:44339",
+      "path": "../../../src/BuilderPulsePro.Web.Public/BuilderPulsePro.Web.Public.csproj",
+      "kubernetesService": ".*-webpublic$",
+      "execution": {
+        "order": 1
+      }
+    },
+    "BuilderPulsePro.AuthServer": {
+      "type": "dotnet-project",
+      "launchUrl": "https://localhost:44359",
+      "path": "../../../src/BuilderPulsePro.AuthServer/BuilderPulsePro.AuthServer.csproj",
+      "kubernetesService": ".*-authserver$",
+      "execution": {
+        "order": 3
+      }
+    },
+    "BuilderPulsePro.HttpApi.Host": {
+      "type": "dotnet-project",
+      "launchUrl": "https://localhost:44306",
+      "path": "../../../src/BuilderPulsePro.HttpApi.Host/BuilderPulsePro.HttpApi.Host.csproj",
+      "kubernetesService": ".*-httpapihost$",
+      "execution": {
+        "order": 4
+      }
+    },
+    "BuilderPulsePro.Blazor": {
+      "type": "dotnet-project",
+      "launchUrl": "https://localhost:44302",
+      "path": "../../../src/BuilderPulsePro.Blazor/BuilderPulsePro.Blazor.csproj",
+      "kubernetesService": ".*-blazorserver$",
+      "execution": {
+        "order": 2
+      }
+}
+  }
+}

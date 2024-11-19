@@ -1,0 +1,129 @@
+{
+  "template": "app",
+  "imports": {
+    "Volo.Abp.LeptonXTheme": {
+      "version": "3.3.3",
+      "isInstalled": true
+    },
+    "Volo.Abp.TextTemplateManagement": {
+      "version": "8.3.3",
+      "isInstalled": true
+    },
+    "Volo.Abp.LanguageManagement": {
+      "version": "8.3.3",
+      "isInstalled": true
+    },
+    "Volo.Abp.OpenIddict.Pro": {
+      "version": "8.3.3",
+      "isInstalled": true
+    },
+    "Volo.Abp.Gdpr": {
+      "version": "8.3.3",
+      "isInstalled": true
+    },
+    "Volo.CmsKit.Pro": {
+      "version": "8.3.3",
+      "isInstalled": true
+    },
+    "Volo.Abp.Identity.Pro": {
+      "version": "8.3.3",
+      "isInstalled": true
+    },
+    "Volo.Abp.Account.Pro": {
+      "version": "8.3.3",
+      "isInstalled": true
+    },
+    "Volo.Abp.SettingManagement": {
+      "version": "8.3.3",
+      "isInstalled": true
+    },
+    "Volo.Abp.PermissionManagement": {
+      "version": "8.3.3",
+      "isInstalled": true
+    },
+    "Volo.Abp.FeatureManagement": {
+      "version": "8.3.3",
+      "isInstalled": true
+    }
+  },
+  "folders": {
+    "items": {
+      "src": {},
+      "test": {}
+    }
+  },
+  "packages": {
+    "BuilderPulsePro.Application": {
+      "path": "src/BuilderPulsePro.Application/BuilderPulsePro.Application.abppkg",
+      "folder": "src"
+    },
+    "BuilderPulsePro.Application.Tests": {
+      "path": "test/BuilderPulsePro.Application.Tests/BuilderPulsePro.Application.Tests.abppkg",
+      "folder": "test"
+    },
+    "BuilderPulsePro.Domain.Shared": {
+      "path": "src/BuilderPulsePro.Domain.Shared/BuilderPulsePro.Domain.Shared.abppkg",
+      "folder": "src"
+    },
+    "BuilderPulsePro.Application.Contracts": {
+      "path": "src/BuilderPulsePro.Application.Contracts/BuilderPulsePro.Application.Contracts.abppkg",
+      "folder": "src"
+    },
+    "BuilderPulsePro.HttpApi": {
+      "path": "src/BuilderPulsePro.HttpApi/BuilderPulsePro.HttpApi.abppkg",
+      "folder": "src"
+    },
+    "BuilderPulsePro.HttpApi.Client": {
+      "path": "src/BuilderPulsePro.HttpApi.Client/BuilderPulsePro.HttpApi.Client.abppkg",
+      "folder": "src"
+    },
+    "BuilderPulsePro.AuthServer": {
+      "path": "src/BuilderPulsePro.AuthServer/BuilderPulsePro.AuthServer.abppkg",
+      "folder": "src"
+    },
+    "BuilderPulsePro.HttpApi.Host": {
+    "path": "src/BuilderPulsePro.HttpApi.Host/BuilderPulsePro.HttpApi.Host.abppkg",
+    "folder": "src"
+    },
+    "BuilderPulsePro.EntityFrameworkCore.Tests": {
+      "path": "test/BuilderPulsePro.EntityFrameworkCore.Tests/BuilderPulsePro.EntityFrameworkCore.Tests.abppkg",
+      "folder": "test"
+    },
+    "BuilderPulsePro.EntityFrameworkCore": {
+      "path": "src/BuilderPulsePro.EntityFrameworkCore/BuilderPulsePro.EntityFrameworkCore.abppkg",
+      "folder": "src"
+    },
+    "BuilderPulsePro.TestBase": {
+      "path": "test/BuilderPulsePro.TestBase/BuilderPulsePro.TestBase.abppkg",
+      "folder": "test"
+    },
+    "BuilderPulsePro.Domain.Tests": {
+      "path": "test/BuilderPulsePro.Domain.Tests/BuilderPulsePro.Domain.Tests.abppkg",
+      "folder": "test"
+    },
+    "BuilderPulsePro.HttpApi.Client.ConsoleTestApp": {
+      "path": "test/BuilderPulsePro.HttpApi.Client.ConsoleTestApp/BuilderPulsePro.HttpApi.Client.ConsoleTestApp.abppkg",
+      "folder": "test"
+    },
+    "BuilderPulsePro.DbMigrator": {
+      "path": "src/BuilderPulsePro.DbMigrator/BuilderPulsePro.DbMigrator.abppkg",
+      "folder": "src"
+    },
+    "BuilderPulsePro.Web.Public": {
+      "path": "src/BuilderPulsePro.Web.Public/BuilderPulsePro.Web.Public.abppkg",
+      "folder": "src"
+    },
+    "BuilderPulsePro.Blazor": {
+      "path": "src/BuilderPulsePro.Blazor/BuilderPulsePro.Blazor.abppkg",
+      "folder": "src"
+    },
+    "BuilderPulsePro.Maui": {
+      "path": "src/BuilderPulsePro.Maui/BuilderPulsePro.Maui.abppkg",
+      "folder": "src"
+    },
+    "BuilderPulsePro.Domain": {
+      "path": "src/BuilderPulsePro.Domain/BuilderPulsePro.Domain.abppkg",
+      "folder": "src"
+    }
+  }
+}
