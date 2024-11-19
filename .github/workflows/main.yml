@@ -127,7 +127,7 @@ jobs:
           slot-name: 'Production'
           publish-profile: ${{ secrets.webappblazorserverPublishSettings }} # Set your Azure Web App publish your profile as a secret in your repository settings
 
-      - name: Download artifact from webapp
+      - name: Download artifact from public web
         uses: actions/download-artifact@v4
         with:
           name: .net-publicweb
