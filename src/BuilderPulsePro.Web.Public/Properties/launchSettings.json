@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "https://builderpulsepro-dev-publicweb-adbvhxbyfpb4bjec.westus-01.azurewebsites.net/",
+      "applicationUrl": "https://www-dev.builderpulsepro.com/",
       "sslPort": 44339
     }
   },
@@ -18,7 +18,7 @@
     "BuilderPulsePro.Web.Public": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://builderpulsepro-dev-publicweb-adbvhxbyfpb4bjec.westus-01.azurewebsites.net/",
+      "applicationUrl": "https://www-dev.builderpulsepro.com/",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
