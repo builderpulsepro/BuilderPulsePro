@@ -37,7 +37,7 @@ jobs:
         working-directory: ./src/BuilderPulsePro.AuthServer # Replace with your project name
 
       - name: Generate authserver.pfx
-        run: dotnet dev-certs https -v -ep ${{env.DOTNET_ROOT}}/authserver/authserver.pfx -p a84eebb8-a184-4d23-982d-487d3ae2a667 # Replace with your password
+        run: dotnet dev-certs https -v -ep ${{env.DOTNET_ROOT}}/authserver/openiddict.pfx -p a84eebb8-a184-4d23-982d-487d3ae2a667 # Replace with your password
 
       - name: dotnet publish apihost
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/apihost
@@ -93,7 +93,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'authserver-blazorserver' # Replace with your app name
+          app-name: 'BuilderPulsePro-Dev-Auth' # Replace with your app name
           slot-name: 'Production'
           publish-profile: ${{ secrets.authserverblazorserverPublishSettings }} # Set your Azure Web App to publish your profile as a secret in your repository settings
           package: ./authserver
@@ -108,7 +108,7 @@ jobs:
         id: deploy-to-webapp-2
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'apihost-blazorserver' # Replace with your app name
+          app-name: 'BuilderPulsePro-Dev-Api' # Replace with your app name
           slot-name: 'Production'
           publish-profile: ${{ secrets.apihostblazorserverPublishSettings }} # Set your Azure Web App to publish your profile as a secret in your repository settings
           package: ./apihost
@@ -123,7 +123,7 @@ jobs:
         id: deploy-to-webapp-3
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'webapp-blazorserver' # Replace with your app name
+          app-name: 'BuilderPulsePro-dev' # Replace with your app name
           slot-name: 'Production'
           publish-profile: ${{ secrets.webappblazorserverPublishSettings }} # Set your Azure Web App publish your profile as a secret in your repository settings
 
@@ -137,6 +137,6 @@ jobs:
         id: deploy-to-webpublic-3
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'publicweb-blazorserver' # Replace with your app name
+          app-name: 'BuilderPulsePro-Dev-PublicWeb' # Replace with your app name
           slot-name: 'Production'
           publish-profile: ${{ secrets.publicwebblazorserverPublishSettings }} # Set your Azure Web App publish your profile as a secret in your repository settings
