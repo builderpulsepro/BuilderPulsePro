@@ -126,6 +126,7 @@ jobs:
           app-name: 'BuilderPulsePro-dev' # Replace with your app name
           slot-name: 'Production'
           publish-profile: ${{ secrets.webappblazorserverPublishSettings }} # Set your Azure Web App publish your profile as a secret in your repository settings
+          package: ./webapp
 
       - name: Download artifact from public web
         uses: actions/download-artifact@v4
@@ -134,9 +135,10 @@ jobs:
           path: ./publicweb
 
       - name: Deploy public web
-        id: deploy-to-webpublic-3
+        id: deploy-to-webpublic-4
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'BuilderPulsePro-Dev-PublicWeb' # Replace with your app name
           slot-name: 'Production'
           publish-profile: ${{ secrets.publicwebblazorserverPublishSettings }} # Set your Azure Web App publish your profile as a secret in your repository settings
+          package: ./publicweb
