@@ -41,11 +41,15 @@ jobs:
 
       - name: dotnet publish apihost
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/apihost
-        working-directory: ./src/blazorservertierdemo.HttpApi.Host # Replace with your project name
+        working-directory: ./src/BuilderPulsePro.HttpApi.Host # Replace with your project name
 
       - name: dotnet publish webapp
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/webapp
-        working-directory: ./src/blazorservertierdemo.Blazor # Replace with your project name
+        working-directory: ./src/BuilderPulsePro.Blazor # Replace with your project name
+
+      - name: dotnet publish webapp
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/publicweb
+        working-directory: ./src/BuilderPulsePro.Web.Public # Replace with your project name
 
       - name: Upload artifact for authserver
         uses: actions/upload-artifact@v4
