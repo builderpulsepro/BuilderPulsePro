@@ -19,19 +19,14 @@ jobs:
           dotnet-version: '8.x'
           include-prerelease: true
 
-      - name: Load maui workload
-        run: |
-          dotnet workload install maui-android
-        shell: bash
-
       - name: Install ABP CLI
         run: |
-          dotnet tool install -g Volo.Abp.Cli
+          dotnet tool install -g Volo.Abp.Cli --version 8.3.4
           abp install-libs
         shell: bash
     
       - name: Build with dotnet
-        run: dotnet build --configuration Release --runtime linux-x64 --self-contained false
+        run: dotnet build --configuration Release
 
       - name: Run migrations
         run: dotnet run -- "${{ secrets.CONNECTION_STRING }}" # Set your connection string as a secret in your repository settings
@@ -42,7 +37,7 @@ jobs:
         working-directory: ./src/BuilderPulsePro.AuthServer # Replace with your project name
 
       - name: Generate authserver.pfx
-        run: dotnet dev-certs https -v -ep ${{env.DOTNET_ROOT}}/authserver/authserver.pfx -p a84eebb8-a184-4d23-982d-487d3ae2a667 # Replace with your password
+        run: dotnet dev-certs https -v -ep ${{env.DOTNET_ROOT}}/authserver/openiddict.pfx -p a84eebb8-a184-4d23-982d-487d3ae2a667 # Replace with your password
 
       - name: dotnet publish apihost
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/apihost
@@ -98,7 +93,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'authserver-blazorserver' # Replace with your app name
+          app-name: 'BuilderPulsePro-Dev-Auth' # Replace with your app name
           slot-name: 'Production'
           publish-profile: ${{ secrets.authserverblazorserverPublishSettings }} # Set your Azure Web App to publish your profile as a secret in your repository settings
           package: ./authserver
@@ -113,7 +108,7 @@ jobs:
         id: deploy-to-webapp-2
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'apihost-blazorserver' # Replace with your app name
+          app-name: 'BuilderPulsePro-Dev-Api' # Replace with your app name
           slot-name: 'Production'
           publish-profile: ${{ secrets.apihostblazorserverPublishSettings }} # Set your Azure Web App to publish your profile as a secret in your repository settings
           package: ./apihost
@@ -128,20 +123,22 @@ jobs:
         id: deploy-to-webapp-3
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'webapp-blazorserver' # Replace with your app name
+          app-name: 'BuilderPulsePro-dev' # Replace with your app name
           slot-name: 'Production'
           publish-profile: ${{ secrets.webappblazorserverPublishSettings }} # Set your Azure Web App publish your profile as a secret in your repository settings
+          package: ./webapp
 
-      - name: Download artifact from webapp
+      - name: Download artifact from public web
         uses: actions/download-artifact@v4
         with:
           name: .net-publicweb
           path: ./publicweb
 
-      - name: Deploy webapp
-        id: deploy-to-webpublic-3
+      - name: Deploy public web
+        id: deploy-to-webpublic-4
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'publicweb-blazorserver' # Replace with your app name
+          app-name: 'BuilderPulsePro-Dev-PublicWeb' # Replace with your app name
           slot-name: 'Production'
           publish-profile: ${{ secrets.publicwebblazorserverPublishSettings }} # Set your Azure Web App publish your profile as a secret in your repository settings
+          package: ./publicweb
