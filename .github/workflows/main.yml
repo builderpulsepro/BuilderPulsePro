@@ -26,7 +26,7 @@ jobs:
         shell: bash
     
       - name: Build with dotnet
-        run: dotnet build --configuration Release
+        run: dotnet build --configuration Release --runtime linux-x64 --self-contained false
 
       - name: Run migrations
         run: dotnet run -- "${{ secrets.CONNECTION_STRING }}" # Set your connection string as a secret in your repository settings
