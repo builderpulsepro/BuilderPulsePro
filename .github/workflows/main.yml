@@ -19,11 +19,6 @@ jobs:
           dotnet-version: '8.x'
           include-prerelease: true
 
-      - name: Load maui workload
-        run: |
-          dotnet workload install maui-android
-        shell: bash
-
       - name: Install ABP CLI
         run: |
           dotnet tool install -g Volo.Abp.Cli
