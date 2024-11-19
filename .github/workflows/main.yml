@@ -21,7 +21,7 @@ jobs:
 
       - name: Install ABP CLI
         run: |
-          dotnet tool install -g Volo.Abp.Cli
+          dotnet tool install -g Volo.Abp.Cli --version 8.3.4
           abp install-libs
         shell: bash
     
