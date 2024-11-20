@@ -22,6 +22,7 @@ public abstract class BuilderPulseProTestBase<TStartupModule> : AbpIntegratedTes
         var builder = new ConfigurationBuilder();
         builder.AddJsonFile("appsettings.json", false);
         builder.AddJsonFile("appsettings.secrets.json", true);
+        builder.AddJsonFile("appsettings.Development.json", true);
         services.ReplaceConfiguration(builder.Build());
     }
 

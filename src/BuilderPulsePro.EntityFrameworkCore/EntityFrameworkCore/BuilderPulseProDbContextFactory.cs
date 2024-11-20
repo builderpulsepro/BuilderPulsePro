@@ -26,7 +26,9 @@ public class BuilderPulseProDbContextFactory : IDesignTimeDbContextFactory<Build
     {
         var builder = new ConfigurationBuilder()
             .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../BuilderPulsePro.DbMigrator/"))
-            .AddJsonFile("appsettings.json", optional: false);
+            .AddJsonFile("appsettings.json", optional: false)
+            .AddJsonFile("appsettings.Development.json", optional: true);
+
 
         return builder.Build();
     }

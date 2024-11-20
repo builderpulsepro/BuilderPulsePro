@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "https://auth-dev.builderpulsepro.com",
+      "applicationUrl": "https://localhost:44359",
       "sslPort": 44359
     }
   },
@@ -18,7 +18,7 @@
     "BuilderPulsePro.AuthServer": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://auth-dev.builderpulsepro.com",
+      "applicationUrl": "https://localhost:44359",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

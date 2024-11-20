@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
     <RootNamespace>BuilderPulsePro</RootNamespace>
     <PlatformTarget>AnyCPU</PlatformTarget>
-		<RuntimeIdentifier>linux-x64</RuntimeIdentifier>
+		<RuntimeIdentifier Condition="'$(Configuration)' == 'Release'">linux-x64</RuntimeIdentifier>
   </PropertyGroup>
 
   <ItemGroup>
