@@ -1,0 +1,19 @@
+﻿@inherits BuilderPulseProComponentBase
+
+@if (!CurrentUser.IsAuthenticated) {
+    <Modal @ref="welcomeModal" Closing="Closing">
+        <ModalContent Size="ModalSize.Large">
+            <ModalHeader>
+                <ModalTitle>
+                    @L["WelcomeModal:Title"]
+                </ModalTitle>
+            </ModalHeader>
+            <ModalBody>
+                @(new MarkupString(L["WelcomeModal:ContentMarkup"]))
+            </ModalBody>
+            <ModalFooter TextAlignment="TextAlignment.Center">
+                <Button Color="Color.Primary" Type="ButtonType.Link" To="/Account/Login">@L["WelcomeModal:GetStarted"]</Button>
+            </ModalFooter>
+        </ModalContent>
+    </Modal>
+}

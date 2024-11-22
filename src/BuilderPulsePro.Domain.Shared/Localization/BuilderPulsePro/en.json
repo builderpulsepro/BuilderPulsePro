@@ -37,6 +37,14 @@
     "ChoosePhoto": "Choose Photo",
     "Menu:Home": "Home",
     "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information visit",
-    "Welcome": "Welcome"
+    "Welcome": "Welcome",
+    "WelcomeModal:Title": "Welcome to BuilderPulsePro",
+    "WelcomeModal:ContentMarkup": "<p>Building a home is more than just a project—it's a journey to create something truly special.</p><p>Here at BuilderPulsePro, we bring builders, clients, and contractors together in one place to make collaboration smooth and hassle-free. Whether you're laying the foundation, choosing the perfect fixtures, or scheduling the final walkthrough, our tools are designed to keep everyone on the same page. Share ideas, stay on track, and watch your vision come to life with clarity and ease.</p><p>We’re here to support your team every step of the way. Let’s build something amazing together!</p>",
+    "WelcomeModal:GetStarted": "Get Started",
+    "ChoosePersonaModal:Title": "Select Account Type",
+    "ChoosePersonaModal:Builder": "Builder",
+    "ChoosePersonaModal:Client": "Client",
+    "ChoosePersonaModal:Contractor": "Contractor",
+    "ChoosePersonaModal:Investor": "Investor"
   }
 }

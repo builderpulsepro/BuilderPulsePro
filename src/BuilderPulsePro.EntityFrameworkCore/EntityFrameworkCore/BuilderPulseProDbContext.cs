@@ -15,6 +15,9 @@ using Volo.Abp.LanguageManagement.EntityFrameworkCore;
 using Volo.Abp.TextTemplateManagement.EntityFrameworkCore;
 using Volo.Abp.Gdpr;
 using Volo.CmsKit.EntityFrameworkCore;
+using BuilderPulsePro.Subscriptions;
+using System.Reflection.Emit;
+using BuilderPulsePro.Enums;
 
 namespace BuilderPulsePro.EntityFrameworkCore;
 
@@ -25,7 +28,7 @@ public class BuilderPulseProDbContext :
     IIdentityProDbContext
 {
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
-
+    public DbSet<UserSubscription> UserSubscriptions { get; set; }
 
     #region Entities from the modules
 
@@ -76,7 +79,7 @@ public class BuilderPulseProDbContext :
         builder.ConfigureCmsKit();
         builder.ConfigureCmsKitPro();
         builder.ConfigureBlobStoring();
-        
+
         /* Configure your own tables/entities inside here */
 
         //builder.Entity<YourEntity>(b =>
@@ -85,5 +88,12 @@ public class BuilderPulseProDbContext :
         //    b.ConfigureByConvention(); //auto configure for the base class props
         //    //...
         //});
+
+        builder.Entity<UserSubscription>(b =>
+        {
+            b.ToTable("UserSubscriptions");
+            b.ConfigureByConvention();
+            b.Property(x => x.UserId).IsRequired();
+        });
     }
 }

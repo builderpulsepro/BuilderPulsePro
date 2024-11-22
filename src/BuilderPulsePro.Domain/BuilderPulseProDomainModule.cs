@@ -22,6 +22,9 @@ using Volo.Abp.Gdpr;
 using Volo.CmsKit;
 using Volo.CmsKit.Contact;
 using Volo.CmsKit.Newsletters;
+using BuilderPulsePro.Identity;
+using Volo.Abp.ObjectExtending;
+using BuilderPulsePro.Enums;
 
 namespace BuilderPulsePro;
 
