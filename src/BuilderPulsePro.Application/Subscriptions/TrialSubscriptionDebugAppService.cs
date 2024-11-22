@@ -56,5 +56,19 @@ namespace BuilderPulsePro.Subscriptions
                 await _subscriptionManager.ResetTrialSubscriptionAsync(user.Id, 30);
             }
         }
+
+        public async Task ExpireTrialSubscriptionAsync(Guid userId)
+        {
+            var user = await _userRepository.GetAsync(userId);
+
+            var now = Clock.Now;
+
+            var existingSubscription = await _subscriptionRepository.FirstOrDefaultAsync(s => s.UserId == user.Id);
+
+            if (existingSubscription != null && existingSubscription.IsTrial)
+            {
+                await _subscriptionManager.ResetTrialSubscriptionAsync(user.Id, -1);
+            }
+        }
     }
 }

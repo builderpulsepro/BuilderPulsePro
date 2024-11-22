@@ -73,6 +73,11 @@ namespace BuilderPulsePro.Subscriptions
                 throw new BusinessException("No active subscription found for the user.");
             }
 
+            if (!subscription.IsTrial)
+            {
+                throw new BusinessException("Only valid for trial subscriptions.");
+            }
+
             subscription.EndDate = Clock.Now.AddDays(renewalDays);
 
             await _subscriptionRepository.UpdateAsync(subscription);
@@ -110,6 +115,5 @@ namespace BuilderPulsePro.Subscriptions
                 }
             }
         }
-
     }
 }
