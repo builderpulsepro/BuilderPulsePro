@@ -20,7 +20,7 @@ namespace BuilderPulsePro.Blazor.Components.Modals
             if (firstRender && CurrentUser.IsAuthenticated)
             {
                 CurrentPersona = await userAppService.GetUserPersonaAsync();
-                if (CurrentPersona.HasValue && CurrentPersona == Persona.Undefined)
+                if (!CurrentPersona.HasValue || CurrentPersona == Persona.Undefined)
                 {
                     await choosePersonaModal.Show();
                 }
