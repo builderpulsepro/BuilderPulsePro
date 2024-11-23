@@ -3,7 +3,8 @@
 @inherits BuilderPulseProComponentBase
 @inject IUserAppService userAppService
 
-@if (CurrentUser.IsAuthenticated) {
+@if (CurrentUser.IsAuthenticated && (!CurrentPersona.HasValue || CurrentPersona == Persona.Undefined))
+{
     <Modal @ref="choosePersonaModal">
         <ModalContent Size="ModalSize.Large">
             <ModalHeader>

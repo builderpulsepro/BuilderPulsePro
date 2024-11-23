@@ -8,6 +8,8 @@ namespace BuilderPulsePro.Blazor.Components.Modals
     {
         private Modal choosePersonaModal;
 
+        private Persona? CurrentPersona { get; set; } = null;
+
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
@@ -17,8 +19,8 @@ namespace BuilderPulsePro.Blazor.Components.Modals
         {
             if (firstRender && CurrentUser.IsAuthenticated)
             {
-                var persona = await userAppService.GetUserPersonaAsync();
-                if (persona == Persona.Undefined)
+                CurrentPersona = await userAppService.GetUserPersonaAsync();
+                if (CurrentPersona.HasValue && CurrentPersona == Persona.Undefined)
                 {
                     await choosePersonaModal.Show();
                 }
