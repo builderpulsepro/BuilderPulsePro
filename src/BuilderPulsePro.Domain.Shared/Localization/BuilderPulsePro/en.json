@@ -45,6 +45,15 @@
     "ChoosePersonaModal:Builder": "Builder",
     "ChoosePersonaModal:Client": "Client",
     "ChoosePersonaModal:Contractor": "Contractor",
-    "ChoosePersonaModal:Investor": "Investor"
+    "ChoosePersonaModal:Investor": "Investor",
+    "BuilderDashboard:Create": "Create",
+    "BuilderDashboard:Edit": "Edit",
+    "BuilderDashboard:Name": "Name",
+    "BuilderDashboard:Profile": "Builder Profile",
+    "BuilderDashboard:ProfileNotFound": "A builder profile was not found.",
+    "BuilderDashboard:Projects": "Projects",
+    "BuilderProfile:CardTitle": "Builder Profile",
+    "BuilderProfile:Name": "Name"
+
   }
 }

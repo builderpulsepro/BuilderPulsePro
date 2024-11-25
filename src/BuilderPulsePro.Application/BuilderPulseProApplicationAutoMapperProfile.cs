@@ -1,4 +1,5 @@
 using AutoMapper;
+using BuilderPulsePro.Builders;
 
 namespace BuilderPulsePro;
 
@@ -9,5 +10,8 @@ public class BuilderPulseProApplicationAutoMapperProfile : Profile
         /* You can configure your AutoMapper mapping configuration here.
          * Alternatively, you can split your mapping configurations
          * into multiple profile classes for a better organization. */
+
+        CreateMap<BuilderProfile, BuilderProfileDto>();
+        CreateMap<CreateUpdateBuilderProfileDto, BuilderProfile>();
     }
 }

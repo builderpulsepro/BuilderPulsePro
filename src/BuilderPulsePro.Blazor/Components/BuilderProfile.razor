@@ -1,0 +1,29 @@
+﻿@using BuilderPulsePro.Builders
+@using BuilderPulsePro.Localization
+@using Volo.Abp.AspNetCore.Components.Web
+@inject AbpBlazorMessageLocalizerHelper<BuilderPulseProResource> LH
+@inherits BuilderPulseProComponentBase
+@inject NavigationManager Nav
+@inject IBuilderProfileAppService builderAppService
+
+<Card>
+    <CardBody>
+        <CardTitle Size="2" Margin="Margin.Is2.FromBottom">@L["BuilderProfile:CardTitle"]</CardTitle>
+        <Validations @ref="@ValidationsRef" Model="Profile" ValidateOnLoad="false">
+            <Validation MessageLocalizer="@LH.Localize">
+                <Field>
+                    <FieldLabel>@L["BuilderProfile:Name"]</FieldLabel>
+                    <TextEdit @bind-Text="Profile.Name">
+                        <Feedback>
+                            <ValidationError />
+                        </Feedback>
+                    </TextEdit>
+                </Field>
+            </Validation>
+        </Validations>
+    </CardBody>
+    <CardFooter>
+        <Button Color="Color.Light" Clicked="Cancel">Cancel</Button>
+        <Button Color="Color.Primary" Clicked="Save">Save</Button>
+    </CardFooter>
+</Card>

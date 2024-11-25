@@ -18,6 +18,7 @@ using Volo.CmsKit.EntityFrameworkCore;
 using BuilderPulsePro.Subscriptions;
 using System.Reflection.Emit;
 using BuilderPulsePro.Enums;
+using BuilderPulsePro.Builders;
 
 namespace BuilderPulsePro.EntityFrameworkCore;
 
@@ -29,6 +30,7 @@ public class BuilderPulseProDbContext :
 {
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
     public DbSet<UserSubscription> UserSubscriptions { get; set; }
+    public DbSet<BuilderProfile> BuilderProfiles { get; set; }
 
     #region Entities from the modules
 
@@ -91,9 +93,16 @@ public class BuilderPulseProDbContext :
 
         builder.Entity<UserSubscription>(b =>
         {
-            b.ToTable("UserSubscriptions");
+            b.ToTable(BuilderPulseProConsts.DbTablePrefix + "UserSubscriptions");
             b.ConfigureByConvention();
             b.Property(x => x.UserId).IsRequired();
+        });
+
+        builder.Entity<BuilderProfile>(b =>
+        {
+            b.ToTable(BuilderPulseProConsts.DbTablePrefix + "BuilderProfiles");
+            b.ConfigureByConvention();
+            b.Property(x => x.Name).IsRequired().HasMaxLength(BuilderProfileConsts.MaxNameLength);
         });
     }
 }

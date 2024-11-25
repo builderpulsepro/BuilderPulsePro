@@ -1,5 +1,6 @@
 ﻿using Blazorise;
 using BuilderPulsePro.Enums;
+using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 
 namespace BuilderPulsePro.Blazor.Components.Modals
@@ -8,32 +9,29 @@ namespace BuilderPulsePro.Blazor.Components.Modals
     {
         private Modal choosePersonaModal;
 
-        private Persona? CurrentPersona { get; set; } = null;
-
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
         }
 
-        protected override async Task OnAfterRenderAsync(bool firstRender)
-        {
-            if (firstRender && CurrentUser.IsAuthenticated)
-            {
-                CurrentPersona = await userAppService.GetUserPersonaAsync();
-                if (!CurrentPersona.HasValue || CurrentPersona == Persona.Undefined)
-                {
-                    await choosePersonaModal.Show();
-                }
-            }
-
-            await base.OnAfterRenderAsync(firstRender);
-        }
-
         private async Task Close(Persona persona)
         {
             await userAppService.SetUserPersonaAsync(persona);
-
             await choosePersonaModal.Hide();
+
+            if (persona == Persona.Builder)
+            {
+                Nav.NavigateTo("/BuilderDashboard", true);
+            }
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            await base.OnAfterRenderAsync(firstRender);
+            if (firstRender)
+            {
+                await choosePersonaModal.Show();
+            }
         }
     }
 }
