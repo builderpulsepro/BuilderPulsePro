@@ -17,6 +17,8 @@ namespace BuilderPulsePro.Blazor.Components
         private CreateUpdateBuilderProfileDto Profile { get; set; } = new CreateUpdateBuilderProfileDto();
         private Validations ValidationsRef;
 
+        private string selectedTab = "General";
+
         protected override async Task OnParametersSetAsync()
         {
             if (Id.HasValue)
@@ -48,6 +50,13 @@ namespace BuilderPulsePro.Blazor.Components
         private async Task Cancel()
         {
             Nav.NavigateTo("/BuilderDashboard", true);
+            await Task.CompletedTask;
+        }
+
+        private async Task OnSelectedTabChanged(string name)
+        {
+            selectedTab = name;
+
             await Task.CompletedTask;
         }
     }

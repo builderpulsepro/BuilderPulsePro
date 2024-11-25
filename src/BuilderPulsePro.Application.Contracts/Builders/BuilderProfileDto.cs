@@ -11,5 +11,9 @@ namespace BuilderPulsePro.Builders
     public class BuilderProfileDto : FullAuditedEntityWithUserDto<Guid, IdentityUserDto>
     {
         public string Name { get; set; }
+        public string BusinessLicenseNumber { get; set; }
+        public string IssuingState { get; set; }
+        public string IssuingAuthority { get; set; }
+        public bool IsVerified { get; set; }
     }
 }

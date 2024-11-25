@@ -10,16 +10,70 @@
     <CardBody>
         <CardTitle Size="2" Margin="Margin.Is2.FromBottom">@L["BuilderProfile:CardTitle"]</CardTitle>
         <Validations @ref="@ValidationsRef" Model="Profile" ValidateOnLoad="false">
-            <Validation MessageLocalizer="@LH.Localize">
-                <Field>
-                    <FieldLabel>@L["BuilderProfile:Name"]</FieldLabel>
-                    <TextEdit @bind-Text="Profile.Name">
-                        <Feedback>
-                            <ValidationError />
-                        </Feedback>
-                    </TextEdit>
-                </Field>
-            </Validation>
+            <Tabs TabPosition="TabPosition.Start" SelectedTab="@selectedTab" SelectedTabChanged="@OnSelectedTabChanged">
+                <Items>
+                    <Tab Name="General">@L["BuilderProfile:TabGeneral"]</Tab>
+                    <Tab Name="License">@L["BuilderProfile:TabLicense"]</Tab>
+                    <Tab Name="Contributors" Visibility="Visibility.Invisible">@L["BuilderProfile:TabContributors"]</Tab>
+                    <Tab Name="Portfolio" Visibility="Visibility.Invisible">@L["BuilderProfile:TabPortfolio"]</Tab>
+                </Items>
+                <Content>
+                    <TabPanel Name="General">
+                        <Validation MessageLocalizer="@LH.Localize">
+                            <Field>
+                                <FieldLabel>@L["BuilderProfile:Name"]</FieldLabel>
+                                <TextEdit @bind-Text="Profile.Name">
+                                    <Feedback>
+                                        <ValidationError />
+                                    </Feedback>
+                                </TextEdit>
+                            </Field>
+                        </Validation>
+                    </TabPanel>
+                    <TabPanel Name="License">
+                        <Div Margin="Margin.Is2.FromBottom">
+                            @(new MarkupString(L["BuilderProfile:TabLicenseDescriptionMarkup"]))
+                        </Div>
+                        <Validation MessageLocalizer="@LH.Localize">
+                            <Field>
+                                <FieldLabel>@L["BuilderProfile:BusinessLicenseNumber"]</FieldLabel>
+                                <TextEdit @bind-Text="Profile.BusinessLicenseNumber">
+                                    <Feedback>
+                                        <ValidationError />
+                                    </Feedback>
+                                </TextEdit>
+                            </Field>
+                        </Validation>
+                        <Validation MessageLocalizer="@LH.Localize">
+                            <Field>
+                                <FieldLabel>@L["BuilderProfile:IssuingState"]</FieldLabel>
+                                <TextEdit @bind-Text="Profile.IssuingState">
+                                    <Feedback>
+                                        <ValidationError />
+                                    </Feedback>
+                                </TextEdit>
+                            </Field>
+                        </Validation>
+                        <Validation MessageLocalizer="@LH.Localize">
+                            <Field>
+                                <FieldLabel>@L["BuilderProfile:IssuingAuthority"]</FieldLabel>
+                                <TextEdit @bind-Text="Profile.IssuingAuthority">
+                                    <Feedback>
+                                        <ValidationError />
+                                    </Feedback>
+                                </TextEdit>
+                            </Field>
+                        </Validation>
+                    </TabPanel>
+                    <TabPanel Name="Contributors">
+
+                    </TabPanel>
+                    <TabPanel Name="Portfolio">
+
+                    </TabPanel>
+                </Content>
+            </Tabs>
+            
         </Validations>
     </CardBody>
     <CardFooter>

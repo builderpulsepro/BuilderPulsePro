@@ -11,5 +11,9 @@ namespace BuilderPulsePro.Builders
     public class BuilderProfile : FullAuditedAggregateRootWithUser<Guid, IdentityUser>
     {
         public string Name { get; set; }
+        public string BusinessLicenseNumber { get; set; }
+        public string IssuingState { get; set; }
+        public string IssuingAuthority { get; set; }
+        public bool IsVerified { get; set; }
     }
 }

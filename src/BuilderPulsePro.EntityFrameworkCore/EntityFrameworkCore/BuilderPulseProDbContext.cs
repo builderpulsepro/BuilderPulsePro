@@ -103,6 +103,9 @@ public class BuilderPulseProDbContext :
             b.ToTable(BuilderPulseProConsts.DbTablePrefix + "BuilderProfiles");
             b.ConfigureByConvention();
             b.Property(x => x.Name).IsRequired().HasMaxLength(BuilderProfileConsts.MaxNameLength);
+            b.Property(x => x.BusinessLicenseNumber).HasMaxLength(BuilderProfileConsts.MaxBusinessLicenseNumberLength);
+            b.Property(x => x.IssuingState).HasMaxLength(BuilderProfileConsts.MaxIssuingStateLength);
+            b.Property(x => x.IssuingAuthority).HasMaxLength(BuilderProfileConsts.MaxIssuingAuthorityLength);
         });
     }
 }

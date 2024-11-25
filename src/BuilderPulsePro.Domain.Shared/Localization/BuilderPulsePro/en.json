@@ -53,7 +53,15 @@
     "BuilderDashboard:ProfileNotFound": "A builder profile was not found.",
     "BuilderDashboard:Projects": "Projects",
     "BuilderProfile:CardTitle": "Builder Profile",
-    "BuilderProfile:Name": "Name"
+    "BuilderProfile:Name": "Name",
+    "BuilderProfile:BusinessLicenseNumber": "License Number",
+    "BuilderProfile:IssuingState": "License Issuing State",
+    "BuilderProfile:IssuingAuthority": "Issuing Authority",
+    "BuilderProfile:TabGeneral": "General",
+    "BuilderProfile:TabLicense": "License",
+    "BuilderProfile:TabLicenseDescriptionMarkup": "Provide this information to become a Verified Builder.<br />Clients looking for a builder may choose to only select verified builders.",
+    "BuilderProfile:TabContributors": "Contributors",
+    "BuilderProfile:TabPortfolio": "Portfolio"
 
   }
 }
