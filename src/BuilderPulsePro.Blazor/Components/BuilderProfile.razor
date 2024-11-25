@@ -29,6 +29,26 @@
                                 </TextEdit>
                             </Field>
                         </Validation>
+                        <Validation MessageLocalizer="@LH.Localize">
+                            <Field>
+                                <FieldLabel>@L["BuilderProfile:EmailAddress"]</FieldLabel>
+                                <TextEdit @bind-Text="Profile.EmailAddress">
+                                    <Feedback>
+                                        <ValidationError />
+                                    </Feedback>
+                                </TextEdit>
+                            </Field>
+                        </Validation>
+                        <Validation MessageLocalizer="@LH.Localize">
+                            <Field>
+                                <FieldLabel>@L["BuilderProfile:PhoneNumber"]</FieldLabel>
+                                <TextEdit @bind-Text="Profile.PhoneNumber">
+                                    <Feedback>
+                                        <ValidationError />
+                                    </Feedback>
+                                </TextEdit>
+                            </Field>
+                        </Validation>
                     </TabPanel>
                     <TabPanel Name="License">
                         <Div Margin="Margin.Is2.FromBottom">

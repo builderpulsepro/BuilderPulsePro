@@ -21,7 +21,13 @@ namespace BuilderPulsePro.Builders
 
         [StringLength(BuilderProfileConsts.MaxIssuingAuthorityLength)]
         public string IssuingAuthority { get; set; }
-        
+
         //public bool IsVerified { get; set; }
+
+        [StringLength(BuilderProfileConsts.MaxPhoneNumberLength)]
+        public string PhoneNumber { get; set; }
+
+        [StringLength(BuilderProfileConsts.MaxEmailAddressLength)]
+        public string EmailAddress { get; set; }
     }
 }

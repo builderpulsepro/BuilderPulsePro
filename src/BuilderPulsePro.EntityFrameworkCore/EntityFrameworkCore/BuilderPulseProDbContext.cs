@@ -106,6 +106,8 @@ public class BuilderPulseProDbContext :
             b.Property(x => x.BusinessLicenseNumber).HasMaxLength(BuilderProfileConsts.MaxBusinessLicenseNumberLength);
             b.Property(x => x.IssuingState).HasMaxLength(BuilderProfileConsts.MaxIssuingStateLength);
             b.Property(x => x.IssuingAuthority).HasMaxLength(BuilderProfileConsts.MaxIssuingAuthorityLength);
+            b.Property(x => x.PhoneNumber).HasMaxLength(BuilderProfileConsts.MaxPhoneNumberLength);
+            b.Property(x => x.EmailAddress).HasMaxLength(BuilderProfileConsts.MaxEmailAddressLength);
         });
     }
 }

@@ -15,5 +15,7 @@ namespace BuilderPulsePro.Builders
         public string IssuingState { get; set; }
         public string IssuingAuthority { get; set; }
         public bool IsVerified { get; set; }
+        public string PhoneNumber { get; set; }
+        public string EmailAddress { get; set; }
     }
 }
