@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BuilderPulsePro.Locations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,5 +18,8 @@ namespace BuilderPulsePro.Builders
         public bool IsVerified { get; set; }
         public string PhoneNumber { get; set; }
         public string EmailAddress { get; set; }
+
+        public Guid LocationId { get; set; }
+        public LocationDto Location { get; set; }
     }
 }

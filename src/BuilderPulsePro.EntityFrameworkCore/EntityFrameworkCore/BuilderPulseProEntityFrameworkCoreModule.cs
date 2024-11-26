@@ -15,6 +15,7 @@ using Volo.Abp.LanguageManagement.EntityFrameworkCore;
 using Volo.Abp.TextTemplateManagement.EntityFrameworkCore;
 using Volo.Abp.Gdpr;
 using Volo.CmsKit.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace BuilderPulsePro.EntityFrameworkCore;
 
@@ -54,7 +55,9 @@ public class BuilderPulseProEntityFrameworkCoreModule : AbpModule
         {
                 /* The main point to change your DBMS.
                  * See also BuilderPulseProDbContextFactory for EF Core tooling. */
-            options.UseMySQL();
+            options.UseMySQL(o => {
+                o.UseNetTopologySuite();
+            });
         });
         
     }

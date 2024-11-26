@@ -17,7 +17,10 @@ public class BuilderPulseProDbContextFactory : IDesignTimeDbContextFactory<Build
         BuilderPulseProEfCoreEntityExtensionMappings.Configure();
 
         var builder = new DbContextOptionsBuilder<BuilderPulseProDbContext>()
-            .UseMySql(configuration.GetConnectionString("Default"), MySqlServerVersion.LatestSupportedServerVersion);
+            .UseMySql(configuration.GetConnectionString("Default"), MySqlServerVersion.LatestSupportedServerVersion, o =>
+            {
+                o.UseNetTopologySuite();
+            });
         
         return new BuilderPulseProDbContext(builder.Options);
     }
