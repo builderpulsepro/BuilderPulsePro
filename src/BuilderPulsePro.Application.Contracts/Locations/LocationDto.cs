@@ -16,6 +16,9 @@ namespace BuilderPulsePro.Locations
         public string ZipCode { get; set; }
         public string Country { get; set; }
 
-        public Point Coordinates { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+
+        public Guid? Id { get; set; }
     }
 }

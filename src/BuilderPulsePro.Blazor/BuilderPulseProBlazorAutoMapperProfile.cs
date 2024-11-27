@@ -1,5 +1,6 @@
 using AutoMapper;
 using BuilderPulsePro.Builders;
+using BuilderPulsePro.Locations;
 
 namespace BuilderPulsePro.Blazor;
 
@@ -9,5 +10,7 @@ public class BuilderPulseProBlazorAutoMapperProfile : Profile
     {
         //Define your AutoMapper configuration here for the Blazor project.
         CreateMap<BuilderProfileDto, CreateUpdateBuilderProfileDto>();
+
+        CreateMap<LocationDto, CreateUpdateLocationDto>();
     }
 }

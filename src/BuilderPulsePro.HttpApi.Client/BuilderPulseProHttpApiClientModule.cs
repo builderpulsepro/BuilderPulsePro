@@ -10,6 +10,8 @@ using Volo.Abp.LanguageManagement;
 using Volo.Abp.TextTemplateManagement;
 using Volo.Abp.Gdpr;
 using Volo.CmsKit;
+using System.Text.Json.Serialization;
+using Volo.Abp.Json.SystemTextJson;
 
 namespace BuilderPulsePro;
 
@@ -40,6 +42,13 @@ public class BuilderPulseProHttpApiClientModule : AbpModule
         Configure<AbpVirtualFileSystemOptions>(options =>
         {
             options.FileSets.AddEmbedded<BuilderPulseProHttpApiClientModule>();
+        });
+
+
+
+        Configure<AbpSystemTextJsonSerializerOptions>(options =>
+        {
+            options.JsonSerializerOptions.NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals;
         });
     }
 }

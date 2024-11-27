@@ -62,6 +62,8 @@ using Volo.Abp.Http.Client.Web;
 using Volo.Abp.Http.Client.IdentityModel.Web;
 using Volo.Abp.Security.Claims;
 using Volo.Abp.Studio.Client.AspNetCore;
+using Volo.Abp.Json.SystemTextJson;
+using System.Text.Json.Serialization;
 
 namespace BuilderPulsePro.Blazor;
 
@@ -115,6 +117,13 @@ public class BuilderPulseProBlazorModule : AbpModule
             Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
             Microsoft.IdentityModel.Logging.IdentityModelEventSource.LogCompleteSecurityArtifact = true;
         }
+
+        Configure<AbpSystemTextJsonSerializerOptions>(options =>
+        {
+            options.JsonSerializerOptions.NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals;
+            options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+            options.JsonSerializerOptions.MaxDepth = 128;
+        });
 
         ConfigureUrls(configuration);
         ConfigureBundles();

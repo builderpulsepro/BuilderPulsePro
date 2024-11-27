@@ -25,6 +25,8 @@ using Volo.CmsKit.Newsletters;
 using BuilderPulsePro.Identity;
 using Volo.Abp.ObjectExtending;
 using BuilderPulsePro.Enums;
+using System.Text.Json.Serialization;
+using Volo.Abp.Json.SystemTextJson;
 
 namespace BuilderPulsePro;
 
@@ -85,6 +87,13 @@ public class BuilderPulseProDomainModule : AbpModule
                     privacyPolicyConfirmation: LocalizableString.Create<BuilderPulseProResource>("NewsletterPrivacyAcceptMessage")
                 )
             );
+        });
+
+
+
+        Configure<AbpSystemTextJsonSerializerOptions>(options =>
+        {
+            options.JsonSerializerOptions.NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals;
         });
 
 #if DEBUG

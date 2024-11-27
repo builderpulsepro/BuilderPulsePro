@@ -41,6 +41,8 @@ using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
 using Volo.Abp.Studio.Client.AspNetCore;
 using Volo.Abp.AspNetCore.Authentication.JwtBearer;
+using System.Text.Json.Serialization;
+using Volo.Abp.Json.SystemTextJson;
 
 namespace BuilderPulsePro;
 
@@ -85,6 +87,11 @@ public class BuilderPulseProHttpApiHostModule : AbpModule
         Configure<PermissionManagementOptions>(options =>
         {
             options.IsDynamicPermissionStoreEnabled = true;
+        });
+
+        Configure<AbpSystemTextJsonSerializerOptions>(options =>
+        {
+            options.JsonSerializerOptions.NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals;
         });
     }
 

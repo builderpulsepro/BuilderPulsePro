@@ -32,6 +32,7 @@ public class BuilderPulseProDbContext :
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
     public DbSet<UserSubscription> UserSubscriptions { get; set; }
     public DbSet<BuilderProfile> BuilderProfiles { get; set; }
+    public DbSet<Location> Locations { get; set; }
 
     #region Entities from the modules
 
@@ -104,16 +105,17 @@ public class BuilderPulseProDbContext :
             builder.ToTable(BuilderPulseProConsts.DbTablePrefix + "BuilderProfiles");
             builder.ConfigureByConvention();
             builder.Property(x => x.Name).IsRequired().HasMaxLength(BuilderProfileConsts.MaxNameLength);
-            builder.Property(x => x.BusinessLicenseNumber).HasMaxLength(BuilderProfileConsts.MaxBusinessLicenseNumberLength);
-            builder.Property(x => x.IssuingState).HasMaxLength(BuilderProfileConsts.MaxIssuingStateLength);
-            builder.Property(x => x.IssuingAuthority).HasMaxLength(BuilderProfileConsts.MaxIssuingAuthorityLength);
-            builder.Property(x => x.PhoneNumber).HasMaxLength(BuilderProfileConsts.MaxPhoneNumberLength);
-            builder.Property(x => x.EmailAddress).HasMaxLength(BuilderProfileConsts.MaxEmailAddressLength);
+            builder.Property(x => x.BusinessLicenseNumber).IsRequired(false).HasMaxLength(BuilderProfileConsts.MaxBusinessLicenseNumberLength);
+            builder.Property(x => x.IssuingState).IsRequired(false).HasMaxLength(BuilderProfileConsts.MaxIssuingStateLength);
+            builder.Property(x => x.IssuingAuthority).IsRequired(false).HasMaxLength(BuilderProfileConsts.MaxIssuingAuthorityLength);
+            builder.Property(x => x.PhoneNumber).IsRequired(false).HasMaxLength(BuilderProfileConsts.MaxPhoneNumberLength);
+            builder.Property(x => x.EmailAddress).IsRequired(false).HasMaxLength(BuilderProfileConsts.MaxEmailAddressLength);
 
             builder.HasOne(b => b.Location)
                 .WithMany()
                 .HasForeignKey(b => b.LocationId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.SetNull)
+                .IsRequired(false);
         });
 
         builder.Entity<Locations.Location>(location =>
@@ -121,12 +123,11 @@ public class BuilderPulseProDbContext :
             location.ToTable(BuilderPulseProConsts.DbTablePrefix + "Locations");
             location.ConfigureByConvention();
             location.Property(x => x.Street1).IsRequired().HasMaxLength(LocationConsts.MaxStreetLength);
-            location.Property(x => x.Street2).HasMaxLength(LocationConsts.MaxStreetLength);
-            location.Property(x => x.City).HasMaxLength(LocationConsts.MaxCityLength);
+            location.Property(x => x.Street2).IsRequired(false).HasMaxLength(LocationConsts.MaxStreetLength);
+            location.Property(x => x.City).IsRequired().HasMaxLength(LocationConsts.MaxCityLength);
             location.Property(x => x.State).IsRequired().HasMaxLength(LocationConsts.MaxStateLength);
             location.Property(x => x.Country).IsRequired().HasMaxLength(LocationConsts.MaxCountryLength);
-            location.Property(x => x.Coordinates).IsRequired().HasColumnType("point").HasSpatialReferenceSystem(4326);
-            
+            location.Property(x => x.Coordinates).IsRequired().HasColumnType("geometry").HasSpatialReferenceSystem(4326);
             location.HasIndex(x => x.Coordinates).HasDatabaseName("IX_Location_Coordinates").IsSpatial();
         });
     }

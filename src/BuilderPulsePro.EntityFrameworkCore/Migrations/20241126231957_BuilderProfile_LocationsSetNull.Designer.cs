@@ -4,6 +4,7 @@ using BuilderPulsePro.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetTopologySuite.Geometries;
 using Volo.Abp.EntityFrameworkCore;
@@ -13,9 +14,11 @@ using Volo.Abp.EntityFrameworkCore;
 namespace BuilderPulsePro.Migrations
 {
     [DbContext(typeof(BuilderPulseProDbContext))]
-    partial class BuilderPulseProDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241126231957_BuilderProfile_LocationsSetNull")]
+    partial class BuilderProfile_LocationsSetNull
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,6 +34,7 @@ namespace BuilderPulsePro.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("BusinessLicenseNumber")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
@@ -58,6 +62,7 @@ namespace BuilderPulsePro.Migrations
                         .HasColumnName("DeletionTime");
 
                     b.Property<string>("EmailAddress")
+                        .IsRequired()
                         .HasMaxLength(320)
                         .HasColumnType("varchar(320)");
 
@@ -76,10 +81,12 @@ namespace BuilderPulsePro.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("IssuingAuthority")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
                     b.Property<string>("IssuingState")
+                        .IsRequired()
                         .HasMaxLength(2)
                         .HasColumnType("varchar(2)");
 
@@ -100,6 +107,7 @@ namespace BuilderPulsePro.Migrations
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("PhoneNumber")
+                        .IsRequired()
                         .HasMaxLength(15)
                         .HasColumnType("varchar(15)");
 
@@ -153,6 +161,7 @@ namespace BuilderPulsePro.Migrations
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("Street2")
+                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 

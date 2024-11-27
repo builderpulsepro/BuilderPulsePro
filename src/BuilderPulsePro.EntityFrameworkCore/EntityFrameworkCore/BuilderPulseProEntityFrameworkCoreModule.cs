@@ -16,6 +16,8 @@ using Volo.Abp.TextTemplateManagement.EntityFrameworkCore;
 using Volo.Abp.Gdpr;
 using Volo.CmsKit.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
+using Volo.Abp.Json.SystemTextJson;
 
 namespace BuilderPulsePro.EntityFrameworkCore;
 
@@ -59,6 +61,12 @@ public class BuilderPulseProEntityFrameworkCoreModule : AbpModule
                 o.UseNetTopologySuite();
             });
         });
-        
+
+
+
+        Configure<AbpSystemTextJsonSerializerOptions>(options =>
+        {
+            options.JsonSerializerOptions.NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals;
+        });
     }
 }

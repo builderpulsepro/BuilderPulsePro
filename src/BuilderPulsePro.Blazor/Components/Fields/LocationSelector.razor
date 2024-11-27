@@ -1,0 +1,52 @@
+﻿@inherits BuilderPulseProComponentBase
+@inject IJSRuntime jsRuntime
+
+<Field>
+    <FieldLabel>@L["LocationSelector:Address"]</FieldLabel>
+    <TextEdit Placeholder="@(HasAddress ? L["LocationSelector:UpdateAddress"] : L["LocationSelector:EnterAddress"])" ElementId="autocomplete" />
+</Field>
+@if (HasAddress)
+{
+    <Row>
+        <Column ColumnSize="ColumnSize.IsHalf">
+            <Field>
+                <FieldLabel>@L["LocationSelector:Street1"]</FieldLabel>
+                <TextEdit ReadOnly @bind-Text="Location.Street1" />
+            </Field>
+        </Column>
+        <Column ColumnSize="ColumnSize.IsHalf">
+            <Field>
+                <FieldLabel>@L["LocationSelector:Street2"]</FieldLabel>
+                <TextEdit ReadOnly @bind-Text="Location.Street2" />
+            </Field>
+        </Column>
+    </Row>
+    <Row>
+        <Column ColumnSize="ColumnSize.IsHalf">
+            <Field>
+                <FieldLabel>@L["LocationSelector:City"]</FieldLabel>
+                <TextEdit ReadOnly @bind-Text="Location.City" />
+            </Field>
+        </Column>
+        <Column ColumnSize="ColumnSize.IsHalf">
+            <Field>
+                <FieldLabel>@L["LocationSelector:State"]</FieldLabel>
+                <TextEdit ReadOnly @bind-Text="Location.State" />
+            </Field>
+        </Column>
+    </Row>
+    <Row>
+        <Column ColumnSize="ColumnSize.IsHalf">
+            <Field>
+                <FieldLabel>@L["LocationSelector:ZipCode"]</FieldLabel>
+                <TextEdit ReadOnly @bind-Text="Location.ZipCode" />
+            </Field>
+        </Column>
+        <Column ColumnSize="ColumnSize.IsHalf">
+            <Field>
+                <FieldLabel>@L["LocationSelector:Country"]</FieldLabel>
+                <TextEdit ReadOnly @bind-Text="Location.Country" />
+            </Field>
+        </Column>
+    </Row>
+}

@@ -7,7 +7,7 @@ using NetTopologySuite.Geometries;
 namespace BuilderPulsePro.Migrations
 {
     /// <inheritdoc />
-    public partial class BuilderProfile_Location : Migration
+    public partial class BuilderProfile_Locations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,8 +16,7 @@ namespace BuilderPulsePro.Migrations
                 name: "LocationId",
                 table: "BppBuilderProfiles",
                 type: "char(36)",
-                nullable: false,
-                defaultValue: new Guid("00000000-0000-0000-0000-000000000000"),
+                nullable: true,
                 collation: "ascii_general_ci");
 
             migrationBuilder.CreateTable(

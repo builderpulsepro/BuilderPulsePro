@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BuilderPulsePro.Locations;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,20 +15,24 @@ namespace BuilderPulsePro.Builders
         public string Name { get; set; } = string.Empty;
 
         [StringLength(BuilderProfileConsts.MaxBusinessLicenseNumberLength)]
-        public string BusinessLicenseNumber { get; set; }
+        public string? BusinessLicenseNumber { get; set; }
 
         [StringLength(BuilderProfileConsts.MaxIssuingStateLength)]
-        public string IssuingState { get; set; }
+        public string? IssuingState { get; set; }
 
         [StringLength(BuilderProfileConsts.MaxIssuingAuthorityLength)]
-        public string IssuingAuthority { get; set; }
+        public string? IssuingAuthority { get; set; }
 
         //public bool IsVerified { get; set; }
 
+        [Phone]
         [StringLength(BuilderProfileConsts.MaxPhoneNumberLength)]
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
 
+        [EmailAddress]
         [StringLength(BuilderProfileConsts.MaxEmailAddressLength)]
-        public string EmailAddress { get; set; }
+        public string? EmailAddress { get; set; }
+
+        public Guid? LocationId { get; set; }
     }
 }

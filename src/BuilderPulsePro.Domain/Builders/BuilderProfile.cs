@@ -19,7 +19,7 @@ namespace BuilderPulsePro.Builders
         public string PhoneNumber { get; set; }
         public string EmailAddress { get; set; }
 
-        public Guid LocationId { get; set; }
+        public Guid? LocationId { get; set; }
         public virtual Location Location { get; set; }
         
     }

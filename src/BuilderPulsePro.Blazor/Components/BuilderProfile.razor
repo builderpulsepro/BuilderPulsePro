@@ -1,15 +1,18 @@
-﻿@using BuilderPulsePro.Builders
+﻿@using BuilderPulsePro.Blazor.Components.Fields
+@using BuilderPulsePro.Builders
 @using BuilderPulsePro.Localization
+@using BuilderPulsePro.Locations
 @using Volo.Abp.AspNetCore.Components.Web
 @inject AbpBlazorMessageLocalizerHelper<BuilderPulseProResource> LH
 @inherits BuilderPulseProComponentBase
 @inject NavigationManager Nav
 @inject IBuilderProfileAppService builderAppService
+@inject ILocationAppService locationAppService
 
 <Card>
     <CardBody>
         <CardTitle Size="2" Margin="Margin.Is2.FromBottom">@L["BuilderProfile:CardTitle"]</CardTitle>
-        <Validations @ref="@ValidationsRef" Model="Profile" ValidateOnLoad="false">
+        <Validations @ref="@Validator" Model="Profile" ValidateOnLoad="false">
             <Tabs TabPosition="TabPosition.Start" SelectedTab="@selectedTab" SelectedTabChanged="@OnSelectedTabChanged">
                 <Items>
                     <Tab Name="General">@L["BuilderProfile:TabGeneral"]</Tab>
@@ -49,6 +52,7 @@
                                 </TextEdit>
                             </Field>
                         </Validation>
+                        <LocationSelector Location="Location" OnLocationSelected="HandleLocationSelected" />
                     </TabPanel>
                     <TabPanel Name="License">
                         <Div Margin="Margin.Is2.FromBottom">

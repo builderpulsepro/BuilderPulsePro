@@ -14,8 +14,8 @@ using Volo.Abp.EntityFrameworkCore;
 namespace BuilderPulsePro.Migrations
 {
     [DbContext(typeof(BuilderPulseProDbContext))]
-    [Migration("20241126034701_BuilderProfile_Location")]
-    partial class BuilderProfile_Location
+    [Migration("20241126231611_BuilderProfile_LocationsLatLongWithPoint")]
+    partial class BuilderProfile_LocationsLatLongWithPoint
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -98,7 +98,7 @@ namespace BuilderPulsePro.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnName("LastModifierId");
 
-                    b.Property<Guid>("LocationId")
+                    b.Property<Guid?>("LocationId")
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Name")
@@ -136,13 +136,19 @@ namespace BuilderPulsePro.Migrations
 
                     b.Property<Point>("Coordinates")
                         .IsRequired()
-                        .HasColumnType("point")
+                        .HasColumnType("geometry")
                         .HasAnnotation("MySql:SpatialReferenceSystemId", 4326);
 
                     b.Property<string>("Country")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
+
+                    b.Property<double>("Latitude")
+                        .HasColumnType("double");
+
+                    b.Property<double>("Longitude")
+                        .HasColumnType("double");
 
                     b.Property<string>("State")
                         .IsRequired()
@@ -3578,8 +3584,7 @@ namespace BuilderPulsePro.Migrations
                     b.HasOne("BuilderPulsePro.Locations.Location", "Location")
                         .WithMany()
                         .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Creator");
 

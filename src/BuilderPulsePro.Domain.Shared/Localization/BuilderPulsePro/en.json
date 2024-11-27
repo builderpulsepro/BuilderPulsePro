@@ -63,7 +63,16 @@
     "BuilderProfile:TabLicense": "Get Verified",
     "BuilderProfile:TabLicenseDescriptionMarkup": "Provide this information to become a Verified Builder.<br />Clients looking for a builder may choose to only select verified builders.",
     "BuilderProfile:TabContributors": "Contributors",
-    "BuilderProfile:TabPortfolio": "Portfolio"
+    "BuilderProfile:TabPortfolio": "Portfolio",
+    "LocationSelector:Address": "Address",
+    "LocationSelector:EnterAddress": "Enter an address",
+    "LocationSelector:UpdateAddress": "Update your address",
+    "LocationSelector:Street1": "Street 1",
+    "LocationSelector:Street2": "Street 2",
+    "LocationSelector:City": "City",
+    "LocationSelector:State": "State",
+    "LocationSelector:ZipCode": "Zip Code",
+    "LocationSelector:Country": "Country"
 
   }
 }

@@ -19,7 +19,6 @@ namespace BuilderPulsePro.Builders
         public string PhoneNumber { get; set; }
         public string EmailAddress { get; set; }
 
-        public Guid LocationId { get; set; }
-        public LocationDto Location { get; set; }
+        public Guid? LocationId { get; set; }
     }
 }
