@@ -1,12 +1,18 @@
 ﻿@page "/"
 @namespace BuilderPulsePro.Blazor.Pages
 @using System.Globalization
+@using BuilderPulsePro.Blazor.Options
 @using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components
 @using Volo.Abp.AspNetCore.Components.Server.LeptonXTheme.Bundling
 @using Volo.Abp.Localization
+
+@inject Microsoft.Extensions.Options.IOptions<KeyOptions> KeyOptions
+
 @{
     Layout = null;
     var rtl = CultureHelper.IsRtl ? "rtl" : string.Empty;
+
+    var MapsApiKey = KeyOptions.Value.Google.MapsApiKey;
 }
 
 <!DOCTYPE html>
@@ -34,7 +40,7 @@
     </div>
 
     <abp-script-bundle name="@BlazorLeptonXThemeBundles.Scripts.Global" />
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBkhWEICi91SLrgpzc7kNRxt-nkhcAUwvQ&libraries=places"></script>
+    <script src=@($"https://maps.googleapis.com/maps/api/js?key={MapsApiKey}&libraries=places")></script>
     <script src="js/site.js"></script>
 </body>
 </html>

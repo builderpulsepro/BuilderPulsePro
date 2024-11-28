@@ -64,6 +64,7 @@ using Volo.Abp.Security.Claims;
 using Volo.Abp.Studio.Client.AspNetCore;
 using Volo.Abp.Json.SystemTextJson;
 using System.Text.Json.Serialization;
+using BuilderPulsePro.Blazor.Options;
 
 namespace BuilderPulsePro.Blazor;
 
@@ -124,6 +125,8 @@ public class BuilderPulseProBlazorModule : AbpModule
             options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
             options.JsonSerializerOptions.MaxDepth = 128;
         });
+
+        Configure<KeyOptions>(configuration.GetSection("Keys"));
 
         ConfigureUrls(configuration);
         ConfigureBundles();

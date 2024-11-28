@@ -272,3 +272,4 @@ src/BuilderPulsePro.Blazor/Logs/*
 # IdentityServer temp files
 tempkey.rsa
 tempkey.jwk
+src/BuilderPulsePro.Blazor/appsettings.keys.json
