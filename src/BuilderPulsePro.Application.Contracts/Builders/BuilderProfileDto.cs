@@ -1,9 +1,5 @@
-﻿using BuilderPulsePro.Locations;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Identity;
 
@@ -19,6 +15,6 @@ namespace BuilderPulsePro.Builders
         public string PhoneNumber { get; set; }
         public string EmailAddress { get; set; }
 
-        public Guid? LocationId { get; set; }
+        public ICollection<BuilderLocationDto> Locations { get; set; }
     }
 }

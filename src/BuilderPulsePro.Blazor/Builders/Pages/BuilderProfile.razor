@@ -1,4 +1,6 @@
-﻿@using BuilderPulsePro.Blazor.Components.Fields
+﻿@page "/BuilderProfile/{Id:guid?}"
+
+@using BuilderPulsePro.Blazor.Builders.Fields
 @using BuilderPulsePro.Builders
 @using BuilderPulsePro.Localization
 @using BuilderPulsePro.Locations
@@ -7,7 +9,6 @@
 @inherits BuilderPulseProComponentBase
 @inject NavigationManager Nav
 @inject IBuilderProfileAppService builderAppService
-@inject ILocationAppService locationAppService
 
 <Card>
     <CardBody>
@@ -52,7 +53,7 @@
                                 </TextEdit>
                             </Field>
                         </Validation>
-                        <LocationSelector Location="Location" OnLocationSelected="HandleLocationSelected" />
+                        <LocationMultiSelect Locations="Profile.Locations" />
                     </TabPanel>
                     <TabPanel Name="License">
                         <Div Margin="Margin.Is2.FromBottom">

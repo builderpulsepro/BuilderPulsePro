@@ -7,5 +7,6 @@
         public const int MaxCityLength = 100;
         public const int MaxZipLength = 20;
         public const int MaxCountryLength = 100;
+        public const int MaxNameLength = 255;
     }
 }

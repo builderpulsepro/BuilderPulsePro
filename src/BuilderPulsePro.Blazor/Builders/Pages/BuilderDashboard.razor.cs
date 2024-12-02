@@ -2,7 +2,7 @@
 using Humanizer;
 using System.Threading.Tasks;
 
-namespace BuilderPulsePro.Blazor.Pages
+namespace BuilderPulsePro.Blazor.Builders.Pages
 {
     public partial class BuilderDashboard
     {

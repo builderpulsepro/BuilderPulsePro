@@ -1,11 +1,16 @@
-﻿using System;
-using System.Text.Json.Serialization;
+﻿using BuilderPulsePro.Builders;
 using NetTopologySuite.Geometries;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 using Volo.Abp.Domain.Entities;
 
-namespace BuilderPulsePro.Locations
+namespace BuilderPulsePro.Builders
 {
-    public class Location : Entity<Guid>
+    public class BuilderLocation : Entity<Guid>
     {
         public string Name { get; set; }
         public string EmailAddress { get; set; }
@@ -20,7 +25,10 @@ namespace BuilderPulsePro.Locations
         public double Longitude { get; set; }
         public double Latitude { get; set; }
 
+        public Guid BuilderProfileId { get; set; }
+
         [JsonIgnore]
         public Point Coordinates { get; set; }
+
     }
 }

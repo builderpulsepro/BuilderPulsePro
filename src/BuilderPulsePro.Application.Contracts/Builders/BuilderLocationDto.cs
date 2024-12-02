@@ -1,14 +1,13 @@
-﻿using NetTopologySuite.Geometries;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
-namespace BuilderPulsePro.Locations
+namespace BuilderPulsePro.Builders
 {
-    public class LocationDto
+    public class BuilderLocationDto
     {
+        public string Name { get; set; }
+        public string EmailAddress { get; set; }
+        public string PhoneNumber { get; set; }
+
         public string Street1 { get; set; }
         public string Street2 { get; set; }
         public string City { get; set; }
@@ -20,5 +19,7 @@ namespace BuilderPulsePro.Locations
         public double Longitude { get; set; }
 
         public Guid? Id { get; set; }
+
+        public Guid BuilderProfileId { get; set; }
     }
 }

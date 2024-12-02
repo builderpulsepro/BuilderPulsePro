@@ -1,8 +1,6 @@
 using AutoMapper;
 using BuilderPulsePro.Builders;
-using BuilderPulsePro.Locations;
 using NetTopologySuite.Geometries;
-using Org.BouncyCastle.Pqc.Crypto.Lms;
 
 namespace BuilderPulsePro;
 
@@ -17,10 +15,10 @@ public class BuilderPulseProApplicationAutoMapperProfile : Profile
         CreateMap<BuilderProfile, BuilderProfileDto>();
         CreateMap<CreateUpdateBuilderProfileDto, BuilderProfile>();
 
-        CreateMap<Locations.Location, LocationDto>()
+        CreateMap<BuilderLocation, BuilderLocationDto>()
             .ForMember(dest => dest.Latitude, opt => opt.MapFrom(src => src.Coordinates.Y))
             .ForMember(dest => dest.Longitude, opt => opt.MapFrom(src => src.Coordinates.X));
-        CreateMap<CreateUpdateLocationDto, Locations.Location>()
+        CreateMap<CreateUpdateBuilderLocationDto, BuilderLocation>()
             .ForMember(dest => dest.Coordinates, opt => opt.MapFrom(src => new Point(src.Longitude, src.Latitude, 0) { SRID = 4326 }));
     }
 }

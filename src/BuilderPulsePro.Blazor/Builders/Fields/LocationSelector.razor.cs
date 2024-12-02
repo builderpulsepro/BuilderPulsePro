@@ -1,19 +1,20 @@
-﻿using Blazorise;
-using BuilderPulsePro.Locations;
+﻿using System.Threading.Tasks;
+using BuilderPulsePro.Builders;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using NetTopologySuite.Geometries;
-using System.Threading.Tasks;
 
-namespace BuilderPulsePro.Blazor.Components.Fields
+namespace BuilderPulsePro.Blazor.Builders.Fields
 {
     public partial class LocationSelector
     {
         [Parameter]
-        public CreateUpdateLocationDto Location { get; set; } = new CreateUpdateLocationDto();
+        public CreateUpdateBuilderLocationDto Location { get; set; } = new CreateUpdateBuilderLocationDto();
 
         [Parameter] 
-        public EventCallback<CreateUpdateLocationDto> OnLocationSelected { get; set; }
+        public EventCallback<CreateUpdateBuilderLocationDto> OnLocationSelected { get; set; }
+
+        [Parameter]
+        public bool ShowExtraFields { get; set; }
 
         private bool HasAddress => Location != null && !string.IsNullOrEmpty(Location.Street1);
 
@@ -26,16 +27,24 @@ namespace BuilderPulsePro.Blazor.Components.Fields
         }
 
         [JSInvokable]
-        public async Task OnPlaceSelected(double lat, double lng, CreateUpdateLocationDto address)
+        public async Task OnPlaceSelected(double lat, double lng, CreateUpdateBuilderLocationDto address)
         {
             if (Location == null) 
             {
-                Location = new CreateUpdateLocationDto();
+                Location = new CreateUpdateBuilderLocationDto();
             }
             if (address == null)
             {
                 return;
             }
+            
+            //if (ShowExtraFields)
+            //{
+            //    Location.Name = address.Name;
+            //    Location.EmailAddress = address.EmailAddress;
+            //    Location.PhoneNumber = address.PhoneNumber;
+            //}
+
             Location.Street1 = address.Street1;
             Location.Street2 = address.Street2;
             Location.City = address.City;

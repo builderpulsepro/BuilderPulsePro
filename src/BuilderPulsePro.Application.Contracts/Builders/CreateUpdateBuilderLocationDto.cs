@@ -1,16 +1,19 @@
-﻿using BuilderPulsePro.Builders;
-using NetTopologySuite.Geometries;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using BuilderPulsePro.Global;
+using BuilderPulsePro.Locations;
 
-namespace BuilderPulsePro.Locations
+namespace BuilderPulsePro.Builders
 {
-    public class CreateUpdateLocationDto
+    public class CreateUpdateBuilderLocationDto
     {
+        [StringLength(LocationConsts.MaxNameLength)]
+        public string? Name { get; set; }
+        [StringLength(BuilderPulseProGlobalConsts.MaxEmailAddressLength)]
+        public string? EmailAddress { get; set; }
+        [StringLength(BuilderPulseProGlobalConsts.MaxPhoneNumberLength)]
+        public string? PhoneNumber { get; set; }
+
         [Required]
         [StringLength(LocationConsts.MaxStreetLength)]
         public string Street1 { get; set; }

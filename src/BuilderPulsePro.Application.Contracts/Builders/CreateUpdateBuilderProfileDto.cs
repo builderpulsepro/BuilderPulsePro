@@ -1,10 +1,6 @@
-﻿using BuilderPulsePro.Locations;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using BuilderPulsePro.Global;
 
 namespace BuilderPulsePro.Builders
 {
@@ -26,13 +22,13 @@ namespace BuilderPulsePro.Builders
         //public bool IsVerified { get; set; }
 
         [Phone]
-        [StringLength(BuilderProfileConsts.MaxPhoneNumberLength)]
+        [StringLength(BuilderPulseProGlobalConsts.MaxPhoneNumberLength)]
         public string? PhoneNumber { get; set; }
 
         [EmailAddress]
-        [StringLength(BuilderProfileConsts.MaxEmailAddressLength)]
+        [StringLength(BuilderPulseProGlobalConsts.MaxEmailAddressLength)]
         public string? EmailAddress { get; set; }
 
-        public Guid? LocationId { get; set; }
+        public ICollection<CreateUpdateBuilderLocationDto> Locations { get; set; }
     }
 }

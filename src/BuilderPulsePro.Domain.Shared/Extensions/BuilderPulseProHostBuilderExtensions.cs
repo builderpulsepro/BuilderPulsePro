@@ -1,24 +1,25 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace Microsoft.Extensions.Hosting;
-
-public static class BuilderPulseProHostBuilderExtensions
+namespace Microsoft.Extensions.Hosting
 {
-    public const string AppSettingsSecretJsonPath = "appsettings.keys.json";
-
-    public static IHostBuilder AddAppSettingsKeysJson(
-        this IHostBuilder hostBuilder,
-        bool optional = true,
-        bool reloadOnChange = true,
-        string path = AppSettingsSecretJsonPath)
+    public static class BuilderPulseProHostBuilderExtensions
     {
-        return hostBuilder.ConfigureAppConfiguration((_, builder) =>
+        public const string AppSettingsSecretJsonPath = "appsettings.keys.json";
+
+        public static IHostBuilder AddAppSettingsKeysJson(
+            this IHostBuilder hostBuilder,
+            bool optional = true,
+            bool reloadOnChange = true,
+            string path = AppSettingsSecretJsonPath)
         {
-            builder.AddJsonFile(
-                path: path,
-                optional: optional,
-                reloadOnChange: reloadOnChange
-            );
-        });
+            return hostBuilder.ConfigureAppConfiguration((_, builder) =>
+            {
+                builder.AddJsonFile(
+                    path: path,
+                    optional: optional,
+                    reloadOnChange: reloadOnChange
+                );
+            });
+        }
     }
 }

@@ -1,13 +1,8 @@
-﻿using NetTopologySuite.Geometries;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
-using Volo.Abp.ObjectMapping;
 
 namespace BuilderPulsePro.Builders
 {
@@ -21,7 +16,6 @@ namespace BuilderPulsePro.Builders
     {
         public BuilderProfileAppService(IRepository<BuilderProfile, Guid> repository) : base(repository)
         {
-
         }
 
         public async Task<BuilderProfileDto> GetCurrentUserBuilderProfileAsync()
@@ -31,15 +25,43 @@ namespace BuilderPulsePro.Builders
             return ObjectMapper.Map<BuilderProfile, BuilderProfileDto>(profile!);
         }
 
-        public override async Task<BuilderProfileDto> CreateAsync(CreateUpdateBuilderProfileDto input)
-        {
-            // Map DTO to entity
-            var builderProfile = ObjectMapper.Map<CreateUpdateBuilderProfileDto, BuilderProfile>(input);
+        //public override async Task<BuilderProfileDto> UpdateAsync(Guid id, CreateUpdateBuilderProfileDto dto)
+        //{
+        //    var profile = await base.UpdateAsync(id, dto);
 
-            var result = await Repository.InsertAsync(builderProfile);
+        //    var existingLocations = await _locationRepository.GetListAsync(x => x.BuilderProfileId == id);
 
-            // Return mapped result
-            return ObjectMapper.Map<BuilderProfile, BuilderProfileDto>(result);
-        }
+        //    foreach (var locationDto in dto.Locations)
+        //    {
+        //        if (locationDto.Id == null)
+        //        {
+        //            locationDto.Id = GuidGenerator.Create();
+
+        //            var location = ObjectMapper.Map<CreateUpdateBuilderLocationDto, BuilderLocation>(locationDto);
+        //            location.BuilderProfileId = id;
+
+        //            await _locationRepository.InsertAsync(location);
+        //        }
+        //        else
+        //        {
+        //            var location = ObjectMapper.Map<CreateUpdateBuilderLocationDto, BuilderLocation>(locationDto);
+        //            location.BuilderProfileId = id;
+
+        //            await _locationRepository.UpdateAsync(location);
+        //        }
+        //    }
+
+        //    //foreach (var existingLocation in existingLocations)
+        //    //{
+        //    //    if (dto.Locations.FirstOrDefault(x => x.Id == existingLocation.Id) == null)
+        //    //    {
+        //    //        await _locationRepository.DeleteAsync(existingLocation);
+        //    //    }
+        //    //}
+
+        //    var result = await GetAsync(id);
+
+        //    return result;
+        //}
     }
 }

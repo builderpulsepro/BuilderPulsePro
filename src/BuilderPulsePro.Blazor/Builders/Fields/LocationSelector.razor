@@ -1,6 +1,20 @@
 ﻿@inherits BuilderPulseProComponentBase
 @inject IJSRuntime jsRuntime
 
+@if (ShowExtraFields && Location != null) {
+    <Field>
+        <FieldLabel>Name</FieldLabel>
+        <TextEdit @bind-Text="Location.Name" />
+    </Field>
+    <Field>
+        <FieldLabel>Email Address</FieldLabel>
+        <TextEdit @bind-Text="Location.EmailAddress" />
+    </Field>
+    <Field>
+        <FieldLabel>Phone Number</FieldLabel>
+        <TextEdit @bind-Text="Location.PhoneNumber" />
+    </Field>
+}
 <Field>
     <FieldLabel>@L["LocationSelector:Address"]</FieldLabel>
     <TextEdit Placeholder="@(HasAddress ? L["LocationSelector:UpdateAddress"] : L["LocationSelector:EnterAddress"])" ElementId="autocomplete" />

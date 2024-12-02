@@ -3,8 +3,6 @@ using System;
 using BuilderPulsePro.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetTopologySuite.Geometries;
 using Volo.Abp.EntityFrameworkCore;
 
@@ -24,6 +22,76 @@ namespace BuilderPulsePro.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+
+            modelBuilder.Entity("BuilderPulsePro.Builders.BuilderLocation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("BuilderProfileId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<Point>("Coordinates")
+                        .IsRequired()
+                        .HasColumnType("geometry")
+                        .HasAnnotation("MySql:SpatialReferenceSystemId", 4326);
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("EmailAddress")
+                        .HasMaxLength(320)
+                        .HasColumnType("varchar(320)");
+
+                    b.Property<double>("Latitude")
+                        .HasColumnType("double");
+
+                    b.Property<double>("Longitude")
+                        .HasColumnType("double");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasMaxLength(15)
+                        .HasColumnType("varchar(15)");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Street1")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Street2")
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("ZipCode")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BuilderProfileId");
+
+                    b.HasIndex("Coordinates")
+                        .HasDatabaseName("IX_Location_Coordinates")
+                        .HasAnnotation("MySql:SpatialIndex", true);
+
+                    b.ToTable("BppBuilderLocations", (string)null);
+                });
 
             modelBuilder.Entity("BuilderPulsePro.Builders.BuilderProfile", b =>
                 {
@@ -91,9 +159,6 @@ namespace BuilderPulsePro.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnName("LastModifierId");
 
-                    b.Property<Guid?>("LocationId")
-                        .HasColumnType("char(36)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -111,62 +176,7 @@ namespace BuilderPulsePro.Migrations
 
                     b.HasIndex("LastModifierId");
 
-                    b.HasIndex("LocationId");
-
                     b.ToTable("BppBuilderProfiles", (string)null);
-                });
-
-            modelBuilder.Entity("BuilderPulsePro.Locations.Location", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<Point>("Coordinates")
-                        .IsRequired()
-                        .HasColumnType("geometry")
-                        .HasAnnotation("MySql:SpatialReferenceSystemId", 4326);
-
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<double>("Latitude")
-                        .HasColumnType("double");
-
-                    b.Property<double>("Longitude")
-                        .HasColumnType("double");
-
-                    b.Property<string>("State")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<string>("Street1")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("Street2")
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("ZipCode")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Coordinates")
-                        .HasDatabaseName("IX_Location_Coordinates")
-                        .HasAnnotation("MySql:SpatialIndex", true);
-
-                    b.ToTable("BppLocations", (string)null);
                 });
 
             modelBuilder.Entity("BuilderPulsePro.Subscriptions.UserSubscription", b =>
@@ -3558,6 +3568,15 @@ namespace BuilderPulsePro.Migrations
                     b.ToTable("CmsUsers", (string)null);
                 });
 
+            modelBuilder.Entity("BuilderPulsePro.Builders.BuilderLocation", b =>
+                {
+                    b.HasOne("BuilderPulsePro.Builders.BuilderProfile", null)
+                        .WithMany("Locations")
+                        .HasForeignKey("BuilderProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("BuilderPulsePro.Builders.BuilderProfile", b =>
                 {
                     b.HasOne("Volo.Abp.Identity.IdentityUser", "Creator")
@@ -3572,18 +3591,11 @@ namespace BuilderPulsePro.Migrations
                         .WithMany()
                         .HasForeignKey("LastModifierId");
 
-                    b.HasOne("BuilderPulsePro.Locations.Location", "Location")
-                        .WithMany()
-                        .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
                     b.Navigation("Creator");
 
                     b.Navigation("Deleter");
 
                     b.Navigation("LastModifier");
-
-                    b.Navigation("Location");
                 });
 
             modelBuilder.Entity("Volo.Abp.BlobStoring.Database.DatabaseBlob", b =>
@@ -3746,6 +3758,11 @@ namespace BuilderPulsePro.Migrations
                         .HasForeignKey("PollId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("BuilderPulsePro.Builders.BuilderProfile", b =>
+                {
+                    b.Navigation("Locations");
                 });
 
             modelBuilder.Entity("Volo.Abp.Gdpr.GdprRequest", b =>
