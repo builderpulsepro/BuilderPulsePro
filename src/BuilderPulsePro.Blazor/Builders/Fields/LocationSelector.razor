@@ -3,15 +3,15 @@
 
 @if (ShowExtraFields && Location != null) {
     <Field>
-        <FieldLabel>Name</FieldLabel>
+        <FieldLabel>@L["LocationSelector:Name"]</FieldLabel>
         <TextEdit @bind-Text="Location.Name" />
     </Field>
     <Field>
-        <FieldLabel>Email Address</FieldLabel>
+        <FieldLabel>@L["LocationSelector:EmailAddress"]</FieldLabel>
         <TextEdit @bind-Text="Location.EmailAddress" />
     </Field>
     <Field>
-        <FieldLabel>Phone Number</FieldLabel>
+        <FieldLabel>@L["LocationSelector:PhoneNumber"]</FieldLabel>
         <TextEdit @bind-Text="Location.PhoneNumber" />
     </Field>
 }

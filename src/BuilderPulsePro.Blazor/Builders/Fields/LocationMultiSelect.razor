@@ -5,9 +5,9 @@
 
 <DataGrid @ref="gridRef" TItem="CreateUpdateBuilderLocationDto" Data="Locations" Striped RowSelectable="@(x => false)" Editable>
     <DataGridColumns>
-        <DataGridColumn Field="@nameof(CreateUpdateBuilderLocationDto.Name)" Caption="Name"></DataGridColumn>
-        <DataGridColumn Field="@nameof(CreateUpdateBuilderLocationDto.Street1)" Caption="Street 1"></DataGridColumn>
-        <DataGridEntityActionsColumn>
+        <DataGridColumn Field="@nameof(CreateUpdateBuilderLocationDto.Name)" Caption="@L["LocationSelector:Name"]"></DataGridColumn>
+        <DataGridColumn Field="@nameof(CreateUpdateBuilderLocationDto.Street1)" Caption="@L["LocationSelector:Street1"]"></DataGridColumn>
+        <DataGridEntityActionsColumn Caption="@L["LocationMultiSelect:Actions"]">
             <DisplayTemplate>
                 <Button Color="Color.Primary" Clicked="() => ShowLocationModal(context)"><Icon Name="IconName.Edit"></Icon></Button>
                 <Button Color="Color.Danger" Clicked="() => DeleteLocation(context)"><Icon Name="IconName.Delete"></Icon></Button>
@@ -20,7 +20,7 @@
     <ModalContent Size="ModalSize.Large">
         <ModalHeader>
             <ModalTitle>
-                Add Location
+                @(CurrentLocation != null && CurrentLocation.Id.HasValue ? L["LocationMultiSelect:EditLocation"] : L["LocationMultiSelect:AddLocation"])
             </ModalTitle>
             <CloseButton />
         </ModalHeader>
@@ -28,7 +28,7 @@
             <Validations @ref="@Validator" Mode="ValidationMode.Manual">
                 <Validation Validator="ValidateLocation">
                     <LocationSelector Location="CurrentLocation" ShowExtraFields="true" OnLocationSelected="HandleLocationSelected" />
-                    <Blazorise.ValidationSummary Label="A Location must have a Name and Address.">
+                    <Blazorise.ValidationSummary>
                     </Blazorise.ValidationSummary>
                 </Validation>
             </Validations>
