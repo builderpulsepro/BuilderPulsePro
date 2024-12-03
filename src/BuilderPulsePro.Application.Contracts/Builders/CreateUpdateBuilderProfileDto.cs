@@ -30,5 +30,7 @@ namespace BuilderPulsePro.Builders
         public string? EmailAddress { get; set; }
 
         public ICollection<CreateUpdateBuilderLocationDto> Locations { get; set; }
+
+        public ICollection<CreateUpdateBuilderPortfolioItemDto> PortfolioItems { get; set; }
     }
 }

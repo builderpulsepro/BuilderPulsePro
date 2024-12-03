@@ -11,5 +11,8 @@ public class BuilderPulseProBlazorAutoMapperProfile : Profile
         CreateMap<BuilderProfileDto, CreateUpdateBuilderProfileDto>();
 
         CreateMap<BuilderLocationDto, CreateUpdateBuilderLocationDto>();
+
+        CreateMap<BuilderPortfolioItemDto, CreateUpdateBuilderPortfolioItemDto>()
+            .ForMember(dest => dest.IsDeleted, opt => opt.Ignore());
     }
 }

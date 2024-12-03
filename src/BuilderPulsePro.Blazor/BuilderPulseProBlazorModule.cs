@@ -3,7 +3,7 @@ using System.IO;
 using Blazorise.Bootstrap5;
 using Blazorise.Icons.FontAwesome;
 using BuilderPulsePro.Blazor.Menus;
-using BuilderPulsePro.Blazor.Options;
+using BuilderPulsePro.Domain.Shared.Options;
 using BuilderPulsePro.Localization;
 using BuilderPulsePro.MultiTenancy;
 using Medallion.Threading;

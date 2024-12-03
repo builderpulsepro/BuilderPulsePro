@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Blazorise;
 using BuilderPulsePro.Builders;
@@ -40,6 +41,14 @@ namespace BuilderPulsePro.Blazor.Builders.Pages
             var isValid = await Validator.ValidateAll();
             if (isValid)
             {
+                foreach (var item in Profile.PortfolioItems.Where(x => x.IsDeleted))
+                {
+                    // removed portfolio item, cleanup blob storage
+                    await builderAppService.DeletePortfolioItemAsync(item.BlobName);
+                }
+
+                Profile.PortfolioItems = Profile.PortfolioItems.Where(x => !x.IsDeleted).ToList();
+
                 if (!Id.HasValue)
                 {
                     await builderAppService.CreateAsync(Profile);
@@ -54,8 +63,13 @@ namespace BuilderPulsePro.Blazor.Builders.Pages
 
         private async Task Cancel()
         {
+            foreach (var item in Profile.PortfolioItems.Where(x => !x.Id.HasValue))
+            {
+                // new unsaved portfolio item, cleanup blob storage
+                await builderAppService.DeletePortfolioItemAsync(item.BlobName);
+            }
+
             Nav.NavigateTo("/BuilderDashboard", true);
-            await Task.CompletedTask;
         }
 
         private async Task OnSelectedTabChanged(string name)

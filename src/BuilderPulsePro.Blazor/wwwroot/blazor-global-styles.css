@@ -39,3 +39,23 @@
 .pac-container {
     z-index: 1060000; /* Make sure this value is higher than the modal's z-index */
 }
+
+
+.photo-container {
+    position: relative;
+}
+
+.photo-image {
+    width: 100%;
+    height: auto;
+}
+
+.delete-button {
+    z-index: 10;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+    .delete-button:hover {
+        opacity: 1;
+    }

@@ -1,6 +1,7 @@
 using BuilderPulsePro.Builders;
 using BuilderPulsePro.Global;
 using BuilderPulsePro.Locations;
+using BuilderPulsePro.PortfolioItems;
 using BuilderPulsePro.Subscriptions;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
@@ -31,7 +32,8 @@ public class BuilderPulseProDbContext :
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
     public DbSet<UserSubscription> UserSubscriptions { get; set; }
     public DbSet<BuilderProfile> BuilderProfiles { get; set; }
-    public DbSet<BuilderLocation> Locations { get; set; }
+    public DbSet<BuilderLocation> BuilderLocations { get; set; }
+    public DbSet<BuilderPortfolioItem> BuilderPortfolioItems { get; set; }
 
     #region Entities from the modules
 
@@ -130,6 +132,19 @@ public class BuilderPulseProDbContext :
 
             location.HasOne<BuilderProfile>()
                 .WithMany(x => x.Locations)
+                .HasForeignKey(x => x.BuilderProfileId)
+                .IsRequired();
+        });
+
+        builder.Entity<BuilderPortfolioItem>(portfolioItem =>
+        {
+            portfolioItem.ToTable(BuilderPulseProConsts.DbTablePrefix + "BuilderPortfolioItems");
+            portfolioItem.ConfigureByConvention();
+            portfolioItem.HasKey(x => x.Id);
+            portfolioItem.Property(x => x.Description).HasMaxLength(PortfolioItemConsts.MaxDescriptionLength);
+
+            portfolioItem.HasOne<BuilderProfile>()
+                .WithMany(x => x.PortfolioItems)
                 .HasForeignKey(x => x.BuilderProfileId)
                 .IsRequired();
         });

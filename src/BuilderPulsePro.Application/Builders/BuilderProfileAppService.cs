@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
+using BuilderPulsePro.Blobs;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
+using Volo.Abp.BlobStoring;
 using Volo.Abp.Domain.Repositories;
+using Volo.Abp.Guids;
 
 namespace BuilderPulsePro.Builders
 {
@@ -14,8 +17,15 @@ namespace BuilderPulsePro.Builders
             PagedAndSortedResultRequestDto,
             CreateUpdateBuilderProfileDto>, IBuilderProfileAppService
     {
-        public BuilderProfileAppService(IRepository<BuilderProfile, Guid> repository) : base(repository)
+        private readonly IBlobContainer<BuilderPortfolioContainer> _blobContainer;
+        private readonly IGuidGenerator _guidGenerator;
+
+        public BuilderProfileAppService(IRepository<BuilderProfile, Guid> repository, 
+            IBlobContainer<BuilderPortfolioContainer> blobContainer,
+            IGuidGenerator guidGenerator) : base(repository)
         {
+            _blobContainer = blobContainer;
+            _guidGenerator = guidGenerator;
         }
 
         public async Task<BuilderProfileDto> GetCurrentUserBuilderProfileAsync()
@@ -25,43 +35,21 @@ namespace BuilderPulsePro.Builders
             return ObjectMapper.Map<BuilderProfile, BuilderProfileDto>(profile!);
         }
 
-        //public override async Task<BuilderProfileDto> UpdateAsync(Guid id, CreateUpdateBuilderProfileDto dto)
-        //{
-        //    var profile = await base.UpdateAsync(id, dto);
+        public async Task<string> SavePortfolioItemAsync(byte[] bytes)
+        {
+            var blobName = _guidGenerator.Create().ToString();
+            await _blobContainer.SaveAsync(blobName, bytes);
+            return blobName;
+        }
 
-        //    var existingLocations = await _locationRepository.GetListAsync(x => x.BuilderProfileId == id);
+        public async Task<byte[]> GetPortfolioPictureAsync(string blobName)
+        {
+            return await _blobContainer.GetAllBytesOrNullAsync(blobName);
+        }
 
-        //    foreach (var locationDto in dto.Locations)
-        //    {
-        //        if (locationDto.Id == null)
-        //        {
-        //            locationDto.Id = GuidGenerator.Create();
-
-        //            var location = ObjectMapper.Map<CreateUpdateBuilderLocationDto, BuilderLocation>(locationDto);
-        //            location.BuilderProfileId = id;
-
-        //            await _locationRepository.InsertAsync(location);
-        //        }
-        //        else
-        //        {
-        //            var location = ObjectMapper.Map<CreateUpdateBuilderLocationDto, BuilderLocation>(locationDto);
-        //            location.BuilderProfileId = id;
-
-        //            await _locationRepository.UpdateAsync(location);
-        //        }
-        //    }
-
-        //    //foreach (var existingLocation in existingLocations)
-        //    //{
-        //    //    if (dto.Locations.FirstOrDefault(x => x.Id == existingLocation.Id) == null)
-        //    //    {
-        //    //        await _locationRepository.DeleteAsync(existingLocation);
-        //    //    }
-        //    //}
-
-        //    var result = await GetAsync(id);
-
-        //    return result;
-        //}
+        public async Task DeletePortfolioItemAsync(string blobName)
+        {
+            await _blobContainer.DeleteAsync(blobName);
+        }
     }
 }

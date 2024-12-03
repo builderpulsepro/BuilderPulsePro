@@ -1,6 +1,7 @@
 ﻿@page "/BuilderProfile/{Id:guid?}"
 
 @using BuilderPulsePro.Blazor.Builders.Fields
+@using BuilderPulsePro.Blazor.Builders.Components
 @using BuilderPulsePro.Builders
 @using BuilderPulsePro.Localization
 @using BuilderPulsePro.Locations
@@ -19,7 +20,7 @@
                     <Tab Name="General">@L["BuilderProfile:TabGeneral"]</Tab>
                     <Tab Name="License">@L["BuilderProfile:TabLicense"]</Tab>
                     <Tab Name="Contributors" Visibility="Visibility.Invisible">@L["BuilderProfile:TabContributors"]</Tab>
-                    <Tab Name="Portfolio" Visibility="Visibility.Invisible">@L["BuilderProfile:TabPortfolio"]</Tab>
+                    <Tab Name="Portfolio">@L["BuilderProfile:TabPortfolio"]</Tab>
                 </Items>
                 <Content>
                     <TabPanel Name="General">
@@ -94,7 +95,7 @@
 
                     </TabPanel>
                     <TabPanel Name="Portfolio">
-
+                        <Portfolio PortfolioItems="Profile.PortfolioItems" />
                     </TabPanel>
                 </Content>
             </Tabs>

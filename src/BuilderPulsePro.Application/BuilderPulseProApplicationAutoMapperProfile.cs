@@ -20,5 +20,8 @@ public class BuilderPulseProApplicationAutoMapperProfile : Profile
             .ForMember(dest => dest.Longitude, opt => opt.MapFrom(src => src.Coordinates.X));
         CreateMap<CreateUpdateBuilderLocationDto, BuilderLocation>()
             .ForMember(dest => dest.Coordinates, opt => opt.MapFrom(src => new Point(src.Longitude, src.Latitude, 0) { SRID = 4326 }));
+
+        CreateMap<BuilderPortfolioItem, BuilderPortfolioItemDto>();
+        CreateMap<CreateUpdateBuilderPortfolioItemDto, BuilderPortfolioItem>();
     }
 }

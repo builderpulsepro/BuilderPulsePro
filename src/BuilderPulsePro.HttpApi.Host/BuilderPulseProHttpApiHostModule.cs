@@ -36,6 +36,12 @@ using Volo.Abp.Studio.Client.AspNetCore;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
+using Volo.Abp.BlobStoring.Azure;
+using BuilderPulsePro.Blobs;
+using Volo.Abp.BlobStoring;
+using Volo.Abp.BlobStoring.Database;
+using BuilderPulsePro.Domain.Shared.Options;
+using Microsoft.Extensions.Options;
 
 namespace BuilderPulsePro;
 
@@ -50,9 +56,10 @@ namespace BuilderPulsePro;
     typeof(BuilderPulseProApplicationModule),
     typeof(BuilderPulseProEntityFrameworkCoreModule),
     typeof(AbpSwashbuckleModule),
-    typeof(AbpAspNetCoreSerilogModule)
+    typeof(AbpAspNetCoreSerilogModule),
+    typeof(AbpBlobStoringAzureModule)
     )]
-public class BuilderPulseProHttpApiHostModule : AbpModule
+    public class BuilderPulseProHttpApiHostModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
@@ -65,6 +72,8 @@ public class BuilderPulseProHttpApiHostModule : AbpModule
             Microsoft.IdentityModel.Logging.IdentityModelEventSource.LogCompleteSecurityArtifact = true;
         }
 
+        Configure<KeyOptions>(configuration.GetSection("Keys"));
+
         ConfigureUrls(configuration);
         ConfigureConventionalControllers();
         ConfigureAuthentication(context, configuration);
@@ -76,6 +85,7 @@ public class BuilderPulseProHttpApiHostModule : AbpModule
         ConfigureCors(context, configuration);
         ConfigureExternalProviders(context);
         ConfigureHealthChecks(context);
+        ConfigureBlobs(context, configuration, hostingEnvironment);
 
         Configure<PermissionManagementOptions>(options =>
         {
@@ -220,7 +230,7 @@ public class BuilderPulseProHttpApiHostModule : AbpModule
     private void ConfigureExternalProviders(ServiceConfigurationContext context)
     {
         context.Services
-            .AddDynamicExternalLoginProviderOptions<GoogleOptions>(
+            .AddDynamicExternalLoginProviderOptions<Microsoft.AspNetCore.Authentication.Google.GoogleOptions>(
                 GoogleDefaults.AuthenticationScheme,
                 options =>
                 {
@@ -244,6 +254,32 @@ public class BuilderPulseProHttpApiHostModule : AbpModule
                     options.WithProperty(x => x.ConsumerSecret, isSecret: true);
                 }
             );
+    }
+
+    private void ConfigureBlobs(ServiceConfigurationContext context, IConfiguration configuration,
+        IWebHostEnvironment hostingEnvironment)
+    {
+        var keyOptions = context.Services.GetServiceLazy<IOptions<KeyOptions>>();
+
+        Configure<AbpBlobStoringOptions>(options =>
+        {
+            options.Containers.Configure<BuilderPortfolioContainer>(container =>
+            {
+                if (hostingEnvironment.IsDevelopment())
+                {
+                    container.UseDatabase();
+                }
+                else
+                {
+                    container.UseAzure(azure =>
+                    {
+                        azure.ConnectionString = keyOptions.Value.Value.Azure.BlobStorageConnectionString;
+                        azure.ContainerName = "builder-portfolio";
+                        azure.CreateContainerIfNotExists = true;
+                    });
+                }
+            });
+        });
     }
 
     public override void OnApplicationInitialization(ApplicationInitializationContext context)

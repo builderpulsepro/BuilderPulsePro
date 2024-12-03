@@ -16,5 +16,8 @@ namespace BuilderPulsePro.Builders
             CreateUpdateBuilderProfileDto>
     {
         Task<BuilderProfileDto> GetCurrentUserBuilderProfileAsync();
+        Task<string> SavePortfolioItemAsync(byte[] bytes);
+        Task<byte[]> GetPortfolioPictureAsync(string blobName);
+        Task DeletePortfolioItemAsync(string blobName);
     }
 }
