@@ -16,7 +16,7 @@ namespace BuilderPulsePro.Blazor.Builders.Fields
         [Parameter]
         public bool ShowExtraFields { get; set; }
 
-        private bool HasAddress => Location != null && !string.IsNullOrEmpty(Location.Street1);
+        private bool HasAddress => Location != null && !string.IsNullOrEmpty(Location.Country);
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
@@ -38,13 +38,6 @@ namespace BuilderPulsePro.Blazor.Builders.Fields
                 return;
             }
             
-            //if (ShowExtraFields)
-            //{
-            //    Location.Name = address.Name;
-            //    Location.EmailAddress = address.EmailAddress;
-            //    Location.PhoneNumber = address.PhoneNumber;
-            //}
-
             Location.Street1 = address.Street1;
             Location.Street2 = address.Street2;
             Location.City = address.City;
@@ -54,7 +47,6 @@ namespace BuilderPulsePro.Blazor.Builders.Fields
             Location.Latitude = lat;
             Location.Longitude = lng;
 
-            //Address = address;
             if (OnLocationSelected.HasDelegate)
             {
                 await OnLocationSelected.InvokeAsync(Location);

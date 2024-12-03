@@ -67,9 +67,12 @@ namespace BuilderPulsePro.Blazor.Builders.Fields
         private void ValidateLocation(ValidatorEventArgs e)
         {
             if (string.IsNullOrEmpty(CurrentLocation.Name) || 
-                string.IsNullOrEmpty(CurrentLocation.Street1))
+                string.IsNullOrEmpty(CurrentLocation.Country))
             {
                 e.Status = ValidationStatus.Error;
+                e.ErrorText = string.IsNullOrEmpty(CurrentLocation.Name) ? 
+                    L["LocationMultiSelect:Error:NameRequired"] :
+                    L["LocationMultiSelect:Error:AddressRequired"];
             }
             else
             {

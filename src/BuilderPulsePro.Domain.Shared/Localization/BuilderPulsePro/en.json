@@ -80,6 +80,8 @@
     "LocationSelector:PhoneNumber": "Phone Number",
     "LocationMultiSelect:Actions": "Actions",
     "LocationMultiSelect:AddLocation": "Add Location",
-    "LocationMultiSelect:EditLocation": "Edit Location"
+    "LocationMultiSelect:EditLocation": "Edit Location",
+    "LocationMultiSelect:Error:NameRequired": "The Name field is required.",
+    "LocationMultiSelect:Error:AddressRequired": "The Address field is required."
   }
 }
