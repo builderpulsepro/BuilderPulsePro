@@ -66,7 +66,9 @@ public class BuilderPulseProEntityFrameworkCoreModule : AbpModule
             {
                 orderOptions.DefaultWithDetailsFunc = query => query
                     .Include(p => p.Locations)
-                    .Include(p => p.PortfolioItems);
+                    .Include(p => p.PortfolioItems)
+                    .Include(p => p.Collaborators)
+                    .Include(p => p.CollaboratorInvitations);
             });
         });
     }

@@ -34,6 +34,8 @@ public class BuilderPulseProDbContext :
     public DbSet<BuilderProfile> BuilderProfiles { get; set; }
     public DbSet<BuilderLocation> BuilderLocations { get; set; }
     public DbSet<BuilderPortfolioItem> BuilderPortfolioItems { get; set; }
+    public DbSet<BuilderCollaborator> BuilderCollaborators { get; set; }
+    public DbSet<BuilderCollaboratorInvitation> BuilderCollaboratorInvitations { get; set; }
 
     #region Entities from the modules
 
@@ -145,6 +147,28 @@ public class BuilderPulseProDbContext :
 
             portfolioItem.HasOne<BuilderProfile>()
                 .WithMany(x => x.PortfolioItems)
+                .HasForeignKey(x => x.BuilderProfileId)
+                .IsRequired();
+        });
+
+        builder.Entity<BuilderCollaborator>(collaborator =>
+        {
+            collaborator.ToTable(BuilderPulseProConsts.DbTablePrefix + "BuilderCollaborators");
+            collaborator.ConfigureByConvention();
+            collaborator.HasKey(x => x.Id);
+            collaborator.HasOne<BuilderProfile>()
+                .WithMany(x => x.Collaborators)
+                .HasForeignKey(x => x.BuilderProfileId)
+                .IsRequired();
+        });
+
+        builder.Entity<BuilderCollaboratorInvitation>(collaboratorInvitation =>
+        {
+            collaboratorInvitation.ToTable(BuilderPulseProConsts.DbTablePrefix + "BuilderCollaboratorInvitations");
+            collaboratorInvitation.ConfigureByConvention();
+            collaboratorInvitation.HasKey(x => x.Id);
+            collaboratorInvitation.HasOne<BuilderProfile>()
+                .WithMany(x => x.CollaboratorInvitations)
                 .HasForeignKey(x => x.BuilderProfileId)
                 .IsRequired();
         });

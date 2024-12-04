@@ -17,6 +17,8 @@ namespace BuilderPulsePro.Builders
 
         public virtual ICollection<BuilderLocation> Locations { get; set; }
         public virtual ICollection<BuilderPortfolioItem> PortfolioItems { get; set; }
+        public virtual ICollection<BuilderCollaborator> Collaborators { get; set; }
+        public virtual ICollection<BuilderCollaboratorInvitation> CollaboratorInvitations { get; set; }
 
         //public BuilderProfile()
         //{
