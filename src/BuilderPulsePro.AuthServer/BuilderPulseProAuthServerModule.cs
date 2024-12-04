@@ -54,6 +54,8 @@ using Microsoft.Extensions.Configuration;
 using Volo.Abp.Account.Localization;
 using Volo.Abp.Security.Claims;
 using Volo.Abp.Studio.Client.AspNetCore;
+using BuilderPulsePro.Domain.Shared.Options;
+using Microsoft.Extensions.Options;
 
 namespace BuilderPulsePro;
 
@@ -221,7 +223,7 @@ public class BuilderPulseProAuthServerModule : AbpModule
         {
             options.ClaimActions.MapJsonKey(AbpClaimTypes.Picture, "picture");
         })
-        .WithDynamicOptions<GoogleOptions, GoogleHandler>(
+        .WithDynamicOptions<Microsoft.AspNetCore.Authentication.Google.GoogleOptions, GoogleHandler>(
             GoogleDefaults.AuthenticationScheme,
             options =>
             {

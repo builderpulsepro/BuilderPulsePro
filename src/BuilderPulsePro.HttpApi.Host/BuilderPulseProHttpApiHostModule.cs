@@ -72,8 +72,6 @@ namespace BuilderPulsePro;
             Microsoft.IdentityModel.Logging.IdentityModelEventSource.LogCompleteSecurityArtifact = true;
         }
 
-        Configure<KeyOptions>(configuration.GetSection("Keys"));
-
         ConfigureUrls(configuration);
         ConfigureConventionalControllers();
         ConfigureAuthentication(context, configuration);
@@ -259,8 +257,6 @@ namespace BuilderPulsePro;
     private void ConfigureBlobs(ServiceConfigurationContext context, IConfiguration configuration,
         IWebHostEnvironment hostingEnvironment)
     {
-        var keyOptions = context.Services.GetServiceLazy<IOptions<KeyOptions>>();
-
         Configure<AbpBlobStoringOptions>(options =>
         {
             options.Containers.Configure<BuilderPortfolioContainer>(container =>
@@ -273,7 +269,7 @@ namespace BuilderPulsePro;
                 {
                     container.UseAzure(azure =>
                     {
-                        azure.ConnectionString = keyOptions.Value.Value.Azure.BlobStorageConnectionString;
+                        azure.ConnectionString = configuration["Azure:BlobStorageConnectionString"]!;
                         azure.ContainerName = "builder-portfolio";
                         azure.CreateContainerIfNotExists = true;
                     });
