@@ -2,66 +2,66 @@
 using System.IO;
 using Blazorise.Bootstrap5;
 using Blazorise.Icons.FontAwesome;
+using BuilderPulsePro.Blazor.Menus;
+using BuilderPulsePro.Domain.Shared.Options;
+using BuilderPulsePro.Localization;
+using BuilderPulsePro.MultiTenancy;
 using Medallion.Threading;
 using Medallion.Threading.Redis;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using BuilderPulsePro.Blazor.Menus;
-using BuilderPulsePro.Localization;
-using BuilderPulsePro.MultiTenancy;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Microsoft.OpenApi.Models;
+using StackExchange.Redis;
+using Syncfusion.Blazor;
 using Volo.Abp;
-using Volo.Abp.Studio;
-using Volo.Abp.AspNetCore.Components.Web.Theming.Routing;
-using Volo.Abp.AspNetCore.Mvc.Localization;
-using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
-using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
-using Volo.Abp.AspNetCore.Serilog;
-using Volo.Abp.UI.Navigation;
-using Volo.Abp.UI.Navigation.Urls;
-using Volo.Abp.VirtualFileSystem;
-using Volo.Abp.Autofac;
-using Volo.Abp.AutoMapper;
-using Volo.Abp.Localization;
-using Volo.Abp.Modularity;
-using Volo.Abp.Swashbuckle;
-using Volo.Abp.SettingManagement.Blazor.Server;
-using Volo.Abp.FeatureManagement.Blazor.Server;
 using Volo.Abp.Account.LinkUsers;
 using Volo.Abp.Account.Pro.Admin.Blazor.Server;
 using Volo.Abp.Account.Pro.Public.Blazor.Server;
 using Volo.Abp.Account.Public.Web.Impersonation;
-using Volo.Abp.Identity.Pro.Blazor;
-using Volo.Abp.Identity.Pro.Blazor.Server;
-using Volo.Abp.LanguageManagement.Blazor.Server;
-using Volo.Abp.TextTemplateManagement.Blazor.Server;
-using Volo.Abp.Gdpr.Blazor.Extensions;
-using Volo.Abp.Gdpr.Blazor.Server;
-using Volo.CmsKit.Pro.Admin.Blazor.Server;
-using Microsoft.AspNetCore.DataProtection;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using Microsoft.OpenApi.Models;
-using StackExchange.Redis;
 using Volo.Abp.AspNetCore.Authentication.OpenIdConnect;
+using Volo.Abp.AspNetCore.Components.Server.LeptonXTheme;
+using Volo.Abp.AspNetCore.Components.Server.LeptonXTheme.Bundling;
+using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme;
+using Volo.Abp.AspNetCore.Components.Web.Theming.Routing;
 using Volo.Abp.AspNetCore.Mvc.Client;
+using Volo.Abp.AspNetCore.Mvc.Localization;
+using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonX;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonX.Bundling;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
+using Volo.Abp.AspNetCore.Serilog;
+using Volo.Abp.Autofac;
+using Volo.Abp.AutoMapper;
 using Volo.Abp.Caching;
 using Volo.Abp.Caching.StackExchangeRedis;
 using Volo.Abp.DistributedLocking;
-using BuilderPulsePro.Blazor.Components.Layout;
-using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme;
-using Volo.Abp.AspNetCore.Components.Server.LeptonXTheme;
-using Volo.Abp.AspNetCore.Components.Server.LeptonXTheme.Bundling;
-using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonX;
-using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonX.Bundling;
-using Volo.Abp.LeptonX.Shared;
-using Volo.Abp.Http.Client.Web;
+using Volo.Abp.FeatureManagement.Blazor.Server;
+using Volo.Abp.Gdpr.Blazor.Extensions;
+using Volo.Abp.Gdpr.Blazor.Server;
 using Volo.Abp.Http.Client.IdentityModel.Web;
+using Volo.Abp.Http.Client.Web;
+using Volo.Abp.Identity.Pro.Blazor;
+using Volo.Abp.Identity.Pro.Blazor.Server;
+using Volo.Abp.LanguageManagement.Blazor.Server;
+using Volo.Abp.LeptonX.Shared;
+using Volo.Abp.Modularity;
 using Volo.Abp.Security.Claims;
+using Volo.Abp.SettingManagement.Blazor.Server;
+using Volo.Abp.Studio;
 using Volo.Abp.Studio.Client.AspNetCore;
+using Volo.Abp.Swashbuckle;
+using Volo.Abp.TextTemplateManagement.Blazor.Server;
+using Volo.Abp.UI.Navigation;
+using Volo.Abp.UI.Navigation.Urls;
+using Volo.Abp.VirtualFileSystem;
+using Volo.CmsKit.Pro.Admin.Blazor.Server;
 
 namespace BuilderPulsePro.Blazor;
 
@@ -116,6 +116,8 @@ public class BuilderPulseProBlazorModule : AbpModule
             Microsoft.IdentityModel.Logging.IdentityModelEventSource.LogCompleteSecurityArtifact = true;
         }
 
+        Configure<KeyOptions>(configuration.GetSection("Keys"));
+
         ConfigureUrls(configuration);
         ConfigureBundles();
         ConfigureAuthentication(context, configuration);
@@ -131,6 +133,8 @@ public class BuilderPulseProBlazorModule : AbpModule
         ConfigureRouter();
         ConfigureMenu(configuration);
         ConfigureTheme();
+
+        ConfigureSyncfusion(context, configuration);
     }
 
     private void ConfigureCookieConsent(ServiceConfigurationContext context)
@@ -337,6 +341,15 @@ public class BuilderPulseProBlazorModule : AbpModule
         context.Services
             .AddBootstrap5Providers()
             .AddFontAwesomeIcons();
+    }
+
+    private void ConfigureSyncfusion(ServiceConfigurationContext context,
+        IConfiguration configuration)
+    {
+        Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(configuration["Syncfusion:LicenseKey"]!);
+
+        context.Services
+            .AddSyncfusionBlazor();
     }
 
     private void ConfigureMenu(IConfiguration configuration)

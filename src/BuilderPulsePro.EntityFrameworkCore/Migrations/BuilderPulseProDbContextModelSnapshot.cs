@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using NetTopologySuite.Geometries;
 using Volo.Abp.EntityFrameworkCore;
 
 #nullable disable
@@ -23,6 +24,229 @@ namespace BuilderPulsePro.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+
+            modelBuilder.Entity("BuilderPulsePro.Builders.BuilderCollaborator", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("BuilderProfileId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BuilderProfileId");
+
+                    b.ToTable("BppBuilderCollaborators", (string)null);
+                });
+
+            modelBuilder.Entity("BuilderPulsePro.Builders.BuilderCollaboratorInvitation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("BuilderProfileId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("EmailAddress")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("InvitationDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsAccepted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BuilderProfileId");
+
+                    b.ToTable("BppBuilderCollaboratorInvitations", (string)null);
+                });
+
+            modelBuilder.Entity("BuilderPulsePro.Builders.BuilderLocation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("BuilderProfileId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<Point>("Coordinates")
+                        .IsRequired()
+                        .HasColumnType("geometry")
+                        .HasAnnotation("MySql:SpatialReferenceSystemId", 4326);
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("EmailAddress")
+                        .HasMaxLength(320)
+                        .HasColumnType("varchar(320)");
+
+                    b.Property<double>("Latitude")
+                        .HasColumnType("double");
+
+                    b.Property<double>("Longitude")
+                        .HasColumnType("double");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasMaxLength(15)
+                        .HasColumnType("varchar(15)");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Street1")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Street2")
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("ZipCode")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BuilderProfileId");
+
+                    b.HasIndex("Coordinates")
+                        .HasDatabaseName("IX_Location_Coordinates")
+                        .HasAnnotation("MySql:SpatialIndex", true);
+
+                    b.ToTable("BppBuilderLocations", (string)null);
+                });
+
+            modelBuilder.Entity("BuilderPulsePro.Builders.BuilderPortfolioItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("BlobName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<Guid>("BuilderProfileId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BuilderProfileId");
+
+                    b.ToTable("BppBuilderPortfolioItems", (string)null);
+                });
+
+            modelBuilder.Entity("BuilderPulsePro.Builders.BuilderProfile", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("BusinessLicenseNumber")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("varchar(40)")
+                        .HasColumnName("ConcurrencyStamp");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<Guid?>("DeleterId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("DeleterId");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("DeletionTime");
+
+                    b.Property<string>("EmailAddress")
+                        .HasMaxLength(320)
+                        .HasColumnType("varchar(320)");
+
+                    b.Property<string>("ExtraProperties")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint(1)")
+                        .HasDefaultValue(false)
+                        .HasColumnName("IsDeleted");
+
+                    b.Property<bool>("IsVerified")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("IssuingAuthority")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("IssuingState")
+                        .HasMaxLength(2)
+                        .HasColumnType("varchar(2)");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("LastModificationTime");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("LastModifierId");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasMaxLength(15)
+                        .HasColumnType("varchar(15)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
+
+                    b.HasIndex("DeleterId");
+
+                    b.HasIndex("LastModifierId");
+
+                    b.ToTable("BppBuilderProfiles", (string)null);
+                });
 
             modelBuilder.Entity("BuilderPulsePro.Subscriptions.UserSubscription", b =>
                 {
@@ -85,7 +309,7 @@ namespace BuilderPulsePro.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserSubscriptions", (string)null);
+                    b.ToTable("BppUserSubscriptions", (string)null);
                 });
 
             modelBuilder.Entity("Volo.Abp.BackgroundJobs.BackgroundJobRecord", b =>
@@ -3413,6 +3637,63 @@ namespace BuilderPulsePro.Migrations
                     b.ToTable("CmsUsers", (string)null);
                 });
 
+            modelBuilder.Entity("BuilderPulsePro.Builders.BuilderCollaborator", b =>
+                {
+                    b.HasOne("BuilderPulsePro.Builders.BuilderProfile", null)
+                        .WithMany("Collaborators")
+                        .HasForeignKey("BuilderProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("BuilderPulsePro.Builders.BuilderCollaboratorInvitation", b =>
+                {
+                    b.HasOne("BuilderPulsePro.Builders.BuilderProfile", null)
+                        .WithMany("CollaboratorInvitations")
+                        .HasForeignKey("BuilderProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("BuilderPulsePro.Builders.BuilderLocation", b =>
+                {
+                    b.HasOne("BuilderPulsePro.Builders.BuilderProfile", null)
+                        .WithMany("Locations")
+                        .HasForeignKey("BuilderProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("BuilderPulsePro.Builders.BuilderPortfolioItem", b =>
+                {
+                    b.HasOne("BuilderPulsePro.Builders.BuilderProfile", null)
+                        .WithMany("PortfolioItems")
+                        .HasForeignKey("BuilderProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("BuilderPulsePro.Builders.BuilderProfile", b =>
+                {
+                    b.HasOne("Volo.Abp.Identity.IdentityUser", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId");
+
+                    b.HasOne("Volo.Abp.Identity.IdentityUser", "Deleter")
+                        .WithMany()
+                        .HasForeignKey("DeleterId");
+
+                    b.HasOne("Volo.Abp.Identity.IdentityUser", "LastModifier")
+                        .WithMany()
+                        .HasForeignKey("LastModifierId");
+
+                    b.Navigation("Creator");
+
+                    b.Navigation("Deleter");
+
+                    b.Navigation("LastModifier");
+                });
+
             modelBuilder.Entity("Volo.Abp.BlobStoring.Database.DatabaseBlob", b =>
                 {
                     b.HasOne("Volo.Abp.BlobStoring.Database.DatabaseBlobContainer", null)
@@ -3573,6 +3854,17 @@ namespace BuilderPulsePro.Migrations
                         .HasForeignKey("PollId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("BuilderPulsePro.Builders.BuilderProfile", b =>
+                {
+                    b.Navigation("CollaboratorInvitations");
+
+                    b.Navigation("Collaborators");
+
+                    b.Navigation("Locations");
+
+                    b.Navigation("PortfolioItems");
                 });
 
             modelBuilder.Entity("Volo.Abp.Gdpr.GdprRequest", b =>

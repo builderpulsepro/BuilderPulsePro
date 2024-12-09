@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
@@ -17,7 +16,10 @@ public class BuilderPulseProDbContextFactory : IDesignTimeDbContextFactory<Build
         BuilderPulseProEfCoreEntityExtensionMappings.Configure();
 
         var builder = new DbContextOptionsBuilder<BuilderPulseProDbContext>()
-            .UseMySql(configuration.GetConnectionString("Default"), MySqlServerVersion.LatestSupportedServerVersion);
+            .UseMySql(configuration.GetConnectionString("Default"), MySqlServerVersion.LatestSupportedServerVersion, o =>
+            {
+                o.UseNetTopologySuite();
+            });
         
         return new BuilderPulseProDbContext(builder.Options);
     }

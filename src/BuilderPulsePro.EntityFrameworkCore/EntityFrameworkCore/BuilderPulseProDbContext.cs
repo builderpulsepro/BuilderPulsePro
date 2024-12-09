@@ -1,3 +1,8 @@
+using BuilderPulsePro.Builders;
+using BuilderPulsePro.Global;
+using BuilderPulsePro.Locations;
+using BuilderPulsePro.PortfolioItems;
+using BuilderPulsePro.Subscriptions;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
 using Volo.Abp.BlobStoring.Database.EntityFrameworkCore;
@@ -6,18 +11,15 @@ using Volo.Abp.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.Modeling;
 using Volo.Abp.FeatureManagement.EntityFrameworkCore;
+using Volo.Abp.Gdpr;
 using Volo.Abp.Identity;
 using Volo.Abp.Identity.EntityFrameworkCore;
+using Volo.Abp.LanguageManagement.EntityFrameworkCore;
+using Volo.Abp.OpenIddict.EntityFrameworkCore;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 using Volo.Abp.SettingManagement.EntityFrameworkCore;
-using Volo.Abp.OpenIddict.EntityFrameworkCore;
-using Volo.Abp.LanguageManagement.EntityFrameworkCore;
 using Volo.Abp.TextTemplateManagement.EntityFrameworkCore;
-using Volo.Abp.Gdpr;
 using Volo.CmsKit.EntityFrameworkCore;
-using BuilderPulsePro.Subscriptions;
-using System.Reflection.Emit;
-using BuilderPulsePro.Enums;
 
 namespace BuilderPulsePro.EntityFrameworkCore;
 
@@ -29,6 +31,11 @@ public class BuilderPulseProDbContext :
 {
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
     public DbSet<UserSubscription> UserSubscriptions { get; set; }
+    public DbSet<BuilderProfile> BuilderProfiles { get; set; }
+    public DbSet<BuilderLocation> BuilderLocations { get; set; }
+    public DbSet<BuilderPortfolioItem> BuilderPortfolioItems { get; set; }
+    public DbSet<BuilderCollaborator> BuilderCollaborators { get; set; }
+    public DbSet<BuilderCollaboratorInvitation> BuilderCollaboratorInvitations { get; set; }
 
     #region Entities from the modules
 
@@ -89,11 +96,81 @@ public class BuilderPulseProDbContext :
         //    //...
         //});
 
-        builder.Entity<UserSubscription>(b =>
+        builder.Entity<UserSubscription>(userSubscription =>
         {
-            b.ToTable("UserSubscriptions");
-            b.ConfigureByConvention();
-            b.Property(x => x.UserId).IsRequired();
+            userSubscription.ToTable(BuilderPulseProConsts.DbTablePrefix + "UserSubscriptions");
+            userSubscription.ConfigureByConvention();
+            userSubscription.Property(x => x.UserId).IsRequired();
+        });
+
+        builder.Entity<BuilderProfile>(builder =>
+        {
+            builder.ToTable(BuilderPulseProConsts.DbTablePrefix + "BuilderProfiles");
+            builder.ConfigureByConvention();
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.Name).IsRequired().HasMaxLength(BuilderProfileConsts.MaxNameLength);
+            builder.Property(x => x.BusinessLicenseNumber).IsRequired(false).HasMaxLength(BuilderProfileConsts.MaxBusinessLicenseNumberLength);
+            builder.Property(x => x.IssuingState).IsRequired(false).HasMaxLength(BuilderProfileConsts.MaxIssuingStateLength);
+            builder.Property(x => x.IssuingAuthority).IsRequired(false).HasMaxLength(BuilderProfileConsts.MaxIssuingAuthorityLength);
+            builder.Property(x => x.PhoneNumber).IsRequired(false).HasMaxLength(BuilderPulseProGlobalConsts.MaxPhoneNumberLength);
+            builder.Property(x => x.EmailAddress).IsRequired(false).HasMaxLength(BuilderPulseProGlobalConsts.MaxEmailAddressLength);
+        });
+
+        builder.Entity<BuilderLocation>(location =>
+        {
+            location.ToTable(BuilderPulseProConsts.DbTablePrefix + "BuilderLocations");
+            location.ConfigureByConvention();
+            location.HasKey(x => x.Id);
+            location.Property(x => x.Name).IsRequired(false).HasMaxLength(LocationConsts.MaxNameLength);
+            location.Property(x => x.EmailAddress).IsRequired(false).HasMaxLength(BuilderPulseProGlobalConsts.MaxEmailAddressLength);
+            location.Property(x => x.PhoneNumber).IsRequired(false).HasMaxLength(BuilderPulseProGlobalConsts.MaxPhoneNumberLength);
+            location.Property(x => x.Street1).IsRequired().HasMaxLength(LocationConsts.MaxStreetLength);
+            location.Property(x => x.Street2).IsRequired(false).HasMaxLength(LocationConsts.MaxStreetLength);
+            location.Property(x => x.City).IsRequired().HasMaxLength(LocationConsts.MaxCityLength);
+            location.Property(x => x.State).IsRequired().HasMaxLength(LocationConsts.MaxStateLength);
+            location.Property(x => x.Country).IsRequired().HasMaxLength(LocationConsts.MaxCountryLength);
+            location.Property(x => x.Coordinates).IsRequired().HasColumnType("geometry").HasSpatialReferenceSystem(4326);
+            location.HasIndex(x => x.Coordinates).HasDatabaseName("IX_Location_Coordinates").IsSpatial();
+
+            location.HasOne<BuilderProfile>()
+                .WithMany(x => x.Locations)
+                .HasForeignKey(x => x.BuilderProfileId)
+                .IsRequired();
+        });
+
+        builder.Entity<BuilderPortfolioItem>(portfolioItem =>
+        {
+            portfolioItem.ToTable(BuilderPulseProConsts.DbTablePrefix + "BuilderPortfolioItems");
+            portfolioItem.ConfigureByConvention();
+            portfolioItem.HasKey(x => x.Id);
+            portfolioItem.Property(x => x.Description).HasMaxLength(PortfolioItemConsts.MaxDescriptionLength);
+
+            portfolioItem.HasOne<BuilderProfile>()
+                .WithMany(x => x.PortfolioItems)
+                .HasForeignKey(x => x.BuilderProfileId)
+                .IsRequired();
+        });
+
+        builder.Entity<BuilderCollaborator>(collaborator =>
+        {
+            collaborator.ToTable(BuilderPulseProConsts.DbTablePrefix + "BuilderCollaborators");
+            collaborator.ConfigureByConvention();
+            collaborator.HasKey(x => x.Id);
+            collaborator.HasOne<BuilderProfile>()
+                .WithMany(x => x.Collaborators)
+                .HasForeignKey(x => x.BuilderProfileId)
+                .IsRequired();
+        });
+
+        builder.Entity<BuilderCollaboratorInvitation>(collaboratorInvitation =>
+        {
+            collaboratorInvitation.ToTable(BuilderPulseProConsts.DbTablePrefix + "BuilderCollaboratorInvitations");
+            collaboratorInvitation.ConfigureByConvention();
+            collaboratorInvitation.HasKey(x => x.Id);
+            collaboratorInvitation.HasOne<BuilderProfile>()
+                .WithMany(x => x.CollaboratorInvitations)
+                .HasForeignKey(x => x.BuilderProfileId)
+                .IsRequired();
         });
     }
 }

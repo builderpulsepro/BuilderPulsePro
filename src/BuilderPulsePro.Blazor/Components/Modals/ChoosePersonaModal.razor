@@ -2,8 +2,9 @@
 @using BuilderPulsePro.Users
 @inherits BuilderPulseProComponentBase
 @inject IUserAppService userAppService
+@inject NavigationManager Nav
 
-@if (CurrentUser.IsAuthenticated && (!CurrentPersona.HasValue || CurrentPersona == Persona.Undefined))
+@if (CurrentUser.IsAuthenticated)
 {
     <Modal @ref="choosePersonaModal">
         <ModalContent Size="ModalSize.Large">

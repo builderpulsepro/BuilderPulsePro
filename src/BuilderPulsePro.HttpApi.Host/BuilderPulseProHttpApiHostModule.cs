@@ -1,46 +1,47 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using BuilderPulsePro.EntityFrameworkCore;
+using BuilderPulsePro.HealthChecks;
+using BuilderPulsePro.MultiTenancy;
 using Medallion.Threading;
 using Medallion.Threading.Redis;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.MicrosoftAccount;
 using Microsoft.AspNetCore.Authentication.Twitter;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
-using Volo.Abp.PermissionManagement;
-using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using BuilderPulsePro.EntityFrameworkCore;
-using BuilderPulsePro.MultiTenancy;
-using StackExchange.Redis;
 using Microsoft.OpenApi.Models;
-using BuilderPulsePro.HealthChecks;
-using Volo.Abp.Caching.StackExchangeRedis;
-using Volo.Abp.DistributedLocking;
+using StackExchange.Redis;
 using Volo.Abp;
-using Volo.Abp.Studio;
-using Volo.Abp.Account;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.UI.MultiTenancy;
-using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Autofac;
 using Volo.Abp.Caching;
+using Volo.Abp.Caching.StackExchangeRedis;
+using Volo.Abp.DistributedLocking;
 using Volo.Abp.Identity.AspNetCore;
 using Volo.Abp.Modularity;
+using Volo.Abp.PermissionManagement;
 using Volo.Abp.Security.Claims;
+using Volo.Abp.Studio;
+using Volo.Abp.Studio.Client.AspNetCore;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
-using Volo.Abp.Studio.Client.AspNetCore;
-using Volo.Abp.AspNetCore.Authentication.JwtBearer;
+using Volo.Abp.BlobStoring.Azure;
+using BuilderPulsePro.Blobs;
+using Volo.Abp.BlobStoring;
+using Volo.Abp.BlobStoring.Database;
+using BuilderPulsePro.Domain.Shared.Options;
+using Microsoft.Extensions.Options;
 
 namespace BuilderPulsePro;
 
@@ -55,9 +56,10 @@ namespace BuilderPulsePro;
     typeof(BuilderPulseProApplicationModule),
     typeof(BuilderPulseProEntityFrameworkCoreModule),
     typeof(AbpSwashbuckleModule),
-    typeof(AbpAspNetCoreSerilogModule)
+    typeof(AbpAspNetCoreSerilogModule),
+    typeof(AbpBlobStoringAzureModule)
     )]
-public class BuilderPulseProHttpApiHostModule : AbpModule
+    public class BuilderPulseProHttpApiHostModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
@@ -81,6 +83,7 @@ public class BuilderPulseProHttpApiHostModule : AbpModule
         ConfigureCors(context, configuration);
         ConfigureExternalProviders(context);
         ConfigureHealthChecks(context);
+        ConfigureBlobs(context, configuration, hostingEnvironment);
 
         Configure<PermissionManagementOptions>(options =>
         {
@@ -225,7 +228,7 @@ public class BuilderPulseProHttpApiHostModule : AbpModule
     private void ConfigureExternalProviders(ServiceConfigurationContext context)
     {
         context.Services
-            .AddDynamicExternalLoginProviderOptions<GoogleOptions>(
+            .AddDynamicExternalLoginProviderOptions<Microsoft.AspNetCore.Authentication.Google.GoogleOptions>(
                 GoogleDefaults.AuthenticationScheme,
                 options =>
                 {
@@ -249,6 +252,30 @@ public class BuilderPulseProHttpApiHostModule : AbpModule
                     options.WithProperty(x => x.ConsumerSecret, isSecret: true);
                 }
             );
+    }
+
+    private void ConfigureBlobs(ServiceConfigurationContext context, IConfiguration configuration,
+        IWebHostEnvironment hostingEnvironment)
+    {
+        Configure<AbpBlobStoringOptions>(options =>
+        {
+            options.Containers.Configure<BuilderPortfolioContainer>(container =>
+            {
+                if (hostingEnvironment.IsDevelopment())
+                {
+                    container.UseDatabase();
+                }
+                else
+                {
+                    container.UseAzure(azure =>
+                    {
+                        azure.ConnectionString = configuration["Azure:BlobStorageConnectionString"]!;
+                        azure.ContainerName = "builder-portfolio";
+                        azure.CreateContainerIfNotExists = true;
+                    });
+                }
+            });
+        });
     }
 
     public override void OnApplicationInitialization(ApplicationInitializationContext context)
