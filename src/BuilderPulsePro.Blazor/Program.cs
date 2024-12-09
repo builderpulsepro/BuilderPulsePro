@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
@@ -23,15 +24,24 @@ public class Program
             var builder = WebApplication.CreateBuilder(args);
             builder.Host
                 .AddAppSettingsSecretsJson()
+                .AddAppSettingsKeysJson()
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                {
+                    var env = hostingContext.HostingEnvironment;
+
+                    config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                          .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
+                          .AddEnvironmentVariables();
+                })
                 .UseAutofac()
                 .UseSerilog((context, services, loggerConfiguration) =>
                 {
                     loggerConfiguration
-                    #if DEBUG
+                    //#if DEBUG
                         .MinimumLevel.Debug()
-                    #else
-                        .MinimumLevel.Information()
-                    #endif
+                    //#else
+                        //.MinimumLevel.Information()
+                    //#endif
                         .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
                         .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
                         .Enrich.FromLogContext()

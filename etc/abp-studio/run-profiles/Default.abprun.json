@@ -1,4 +1,4 @@
-﻿{
+{
   "applications": {
     "Docker-Dependencies": {
       "type": "cli",
@@ -52,6 +52,6 @@
       "execution": {
         "order": 2
       }
-}
+    }
   }
 }

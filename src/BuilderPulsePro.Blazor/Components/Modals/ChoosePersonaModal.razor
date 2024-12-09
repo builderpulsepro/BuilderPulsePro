@@ -1,0 +1,37 @@
+﻿@using BuilderPulsePro.Enums
+@using BuilderPulsePro.Users
+@inherits BuilderPulseProComponentBase
+@inject IUserAppService userAppService
+@inject NavigationManager Nav
+
+@if (CurrentUser.IsAuthenticated)
+{
+    <Modal @ref="choosePersonaModal">
+        <ModalContent Size="ModalSize.Large">
+            <ModalHeader>
+                <ModalTitle>
+                    <Span TextSize="TextSize.Heading3">@L["ChoosePersonaModal:Title"]</Span>
+                </ModalTitle>
+            </ModalHeader>
+            <ModalBody>
+                <Button Size="Size.Large" Block Outline Color="Color.Primary" Clicked="() => Close(Persona.Builder)">
+                    <Icon Name="@("fa-user-tie")" IconSize="IconSize.x2" Padding="Padding.Is1.FromEnd"></Icon>
+                    <Span TextSize="TextSize.Heading3">@L["ChoosePersonaModal:Builder"]</Span>
+                </Button>
+                <Button Size="Size.Large" Block Outline Color="Color.Primary" Clicked="() => Close(Persona.Client)">
+                    <Icon Name="@("fa-house-user")" IconSize="IconSize.x2" Padding="Padding.Is1.FromEnd"></Icon>
+                    <Span TextSize="TextSize.Heading3">@L["ChoosePersonaModal:Client"]</Span>
+                </Button>
+                <Button Size="Size.Large" Block Outline Color="Color.Primary" Clicked="() => Close(Persona.Contractor)">
+                    <Icon Name="@("fa-screwdriver-wrench")" IconSize="IconSize.x2" Padding="Padding.Is1.FromEnd"></Icon>
+                    <Span TextSize="TextSize.Heading3">@L["ChoosePersonaModal:Contractor"]</Span>
+                </Button>
+                <Button Size="Size.Large" Block Outline Color="Color.Primary" Clicked="() => Close(Persona.Investor)">
+                    <Icon Name="@("fa-sack-dollar")" IconSize="IconSize.x2" Padding="Padding.Is1.FromEnd"></Icon>
+                    <Span TextSize="TextSize.Heading3">@L["ChoosePersonaModal:Investor"]</Span>
+                </Button>
+            </ModalBody>
+            <ModalFooter></ModalFooter>
+        </ModalContent>
+    </Modal>
+}

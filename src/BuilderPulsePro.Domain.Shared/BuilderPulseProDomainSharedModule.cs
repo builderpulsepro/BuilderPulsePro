@@ -15,6 +15,7 @@ using Volo.Abp.LanguageManagement;
 using Volo.Abp.TextTemplateManagement;
 using Volo.Abp.Gdpr;
 using Volo.CmsKit;
+using Volo.Abp.BlobStoring;
 
 namespace BuilderPulsePro;
 
@@ -31,7 +32,8 @@ namespace BuilderPulsePro;
     typeof(CmsKitProDomainSharedModule),
     typeof(BlobStoringDatabaseDomainSharedModule)
     )]
-public class BuilderPulseProDomainSharedModule : AbpModule
+[DependsOn(typeof(AbpBlobStoringModule))]
+    public class BuilderPulseProDomainSharedModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {

@@ -12,11 +12,12 @@ class Program
     {
         using (var application = await AbpApplicationFactory.CreateAsync<BuilderPulseProConsoleApiClientModule>(options =>
         {
-           var builder = new ConfigurationBuilder();
-           builder.AddJsonFile("appsettings.json", false);
-           builder.AddJsonFile("appsettings.secrets.json", true);
-           options.Services.ReplaceConfiguration(builder.Build());
-           options.UseAutofac();
+            var builder = new ConfigurationBuilder();
+            builder.AddJsonFile("appsettings.json", false);
+            builder.AddJsonFile("appsettings.secrets.json", true);
+            builder.AddJsonFile("appsettings.Development.json", optional: true);
+            options.Services.ReplaceConfiguration(builder.Build());
+            options.UseAutofac();
         }))
         {
             await application.InitializeAsync();

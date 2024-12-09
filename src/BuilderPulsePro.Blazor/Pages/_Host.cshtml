@@ -1,12 +1,18 @@
 ﻿@page "/"
 @namespace BuilderPulsePro.Blazor.Pages
 @using System.Globalization
+@using BuilderPulsePro.Domain.Shared.Options
 @using Volo.Abp.AspNetCore.Components.Web.LeptonXTheme.Components
 @using Volo.Abp.AspNetCore.Components.Server.LeptonXTheme.Bundling
 @using Volo.Abp.Localization
+
+@inject Microsoft.Extensions.Options.IOptions<KeyOptions> KeyOptions
+
 @{
     Layout = null;
     var rtl = CultureHelper.IsRtl ? "rtl" : string.Empty;
+
+    var MapsApiKey = KeyOptions.Value.Google.MapsApiKey;
 }
 
 <!DOCTYPE html>
@@ -16,6 +22,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BuilderPulsePro</title>
     <base href="~/" />
+
+    <link href="_content/Syncfusion.Blazor.Themes/bootstrap5.css" rel="stylesheet" />
     
     <abp-style-bundle name="@BlazorLeptonXThemeBundles.Styles.Global" />
 </head>
@@ -34,5 +42,8 @@
     </div>
 
     <abp-script-bundle name="@BlazorLeptonXThemeBundles.Scripts.Global" />
+    <script src="_content/Syncfusion.Blazor.Core/scripts/syncfusion-blazor.min.js" type="text/javascript"></script>
+    <script src=@($"https://maps.googleapis.com/maps/api/js?key={MapsApiKey}&libraries=places")></script>
+    <script src="js/site.js"></script>
 </body>
 </html>

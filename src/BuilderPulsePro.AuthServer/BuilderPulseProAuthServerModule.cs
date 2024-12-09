@@ -1,59 +1,55 @@
 using System;
 using System.IO;
 using System.Linq;
-using Localization.Resources.AbpUi;
-using Medallion.Threading;
-using Medallion.Threading.Redis;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.AspNetCore.Extensions.DependencyInjection;
-using Volo.Abp.Caching.StackExchangeRedis;
-using Volo.Abp.DistributedLocking;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using BuilderPulsePro.EntityFrameworkCore;
 using BuilderPulsePro.Localization;
 using BuilderPulsePro.MultiTenancy;
+using Localization.Resources.AbpUi;
+using Medallion.Threading;
+using Medallion.Threading.Redis;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authentication.MicrosoftAccount;
+using Microsoft.AspNetCore.Authentication.Twitter;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using OpenIddict.Server.AspNetCore;
 using OpenIddict.Validation.AspNetCore;
 using StackExchange.Redis;
 using Volo.Abp;
-using Volo.Abp.Studio;
-using Volo.Abp.AspNetCore.Mvc.UI;
-using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap;
+using Volo.Abp.Account;
+using Volo.Abp.Account.Localization;
+using Volo.Abp.Account.Public.Web;
+using Volo.Abp.Account.Public.Web.ExternalProviders;
+using Volo.Abp.Account.Public.Web.Impersonation;
+using Volo.Abp.Account.Web;
 using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonX;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonX.Bundling;
-using Volo.Abp.LeptonX.Shared;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Autofac;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.Caching;
+using Volo.Abp.Caching.StackExchangeRedis;
+using Volo.Abp.DistributedLocking;
 using Volo.Abp.Identity;
+using Volo.Abp.LeptonX.Shared;
 using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
-using Volo.Abp.UI.Navigation.Urls;
-using Volo.Abp.UI;
-using Volo.Abp.VirtualFileSystem;
-using Volo.Abp.Account;
-using Volo.Abp.Account.Web;
-using Volo.Abp.Account.Public.Web;
-using Volo.Abp.Account.Public.Web.ExternalProviders;
-using Volo.Abp.Account.Public.Web.Impersonation;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Google;
-using Microsoft.AspNetCore.Authentication.MicrosoftAccount;
-using Microsoft.AspNetCore.Authentication.Twitter;
 using Volo.Abp.OpenIddict;
-using System.Security.Cryptography.X509Certificates;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Volo.Abp.Account.Localization;
 using Volo.Abp.Security.Claims;
+using Volo.Abp.Studio;
 using Volo.Abp.Studio.Client.AspNetCore;
+using Volo.Abp.UI.Navigation.Urls;
+using Volo.Abp.VirtualFileSystem;
 
 namespace BuilderPulsePro;
 
@@ -221,7 +217,7 @@ public class BuilderPulseProAuthServerModule : AbpModule
         {
             options.ClaimActions.MapJsonKey(AbpClaimTypes.Picture, "picture");
         })
-        .WithDynamicOptions<GoogleOptions, GoogleHandler>(
+        .WithDynamicOptions<Microsoft.AspNetCore.Authentication.Google.GoogleOptions, GoogleHandler>(
             GoogleDefaults.AuthenticationScheme,
             options =>
             {
