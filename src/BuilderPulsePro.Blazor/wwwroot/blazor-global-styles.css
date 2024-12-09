@@ -59,3 +59,51 @@
     .delete-button:hover {
         opacity: 1;
     }
+
+.control-container {
+    background-color: #e5e5e5;
+    height: 600px;
+    margin: 0 auto;
+    width: 800px;
+}
+
+.e-carousel .e-carousel-items .e-carousel-item .img-container {
+    height: 100%;
+}
+
+.e-carousel .e-carousel-items .e-carousel-item .img-caption {
+    bottom: 4em;
+    color: #fff;
+    font-size: 12pt;
+    height: 2em;
+    position: relative;
+    padding: 0.3em 1em;
+    text-align: center;
+    width: 100%;
+}
+
+.e-carousel .e-carousel-indicators {
+    bottom: auto;
+}
+
+.template-carousel .e-carousel-items,
+.template-carousel .e-carousel-navigators {
+    height: calc(100% - 3rem);
+}
+
+.template-carousel .e-carousel-indicators .e-indicator-bars .e-indicator-bar .indicator {
+    background-color: #ECECEC;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    height: 4rem;
+    margin: 0.6rem;
+    width: 6rem;
+}
+
+.template-carousel .e-carousel-indicators .e-indicator-bars .e-indicator-bar .indicator img {
+    padding: 2px;
+}
+
+.template-carousel .e-carousel-indicators .e-indicator-bars .e-indicator-bar.e-active .indicator {
+    background-color: #3C78EF;
+}

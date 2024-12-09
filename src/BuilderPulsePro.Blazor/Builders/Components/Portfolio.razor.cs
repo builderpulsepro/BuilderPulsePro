@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Blazorise;
 using BuilderPulsePro.Builders;
 using Microsoft.AspNetCore.Components;
+using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Pagination;
 
 namespace BuilderPulsePro.Blazor.Builders.Components
 {
@@ -28,6 +30,7 @@ namespace BuilderPulsePro.Blazor.Builders.Components
 
                     PortfolioItems.Add(new CreateUpdateBuilderPortfolioItemDto
                     {
+                        Id = GuidGenerator.Create(),
                         BlobName = savedBlobName,
                         Description = "Test"
                     });
@@ -43,5 +46,75 @@ namespace BuilderPulsePro.Blazor.Builders.Components
             await Task.CompletedTask;
         }
 
+        private IEnumerable<CreateUpdateBuilderPortfolioItemDto> AllItems => PortfolioItems == null ? [] : PortfolioItems.Where(x => !x.IsDeleted);
+
+        private List<CreateUpdateBuilderPortfolioItemDto> VisibleIndicators = new();
+
+        private void UpdateVisibleIndicators()
+        {
+            VisibleIndicators.Clear();
+            int totalItems = AllItems.Count();
+
+            if (totalItems <= 5)
+            {
+                // Show all items if there are fewer than 5
+                VisibleIndicators.AddRange(AllItems);
+            }
+            else
+            {
+                for (int i = -2; i <= 2; i++) // Show 2 items before and after the current index
+                {
+                    int wrappedIndex = (_selectedIndex + i + totalItems) % totalItems; // Handle circular indices
+                    VisibleIndicators.Add(AllItems.ToArray()[wrappedIndex]);
+                }
+            }
+        }
+
+        protected override void OnParametersSet()
+        {
+            base.OnParametersSet();
+            // Initialize the carousel with the selected index, e.g., 0
+            UpdateVisibleIndicators();
+        }
+
+        private void OnSelectedIndexChanged(int selectedIndex)
+        {
+            _selectedIndex = selectedIndex;
+            UpdateVisibleIndicators();
+        }
+
+        private bool IsIndexInVisibleIndicators(int index)
+        {
+            int totalItems = AllItems.Count();
+
+            if (totalItems == 0)
+            {
+                return false;
+            }
+
+            // Calculate the valid indices for visible items
+            for (int i = -2; i <= 2; i++)
+            {
+                int wrappedIndex = (_selectedIndex + i + totalItems) % totalItems;
+                if (wrappedIndex == index) return true;
+            }
+
+            return false;
+        }
+
+        private string GetVisibleBlobName(int index)
+        {
+            int totalItems = AllItems.Count();
+
+            for (int i = -2; i <= 2; i++)
+            {
+                int wrappedIndex = (_selectedIndex + i + totalItems) % totalItems;
+                if (wrappedIndex == index) return AllItems.ToArray()[wrappedIndex].BlobName;
+            }
+
+            return string.Empty; // Fallback (shouldn't happen if logic is correct)
+        }
+
+        private int _selectedIndex = 0;
     }
 }

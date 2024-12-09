@@ -16,10 +16,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.OpenApi.Models;
 using StackExchange.Redis;
+using Syncfusion.Blazor;
 using Volo.Abp;
 using Volo.Abp.Account.LinkUsers;
 using Volo.Abp.Account.Pro.Admin.Blazor.Server;
@@ -133,6 +133,8 @@ public class BuilderPulseProBlazorModule : AbpModule
         ConfigureRouter();
         ConfigureMenu(configuration);
         ConfigureTheme();
+
+        ConfigureSyncfusion(context, configuration);
     }
 
     private void ConfigureCookieConsent(ServiceConfigurationContext context)
@@ -339,6 +341,15 @@ public class BuilderPulseProBlazorModule : AbpModule
         context.Services
             .AddBootstrap5Providers()
             .AddFontAwesomeIcons();
+    }
+
+    private void ConfigureSyncfusion(ServiceConfigurationContext context,
+        IConfiguration configuration)
+    {
+        Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(configuration["Syncfusion:LicenseKey"]!);
+
+        context.Services
+            .AddSyncfusionBlazor();
     }
 
     private void ConfigureMenu(IConfiguration configuration)
