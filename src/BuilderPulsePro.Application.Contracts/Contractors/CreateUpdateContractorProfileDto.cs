@@ -2,21 +2,21 @@
 using System.ComponentModel.DataAnnotations;
 using BuilderPulsePro.Global;
 
-namespace BuilderPulsePro.Builders
+namespace BuilderPulsePro.Contractors
 {
-    public class CreateUpdateBuilderProfileDto
+    public class CreateUpdateContractorProfileDto
     {
         [Required]
-        [StringLength(BuilderProfileConsts.MaxNameLength)]
+        [StringLength(ContractorProfileConsts.MaxNameLength)]
         public string Name { get; set; } = string.Empty;
 
-        [StringLength(BuilderProfileConsts.MaxBusinessLicenseNumberLength)]
+        [StringLength(ContractorProfileConsts.MaxBusinessLicenseNumberLength)]
         public string? BusinessLicenseNumber { get; set; }
 
-        [StringLength(BuilderProfileConsts.MaxIssuingStateLength)]
+        [StringLength(ContractorProfileConsts.MaxIssuingStateLength)]
         public string? IssuingState { get; set; }
 
-        [StringLength(BuilderProfileConsts.MaxIssuingAuthorityLength)]
+        [StringLength(ContractorProfileConsts.MaxIssuingAuthorityLength)]
         public string? IssuingAuthority { get; set; }
 
         //public bool IsVerified { get; set; }
@@ -29,8 +29,8 @@ namespace BuilderPulsePro.Builders
         [StringLength(BuilderPulseProGlobalConsts.MaxEmailAddressLength)]
         public string? EmailAddress { get; set; }
 
-        public ICollection<CreateUpdateBuilderLocationDto> Locations { get; set; } = new List<CreateUpdateBuilderLocationDto>();
+        public ICollection<CreateUpdateContractorLocationDto> Locations { get; set; } = new List<CreateUpdateContractorLocationDto>();
 
-        public ICollection<CreateUpdateBuilderPortfolioItemDto> PortfolioItems { get; set; } = new List<CreateUpdateBuilderPortfolioItemDto>();
+        public ICollection<CreateUpdateContractorPortfolioItemDto> PortfolioItems { get; set; } = new List<CreateUpdateContractorPortfolioItemDto>();
     }
 }

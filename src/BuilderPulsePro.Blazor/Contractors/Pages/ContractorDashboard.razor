@@ -1,0 +1,56 @@
+﻿@page "/ContractorDashboard"
+@using BuilderPulsePro.Contractors
+@inherits BuilderPulseProComponentBase
+@inject IContractorProfileAppService contractorAppService
+
+@if (Profile != null) {
+    <Row>
+        <Column ColumnSize="ColumnSize.IsHalf">
+            <Card>
+                <CardHeader>
+                    <h3>@L["ContractorDashboard:Projects"]</h3>
+                </CardHeader>
+            </Card>
+        </Column>
+        <Column ColumnSize="ColumnSize.IsHalf">
+            <Card>
+                <CardHeader>
+                    <h3>@L["ContractorDashboard:Profile"]</h3>
+                    <Div Margin="Margin.Is2.FromBottom">
+                        @L["ContractorDashboard:Name"]: @Profile.Name
+                    </Div>
+                    @if (!string.IsNullOrEmpty(Profile.EmailAddress))
+                    {
+                        <Div Margin="Margin.Is2.FromBottom">
+                            @L["ContractorDashboard:EmailAddress"]: @Profile.EmailAddress
+                        </Div>
+                    }
+                    @if (!string.IsNullOrEmpty(Profile.PhoneNumber))
+                    {
+                        <Div Margin="Margin.Is2.FromBottom">
+                            @L["ContractorDashboard:PhoneNumber"]: @Profile.PhoneNumber
+                        </Div>
+                    }
+                    <Button Color="Color.Primary" Type="ButtonType.Link" To="@($"/ContractorProfile/{Profile.Id}")" Margin="Margin.Is2.FromBottom">@L["ContractorDashboard:Edit"]</Button>
+                </CardHeader>
+            </Card>
+        </Column>
+    </Row>
+}
+else {
+    <Row>
+        <Column ColumnSize="ColumnSize.IsHalf">
+            <Card>
+                <CardHeader>
+                    <h3>@L["BuilderDashboard:Profile"]</h3>
+                    <Div Margin="Margin.Is2.FromBottom">
+                        @L["BuilderDashboard:ProfileNotFound"]
+                    </Div>
+                    <Button Color="Color.Primary" Type="ButtonType.Link" To="/ContractorProfile" Margin="Margin.Is2.FromBottom">@L["BuilderDashboard:Create"]</Button>
+                </CardHeader>
+            </Card>
+        </Column>
+    </Row>
+}
+
+
