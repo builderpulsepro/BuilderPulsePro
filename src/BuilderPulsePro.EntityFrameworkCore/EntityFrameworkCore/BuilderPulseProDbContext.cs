@@ -1,8 +1,10 @@
+using System.Threading.Tasks;
 using BuilderPulsePro.Builders;
 using BuilderPulsePro.Contractors;
 using BuilderPulsePro.Global;
 using BuilderPulsePro.Locations;
 using BuilderPulsePro.PortfolioItems;
+using BuilderPulsePro.Projects;
 using BuilderPulsePro.Subscriptions;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
@@ -123,6 +125,7 @@ public class BuilderPulseProDbContext :
             builder.Property(x => x.IssuingAuthority).IsRequired(false).HasMaxLength(BuilderProfileConsts.MaxIssuingAuthorityLength);
             builder.Property(x => x.PhoneNumber).IsRequired(false).HasMaxLength(BuilderPulseProGlobalConsts.MaxPhoneNumberLength);
             builder.Property(x => x.EmailAddress).IsRequired(false).HasMaxLength(BuilderPulseProGlobalConsts.MaxEmailAddressLength);
+
         });
 
         builder.Entity<BuilderLocation>(location =>
@@ -254,5 +257,36 @@ public class BuilderPulseProDbContext :
                 .IsRequired();
         });
         // END CONTRACTORS
+
+        // PROJECTS
+        builder.Entity<Project>(project =>
+        {
+            project.ToTable(BuilderPulseProConsts.DbTablePrefix + "Projects");
+            project.ConfigureByConvention();
+            project.HasKey(x => x.Id);
+            project.Property(x => x.Title).IsRequired().HasMaxLength(ProjectConsts.MaxTitleLength);
+
+            project.HasOne<BuilderProfile>()
+                .WithMany(x => x.Projects)
+                .HasForeignKey(x => x.BuilderProfileID);
+        });
+
+        builder.Entity<ProjectTask>(task =>
+        {
+            task.ToTable(BuilderPulseProConsts.DbTablePrefix + "ProjectTasks");
+            task.ConfigureByConvention();
+            task.HasKey(x => x.Id);
+            task.Property(x => x.Title).IsRequired().HasMaxLength(ProjectTaskConsts.MaxTitleLength);
+
+            task.HasOne<Project>()
+                .WithMany(x => x.ProjectTasks)
+                .HasForeignKey(x => x.ProjectId)
+                .IsRequired();
+
+            task.HasOne<ContractorProfile>()
+                .WithMany(x => x.ProjectTasks)
+                .HasForeignKey(x => x.ContractorProfileId);
+        });
+        // END PROJECTS
     }
 }

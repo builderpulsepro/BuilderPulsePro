@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BuilderPulsePro.Projects;
 using Volo.Abp.Domain.Entities.Auditing;
 using Volo.Abp.Identity;
 
@@ -20,9 +21,6 @@ namespace BuilderPulsePro.Contractors
         public virtual ICollection<ContractorCollaborator> Collaborators { get; set; }
         public virtual ICollection<ContractorCollaboratorInvitation> CollaboratorInvitations { get; set; }
 
-        //public BuilderProfile()
-        //{
-        //    Locations = new List<BuilderLocation>();
-        //}
+        public virtual ICollection<ProjectTask> ProjectTasks { get; set; }
     }
 }
