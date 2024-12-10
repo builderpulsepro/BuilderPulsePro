@@ -1,4 +1,5 @@
 using BuilderPulsePro.Builders;
+using BuilderPulsePro.Contractors;
 using BuilderPulsePro.Global;
 using BuilderPulsePro.Locations;
 using BuilderPulsePro.PortfolioItems;
@@ -36,6 +37,11 @@ public class BuilderPulseProDbContext :
     public DbSet<BuilderPortfolioItem> BuilderPortfolioItems { get; set; }
     public DbSet<BuilderCollaborator> BuilderCollaborators { get; set; }
     public DbSet<BuilderCollaboratorInvitation> BuilderCollaboratorInvitations { get; set; }
+    public DbSet<ContractorProfile> ContractorProfiles { get; set; }
+    public DbSet<ContractorLocation> ContractorLocations { get; set; }
+    public DbSet<ContractorPortfolioItem> ContractorPortfolioItems { get; set; }
+    public DbSet<ContractorCollaborator> ContractorCollaborators { get; set; }
+    public DbSet<ContractorCollaboratorInvitation> ContractorCollaboratorInvitations { get; set; }
 
     #region Entities from the modules
 
@@ -96,13 +102,16 @@ public class BuilderPulseProDbContext :
         //    //...
         //});
 
+        // USERS
         builder.Entity<UserSubscription>(userSubscription =>
         {
             userSubscription.ToTable(BuilderPulseProConsts.DbTablePrefix + "UserSubscriptions");
             userSubscription.ConfigureByConvention();
             userSubscription.Property(x => x.UserId).IsRequired();
         });
+        // END USERS
 
+        // BUILDERS
         builder.Entity<BuilderProfile>(builder =>
         {
             builder.ToTable(BuilderPulseProConsts.DbTablePrefix + "BuilderProfiles");
@@ -172,5 +181,78 @@ public class BuilderPulseProDbContext :
                 .HasForeignKey(x => x.BuilderProfileId)
                 .IsRequired();
         });
+        // END BUILDERS
+
+        // CONTRACTORS
+        builder.Entity<ContractorProfile>(builder =>
+        {
+            builder.ToTable(BuilderPulseProConsts.DbTablePrefix + "ContractorProfiles");
+            builder.ConfigureByConvention();
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.Name).IsRequired().HasMaxLength(ContractorProfileConsts.MaxNameLength);
+            builder.Property(x => x.BusinessLicenseNumber).IsRequired(false).HasMaxLength(ContractorProfileConsts.MaxBusinessLicenseNumberLength);
+            builder.Property(x => x.IssuingState).IsRequired(false).HasMaxLength(ContractorProfileConsts.MaxIssuingStateLength);
+            builder.Property(x => x.IssuingAuthority).IsRequired(false).HasMaxLength(ContractorProfileConsts.MaxIssuingAuthorityLength);
+            builder.Property(x => x.PhoneNumber).IsRequired(false).HasMaxLength(BuilderPulseProGlobalConsts.MaxPhoneNumberLength);
+            builder.Property(x => x.EmailAddress).IsRequired(false).HasMaxLength(BuilderPulseProGlobalConsts.MaxEmailAddressLength);
+        });
+
+        builder.Entity<ContractorLocation>(location =>
+        {
+            location.ToTable(BuilderPulseProConsts.DbTablePrefix + "ContractorLocations");
+            location.ConfigureByConvention();
+            location.HasKey(x => x.Id);
+            location.Property(x => x.Name).IsRequired(false).HasMaxLength(LocationConsts.MaxNameLength);
+            location.Property(x => x.EmailAddress).IsRequired(false).HasMaxLength(BuilderPulseProGlobalConsts.MaxEmailAddressLength);
+            location.Property(x => x.PhoneNumber).IsRequired(false).HasMaxLength(BuilderPulseProGlobalConsts.MaxPhoneNumberLength);
+            location.Property(x => x.Street1).IsRequired().HasMaxLength(LocationConsts.MaxStreetLength);
+            location.Property(x => x.Street2).IsRequired(false).HasMaxLength(LocationConsts.MaxStreetLength);
+            location.Property(x => x.City).IsRequired().HasMaxLength(LocationConsts.MaxCityLength);
+            location.Property(x => x.State).IsRequired().HasMaxLength(LocationConsts.MaxStateLength);
+            location.Property(x => x.Country).IsRequired().HasMaxLength(LocationConsts.MaxCountryLength);
+            location.Property(x => x.Coordinates).IsRequired().HasColumnType("geometry").HasSpatialReferenceSystem(4326);
+            location.HasIndex(x => x.Coordinates).HasDatabaseName("IX_Location_Coordinates").IsSpatial();
+
+            location.HasOne<ContractorProfile>()
+                .WithMany(x => x.Locations)
+                .HasForeignKey(x => x.ContractorProfileId)
+                .IsRequired();
+        });
+
+        builder.Entity<ContractorPortfolioItem>(portfolioItem =>
+        {
+            portfolioItem.ToTable(BuilderPulseProConsts.DbTablePrefix + "ContractorPortfolioItems");
+            portfolioItem.ConfigureByConvention();
+            portfolioItem.HasKey(x => x.Id);
+            portfolioItem.Property(x => x.Description).HasMaxLength(PortfolioItemConsts.MaxDescriptionLength);
+
+            portfolioItem.HasOne<ContractorProfile>()
+                .WithMany(x => x.PortfolioItems)
+                .HasForeignKey(x => x.ContractorProfileId)
+                .IsRequired();
+        });
+
+        builder.Entity<ContractorCollaborator>(collaborator =>
+        {
+            collaborator.ToTable(BuilderPulseProConsts.DbTablePrefix + "ContractorCollaborators");
+            collaborator.ConfigureByConvention();
+            collaborator.HasKey(x => x.Id);
+            collaborator.HasOne<ContractorProfile>()
+                .WithMany(x => x.Collaborators)
+                .HasForeignKey(x => x.ContractorProfileId)
+                .IsRequired();
+        });
+
+        builder.Entity<ContractorCollaboratorInvitation>(collaboratorInvitation =>
+        {
+            collaboratorInvitation.ToTable(BuilderPulseProConsts.DbTablePrefix + "ContractorCollaboratorInvitations");
+            collaboratorInvitation.ConfigureByConvention();
+            collaboratorInvitation.HasKey(x => x.Id);
+            collaboratorInvitation.HasOne<ContractorProfile>()
+                .WithMany(x => x.CollaboratorInvitations)
+                .HasForeignKey(x => x.ContractorProfileId)
+                .IsRequired();
+        });
+        // END CONTRACTORS
     }
 }

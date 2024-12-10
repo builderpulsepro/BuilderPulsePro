@@ -1,0 +1,41 @@
+﻿@using BuilderPulsePro.Contractors
+@using Volo.Abp.Guids
+@inherits BuilderPulseProComponentBase
+@inject IGuidGenerator GuidGenerator
+
+<DataGrid @ref="gridRef" TItem="CreateUpdateContractorLocationDto" Data="Locations" Striped RowSelectable="@(x => false)" Editable>
+    <DataGridColumns>
+        <DataGridColumn Field="@nameof(CreateUpdateContractorLocationDto.Name)" Caption="@L["LocationSelector:Name"]"></DataGridColumn>
+        <DataGridColumn Field="@nameof(CreateUpdateContractorLocationDto.Street1)" Caption="@L["LocationSelector:Street1"]"></DataGridColumn>
+        <DataGridEntityActionsColumn Caption="@L["LocationMultiSelect:Actions"]">
+            <DisplayTemplate>
+                <Button Color="Color.Primary" Clicked="() => ShowLocationModal(context)"><Icon Name="IconName.Edit"></Icon></Button>
+                <Button Color="Color.Danger" Clicked="() => DeleteLocation(context)"><Icon Name="IconName.Delete"></Icon></Button>
+            </DisplayTemplate>
+        </DataGridEntityActionsColumn>
+    </DataGridColumns>
+</DataGrid>
+<Button Color="Color.Primary" Clicked="() => ShowLocationModal(new CreateUpdateContractorLocationDto())">Add Location</Button>
+<Modal @ref="LocationModal">
+    <ModalContent Size="ModalSize.Large">
+        <ModalHeader>
+            <ModalTitle>
+                @(CurrentLocation != null && CurrentLocation.Id.HasValue ? L["LocationMultiSelect:EditLocation"] : L["LocationMultiSelect:AddLocation"])
+            </ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            <Validations @ref="@Validator" Mode="ValidationMode.Manual">
+                <Validation Validator="ValidateLocation">
+                    <LocationSelector Location="CurrentLocation" ShowExtraFields="true" OnLocationSelected="HandleLocationSelected" />
+                    <Blazorise.ValidationSummary>
+                    </Blazorise.ValidationSummary>
+                </Validation>
+            </Validations>
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Light" Clicked="CloseLocationModal">Cancel</Button>
+            <Button Color="Color.Primary" Clicked="SaveLocation">Save</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>

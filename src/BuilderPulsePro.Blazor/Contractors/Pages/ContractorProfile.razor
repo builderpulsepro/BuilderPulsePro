@@ -1,0 +1,109 @@
+﻿@page "/ContractorProfile/{Id:guid?}"
+
+@using BuilderPulsePro.Blazor.Contractors.Fields
+@using BuilderPulsePro.Blazor.Contractors.Components
+@using BuilderPulsePro.Contractors
+@using BuilderPulsePro.Localization
+@using BuilderPulsePro.Locations
+@using Volo.Abp.AspNetCore.Components.Web
+@inject AbpBlazorMessageLocalizerHelper<BuilderPulseProResource> LH
+@inherits BuilderPulseProComponentBase
+@inject NavigationManager Nav
+@inject IContractorProfileAppService contractorAppService
+
+<Card>
+    <CardBody>
+        <CardTitle Size="2" Margin="Margin.Is2.FromBottom">@L["ContractorProfile:CardTitle"]</CardTitle>
+        <Validations @ref="@Validator" Model="Profile" ValidateOnLoad="false">
+            <Tabs TabPosition="TabPosition.Start" SelectedTab="@selectedTab" SelectedTabChanged="@OnSelectedTabChanged">
+                <Items>
+                    <Tab Name="General">@L["ContractorProfile:TabGeneral"]</Tab>
+                    <Tab Name="License">@L["ContractorProfile:TabLicense"]</Tab>
+                    <Tab Name="Contributors" Visibility="Visibility.Invisible">@L["ContractorProfile:TabContributors"]</Tab>
+                    <Tab Name="Portfolio">@L["ContractorProfile:TabPortfolio"]</Tab>
+                </Items>
+                <Content>
+                    <TabPanel Name="General">
+                        <Validation MessageLocalizer="@LH.Localize">
+                            <Field>
+                                <FieldLabel>@L["ContractorProfile:Name"]</FieldLabel>
+                                <TextEdit @bind-Text="Profile.Name">
+                                    <Feedback>
+                                        <ValidationError />
+                                    </Feedback>
+                                </TextEdit>
+                            </Field>
+                        </Validation>
+                        <Validation MessageLocalizer="@LH.Localize">
+                            <Field>
+                                <FieldLabel>@L["ContractorProfile:EmailAddress"]</FieldLabel>
+                                <TextEdit @bind-Text="Profile.EmailAddress">
+                                    <Feedback>
+                                        <ValidationError />
+                                    </Feedback>
+                                </TextEdit>
+                            </Field>
+                        </Validation>
+                        <Validation MessageLocalizer="@LH.Localize">
+                            <Field>
+                                <FieldLabel>@L["ContractorProfile:PhoneNumber"]</FieldLabel>
+                                <TextEdit @bind-Text="Profile.PhoneNumber">
+                                    <Feedback>
+                                        <ValidationError />
+                                    </Feedback>
+                                </TextEdit>
+                            </Field>
+                        </Validation>
+                        <LocationMultiSelect Locations="Profile.Locations" />
+                    </TabPanel>
+                    <TabPanel Name="License">
+                        <Div Margin="Margin.Is2.FromBottom">
+                            @(new MarkupString(L["ContractorProfile:TabLicenseDescriptionMarkup"]))
+                        </Div>
+                        <Validation MessageLocalizer="@LH.Localize">
+                            <Field>
+                                <FieldLabel>@L["ContractorProfile:BusinessLicenseNumber"]</FieldLabel>
+                                <TextEdit @bind-Text="Profile.BusinessLicenseNumber">
+                                    <Feedback>
+                                        <ValidationError />
+                                    </Feedback>
+                                </TextEdit>
+                            </Field>
+                        </Validation>
+                        <Validation MessageLocalizer="@LH.Localize">
+                            <Field>
+                                <FieldLabel>@L["ContractorProfile:IssuingState"]</FieldLabel>
+                                <TextEdit @bind-Text="Profile.IssuingState">
+                                    <Feedback>
+                                        <ValidationError />
+                                    </Feedback>
+                                </TextEdit>
+                            </Field>
+                        </Validation>
+                        <Validation MessageLocalizer="@LH.Localize">
+                            <Field>
+                                <FieldLabel>@L["ContractorProfile:IssuingAuthority"]</FieldLabel>
+                                <TextEdit @bind-Text="Profile.IssuingAuthority">
+                                    <Feedback>
+                                        <ValidationError />
+                                    </Feedback>
+                                </TextEdit>
+                            </Field>
+                        </Validation>
+                    </TabPanel>
+                    <TabPanel Name="Contributors">
+
+                    </TabPanel>
+                    <TabPanel Name="Portfolio">
+                        <Portfolio PortfolioItems="Profile.PortfolioItems" />
+                    </TabPanel>
+                </Content>
+            </Tabs>
+            
+        </Validations>
+    </CardBody>
+    <CardFooter>
+        <Button Color="Color.Light" Clicked="Cancel">Cancel</Button>
+        <Button Color="Color.Primary" Clicked="Save">Save</Button>
+    </CardFooter>
+</Card>

@@ -44,12 +44,34 @@ public class BuilderPulseProMenuContributor : IMenuContributor
     {
         var l = context.GetLocalizer<BuilderPulseProResource>();
 
+        //context.Menu.Items.Insert(
+        //    0,
+        //    new ApplicationMenuItem(
+        //        BuilderPulseProMenus.Home,
+        //        l["Menu:Home"],
+        //        "/",
+        //        icon: "fas fa-home",
+        //        order: 1
+        //    )
+        //);
+
         context.Menu.Items.Insert(
             0,
             new ApplicationMenuItem(
-                BuilderPulseProMenus.Home,
-                l["Menu:Home"],
-                "/",
+                BuilderPulseProMenus.BuilderDashboard,
+                l["Menu:BuilderDashboard"],
+                "/BuilderDashboard",
+                icon: "fas fa-home",
+                order: 1
+            )
+        );
+
+        context.Menu.Items.Insert(
+            1,
+            new ApplicationMenuItem(
+                BuilderPulseProMenus.ContractorDashboard,
+                l["Menu:ContractorDashboard"],
+                "/ContractorDashboard",
                 icon: "fas fa-home",
                 order: 1
             )

@@ -1,5 +1,6 @@
 using AutoMapper;
 using BuilderPulsePro.Builders;
+using BuilderPulsePro.Contractors;
 
 namespace BuilderPulsePro.Blazor;
 
@@ -13,6 +14,13 @@ public class BuilderPulseProBlazorAutoMapperProfile : Profile
         CreateMap<BuilderLocationDto, CreateUpdateBuilderLocationDto>();
 
         CreateMap<BuilderPortfolioItemDto, CreateUpdateBuilderPortfolioItemDto>()
+            .ForMember(dest => dest.IsDeleted, opt => opt.Ignore());
+
+        CreateMap<ContractorProfileDto, CreateUpdateContractorProfileDto>();
+
+        CreateMap<ContractorLocationDto, CreateUpdateContractorLocationDto>();
+
+        CreateMap<ContractorPortfolioItemDto, CreateUpdateContractorPortfolioItemDto>()
             .ForMember(dest => dest.IsDeleted, opt => opt.Ignore());
     }
 }

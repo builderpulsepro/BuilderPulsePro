@@ -1,4 +1,5 @@
 using BuilderPulsePro.Builders;
+using BuilderPulsePro.Contractors;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
@@ -63,6 +64,15 @@ public class BuilderPulseProEntityFrameworkCoreModule : AbpModule
         Configure<AbpEntityOptions>(options =>
         {
             options.Entity<BuilderProfile>(orderOptions =>
+            {
+                orderOptions.DefaultWithDetailsFunc = query => query
+                    .Include(p => p.Locations)
+                    .Include(p => p.PortfolioItems)
+                    .Include(p => p.Collaborators)
+                    .Include(p => p.CollaboratorInvitations);
+            });
+
+            options.Entity<ContractorProfile>(orderOptions =>
             {
                 orderOptions.DefaultWithDetailsFunc = query => query
                     .Include(p => p.Locations)
