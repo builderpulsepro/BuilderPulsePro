@@ -17,11 +17,11 @@ namespace BuilderPulsePro.Contractors
             PagedAndSortedResultRequestDto,
             CreateUpdateContractorProfileDto>, IContractorProfileAppService
     {
-        private readonly IBlobContainer<BuilderPortfolioContainer> _blobContainer;
+        private readonly IBlobContainer<ContractorPortfolioContainer> _blobContainer;
         private readonly IGuidGenerator _guidGenerator;
 
         public ContractorProfileAppService(IRepository<ContractorProfile, Guid> repository, 
-            IBlobContainer<BuilderPortfolioContainer> blobContainer,
+            IBlobContainer<ContractorPortfolioContainer> blobContainer,
             IGuidGenerator guidGenerator) : base(repository)
         {
             _blobContainer = blobContainer;

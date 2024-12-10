@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using BuilderPulsePro.Blobs;
 using BuilderPulsePro.Builders;
+using BuilderPulsePro.Contractors;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.Account.Public.Web.Impersonation;
 using Volo.Abp.AspNetCore.Mvc;
@@ -9,12 +10,12 @@ using Volo.Abp.BlobStoring;
 
 namespace BuilderPulsePro.Blazor.Controllers;
 
-[Route("api/builder-portfolio-images")]
-public class BuilderProfileBlobContainerController : AbpController
+[Route("api/contractor-portfolio-images")]
+public class ContractorProfileBlobContainerController : AbpController
 {
-    private readonly IBuilderProfileAppService _builderAppService;
+    private readonly IContractorProfileAppService _builderAppService;
 
-    public BuilderProfileBlobContainerController(IBuilderProfileAppService builderAppService)
+    public ContractorProfileBlobContainerController(IContractorProfileAppService builderAppService)
     {
         _builderAppService = builderAppService;
     }
