@@ -277,6 +277,7 @@ public class BuilderPulseProDbContext :
             task.ConfigureByConvention();
             task.HasKey(x => x.Id);
             task.Property(x => x.Title).IsRequired().HasMaxLength(ProjectTaskConsts.MaxTitleLength);
+            task.Property(x => x.TaskType).HasConversion<string>().HasMaxLength(255);
 
             task.HasOne<Project>()
                 .WithMany(x => x.ProjectTasks)

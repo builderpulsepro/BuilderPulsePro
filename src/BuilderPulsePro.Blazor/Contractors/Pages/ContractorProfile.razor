@@ -3,6 +3,7 @@
 @using BuilderPulsePro.Blazor.Contractors.Fields
 @using BuilderPulsePro.Blazor.Contractors.Components
 @using BuilderPulsePro.Contractors
+@using BuilderPulsePro.Enums
 @using BuilderPulsePro.Localization
 @using BuilderPulsePro.Locations
 @using Volo.Abp.AspNetCore.Components.Web
@@ -17,7 +18,20 @@
         <Validations @ref="@Validator" Model="Profile" ValidateOnLoad="false">
             <Tabs TabPosition="TabPosition.Start" SelectedTab="@selectedTab" SelectedTabChanged="@OnSelectedTabChanged">
                 <Items>
-                    <Tab Name="General">@L["ContractorProfile:TabGeneral"]</Tab>
+                    <Tab Name="General">
+                        @L["ContractorProfile:TabGeneral"]
+                        @if(ValidatorIsInvalid)
+                        {
+                            <Icon TextColor="TextColor.Danger" Name="IconName.ExclamationTriangle" Padding="Padding.Is1.FromStart"></Icon>
+                        }
+                    </Tab>
+                    <Tab Name="Specializations">
+                        @L["ContractorProfile:TabSpecializations"]
+                        @if(SpecializationsInvalid)
+                        {
+                            <Icon TextColor="TextColor.Danger" Name="IconName.ExclamationTriangle" Padding="Padding.Is1.FromStart"></Icon>
+                        }
+                    </Tab>
                     <Tab Name="License">@L["ContractorProfile:TabLicense"]</Tab>
                     <Tab Name="Contributors" Visibility="Visibility.Invisible">@L["ContractorProfile:TabContributors"]</Tab>
                     <Tab Name="Portfolio">@L["ContractorProfile:TabPortfolio"]</Tab>
@@ -55,6 +69,24 @@
                             </Field>
                         </Validation>
                         <LocationMultiSelect Locations="Profile.Locations" />
+                    </TabPanel>
+                    <TabPanel Name="Specializations">
+                        <Field Class="@(SpecializationsInvalid ? "is-invalid" : "")">
+                            <FieldLabel>@L["ContractorProfile:SpecializationsSelect"]</FieldLabel>
+                        </Field>
+                        @if (SpecializationsInvalid){
+                            <Div Class="invalid-feedback" Margin="Margin.Is2.FromBottom">
+                                @L["ContractorProfile:SpecializationsInvalid"]
+                            </Div>
+                        }
+                        <Grid>
+                            @foreach (ProjectTaskType task in Enum.GetValues(typeof(ProjectTaskType)))
+                            {
+                                <Column ColumnSize="ColumnSize.Is3.OnDesktop.Is6.OnTablet.Is6.OnMobile" Margin="Margin.Is1.FromBottom">
+                                    <Check TValue="bool" Checked="@IsTaskSelected(task)" CheckedChanged="() => ToggleSelection(task)">@L[$"Enum:ProjectTaskType:{task.ToString()}"]</Check>
+                                </Column>
+                            }
+                        </Grid>
                     </TabPanel>
                     <TabPanel Name="License">
                         <Div Margin="Margin.Is2.FromBottom">
