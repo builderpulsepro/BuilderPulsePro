@@ -1,0 +1,126 @@
+﻿@using BuilderPulsePro.Enums
+@using BuilderPulsePro.Projects
+
+@inherits BuilderPulseProComponentBase
+
+<Modal @ref=Modal >
+	<ModalContent Centered Padding="Padding.Is2" Size="ModalSize.ExtraLarge" >
+		<ModalHeader>
+			<ModalTitle TextAlignment="TextAlignment.Start">@L["Edit Project Task"]</ModalTitle>
+			<CloseButton VerticalAlignment="VerticalAlignment.Top" Float="Float.End" Clicked="Close" Style="cursor:pointer;"></CloseButton>
+		</ModalHeader>
+		<ModalBody>
+			<Validations Model="ProjectTask" @ref=Validations Mode="ValidationMode.Manual" ValidateOnLoad="false">
+				<Row>
+					<Column>
+						<Validation>
+							<Field>
+								<FieldLabel>Title</FieldLabel>
+								<TextEdit @bind-Text="ProjectTask.Title">
+									<Feedback>
+										<ValidationError />
+									</Feedback>
+								</TextEdit>
+							</Field>
+						</Validation>
+					</Column>
+					<Column>
+						<Field>
+							<FieldLabel>Type</FieldLabel>
+							<TextEdit Text="@ProjectTask.TaskType.ToString()" ReadOnly></TextEdit>
+						</Field>
+					</Column>
+					<Column>
+						<Field>
+							<FieldLabel>Status</FieldLabel>
+							<Select TValue="ProjectTaskStatus" @bind-SelectedValue="@ProjectTask.Status">
+								@foreach (ProjectTaskStatus taskStatus in Enum.GetValues(typeof(ProjectTaskStatus)))
+								{
+									<SelectItem TValue="ProjectTaskStatus" Value="taskStatus">@taskStatus.ToString()</SelectItem>
+								}
+							</Select>
+						</Field>
+					</Column>
+				</Row>
+				<Row>
+					<Column>
+						@if (!ProjectTask.IsAppointment)
+						{
+							<Field>
+								<FieldLabel>Start and End Dates</FieldLabel>
+								<SfDateRangePicker CssClass="bpp-sf-date" @bind-StartDate="ProjectTask.StartDate" @bind-EndDate="ProjectTask.EndDate" Format="d" />
+							</Field>
+						}
+						else
+						{
+							<Field>
+								<FieldLabel>Start Date/Time</FieldLabel>
+								<SfDateTimePicker CssClass="bpp-sf-date" @bind-Value="@ProjectTask.StartDate"></SfDateTimePicker>
+							</Field>
+						}
+					</Column>
+					@if (ProjectTask.IsAppointment)
+					{
+						<Column>
+							<Field>
+								<FieldLabel>Duration</FieldLabel>
+								<Addons>
+									<Addon AddonType="AddonType.Body">
+										<NumericEdit Min="1" Max="24" @bind-Value="AppointmentDuration" />
+									</Addon>
+									<Addon AddonType="AddonType.End">
+										<AddonLabel>
+											Hours
+										</AddonLabel>
+									</Addon>
+								</Addons>
+							</Field>
+						</Column>
+					}
+					<Column>
+						<Field>
+							<FieldLabel>Prerequisites</FieldLabel>
+							<SfMultiSelect TValue="List<Guid>" TItem="CreateUpdateProjectTaskDto" Mode="@VisualMode.Box" DataSource="PrerequisiteTasks" Placeholder="Select Prerequisite Tasks" @bind-Value="@PrerequisiteTaskIds">
+								<MultiSelectFieldSettings Text="Title" Value="Id"></MultiSelectFieldSettings>
+							</SfMultiSelect>
+							@* <Telerik.Blazor.Components.TelerikMultiSelect 
+								Data="PrerequisiteTasks"
+								@bind-Value="@SelectedTaskIds"
+								ValueField="@nameof(ProjectTaskDto.Id)"
+								TextField="@nameof(ProjectTaskDto.Title)"
+								TagMode="Telerik.Blazor.MultiSelectTagMode.Multiple"
+								MaxAllowedTags="10"
+								Placeholder="Select Prerequisite Tasks"
+								AutoClose="false">
+
+							</Telerik.Blazor.Components.TelerikMultiSelect> *@
+						</Field>
+					</Column>
+					<Column>
+						<Field>
+							<FieldLabel>Dependencies</FieldLabel>
+							@* <Telerik.Blazor.Components.TelerikMultiSelect Data="DependentTasks"
+																		  @bind-Value="@SelectedDependencyTaskIds"
+																		  ValueField="@nameof(ProjectTaskDto.Id)"
+																		  TextField="@nameof(ProjectTaskDto.Title)"
+																		  TagMode="Telerik.Blazor.MultiSelectTagMode.Multiple"
+																		  MaxAllowedTags="10"
+																		  Placeholder="Select Dependent Tasks"
+																		  AutoClose="false">
+
+							</Telerik.Blazor.Components.TelerikMultiSelect> *@
+						</Field>
+					</Column>
+				</Row>
+				<Row>
+
+				</Row>
+				
+			</Validations>
+		</ModalBody>
+		<ModalFooter>
+			<Button Color="Color.Light" Clicked="Close">@L["Close"]</Button>
+			<Button Color="Color.Primary" Clicked="Save">@L["Save"]</Button>
+		</ModalFooter>
+	</ModalContent>
+</Modal>

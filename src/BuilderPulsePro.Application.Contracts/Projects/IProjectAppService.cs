@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -15,5 +12,7 @@ namespace BuilderPulsePro.Projects
             PagedAndSortedResultRequestDto,
             CreateUpdateProjectDto>
     {
+        Task<PagedResultDto<ProjectDto>> GetProjectsByBuilderAsync(ProjectListFilterDto input);
+        Task<PagedResultDto<ProjectDto>> GetProjectsByContractorAsync(ProjectListFilterDto input);
     }
 }

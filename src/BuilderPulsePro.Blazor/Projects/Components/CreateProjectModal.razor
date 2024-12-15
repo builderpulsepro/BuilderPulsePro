@@ -1,0 +1,31 @@
+﻿@using BuilderPulsePro.Projects
+@inherits BuilderPulseProComponentBase
+
+@inject IProjectAppService projectAppService
+
+<Modal @ref=Modal>
+	<ModalContent Centered Padding="Padding.Is2" Size="ModalSize.Large">
+		<ModalHeader>
+			<ModalTitle TextAlignment="TextAlignment.Start">@L["Project:CreateModal:Title"]</ModalTitle>
+			<CloseButton VerticalAlignment="VerticalAlignment.Top" Float="Float.End" Clicked="Close" Style="cursor:pointer;"></CloseButton>
+		</ModalHeader>
+		<ModalBody>
+			<Validations Model="ProjectDto" @ref=Validations Mode="ValidationMode.Manual" ValidateOnLoad="false">
+				<Validation>
+					<Field>
+						<FieldLabel>Title</FieldLabel>
+						<TextEdit @bind-Text="ProjectDto.Title" MaxLength="ProjectConsts.MaxTitleLength">
+							<Feedback>
+								<ValidationError />
+							</Feedback>
+						</TextEdit>
+					</Field>
+				</Validation>
+			</Validations>
+		</ModalBody>
+		<ModalFooter>
+			<Button Color="Color.Light" Clicked="Close">@L["Close"]</Button>
+			<Button Color="Color.Primary" Clicked="Save">@L["Save"]</Button>
+		</ModalFooter>
+	</ModalContent>
+</Modal>

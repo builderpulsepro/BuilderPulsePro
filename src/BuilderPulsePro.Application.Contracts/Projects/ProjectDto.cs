@@ -15,6 +15,10 @@ namespace BuilderPulsePro.Projects
         public string Title { get; set; }
         public ProjectStatus Status { get; set; }
 
+        public Guid? BuilderProfileID { get; set; }
+
+        public Guid? ClientUserID { get; set; }
+
         public ICollection<ProjectTaskDto> ProjectTasks { get; set; }
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using BuilderPulsePro.Builders;
 using BuilderPulsePro.Contractors;
@@ -32,6 +33,8 @@ public class BuilderPulseProDbContext :
     AbpDbContext<BuilderPulseProDbContext>,
     IIdentityProDbContext
 {
+    // TODO : New Entity
+
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
     public DbSet<UserSubscription> UserSubscriptions { get; set; }
     public DbSet<BuilderProfile> BuilderProfiles { get; set; }
@@ -44,6 +47,8 @@ public class BuilderPulseProDbContext :
     public DbSet<ContractorPortfolioItem> ContractorPortfolioItems { get; set; }
     public DbSet<ContractorCollaborator> ContractorCollaborators { get; set; }
     public DbSet<ContractorCollaboratorInvitation> ContractorCollaboratorInvitations { get; set; }
+    public DbSet<Project> Projects { get; set; }
+    public DbSet<ProjectTask> ProjectTasks { get; set; }
 
     #region Entities from the modules
 
@@ -103,6 +108,8 @@ public class BuilderPulseProDbContext :
         //    b.ConfigureByConvention(); //auto configure for the base class props
         //    //...
         //});
+
+        // TODO : New Entity
 
         // USERS
         builder.Entity<UserSubscription>(userSubscription =>
@@ -287,6 +294,26 @@ public class BuilderPulseProDbContext :
             task.HasOne<ContractorProfile>()
                 .WithMany(x => x.ProjectTasks)
                 .HasForeignKey(x => x.ContractorProfileId);
+
+            task.HasMany(pt => pt.PrerequisiteTasks)
+                .WithMany(pt => pt.DependentTasks)
+                .UsingEntity<Dictionary<string, object>>(
+                    BuilderPulseProConsts.DbTablePrefix + "ProjectTaskPrerequisites",  // Join table name
+                    j => j
+                        .HasOne<ProjectTask>()
+                        .WithMany()
+                        .HasForeignKey("DependentTaskId")  // FK to dependent task
+                        .OnDelete(DeleteBehavior.Restrict),
+                    j => j
+                        .HasOne<ProjectTask>()
+                        .WithMany()
+                        .HasForeignKey("PrerequisiteTaskId")  // FK to prerequisite task
+                        .OnDelete(DeleteBehavior.Restrict),
+                    j =>
+                    {
+                        j.HasKey("DependentTaskId", "PrerequisiteTaskId");  // Composite primary key
+                    }
+            );
         });
         // END PROJECTS
     }

@@ -51,9 +51,11 @@
     "ChoosePersonaModal:Contractor": "Contractor",
     "ChoosePersonaModal:Investor": "Investor",
     "BuilderDashboard:Create": "Create",
+    "BuilderDashboard:CreateProject": "Create Project",
     "BuilderDashboard:Edit": "Edit",
     "BuilderDashboard:EmailAddress": "Email Address",
     "BuilderDashboard:Name": "Name",
+    "BuilderDashboard:NoProjects": "No results found.",
     "BuilderDashboard:PhoneNumber": "Phone Number",
     "BuilderDashboard:Profile": "Builder Profile",
     "BuilderDashboard:ProfileNotFound": "A builder profile was not found.",
@@ -71,9 +73,11 @@
     "BuilderProfile:TabContributors": "Contributors",
     "BuilderProfile:TabPortfolio": "Portfolio",
     "ContractorDashboard:Create": "Create",
+    "ContractorDashboard:CreateProject": "Create Project",
     "ContractorDashboard:Edit": "Edit",
     "ContractorDashboard:EmailAddress": "Email Address",
     "ContractorDashboard:Name": "Name",
+    "ContractorDashboard:NoProjects": "No results found.",
     "ContractorDashboard:PhoneNumber": "Phone Number",
     "ContractorDashboard:Profile": "Contractor Profile",
     "ContractorDashboard:ProfileNotFound": "A contractor profile was not found.",
@@ -133,6 +137,10 @@
     "Enum:ProjectTaskType:Fence": "Fence",
     "Enum:ProjectTaskType:Deck": "Deck",
     "Enum:ProjectTaskType:Landscaping": "Landscaping",
-    "Enum:ProjectTaskType:LandscapeDesign": "Landscape Design"
+    "Enum:ProjectTaskType:LandscapeDesign": "Landscape Design",
+    "Project:CreateModal:Title": "New Project",
+    "Project:TabDetails": "Details",
+    "Project:TabTasks": "Tasks",
+    "Project:Title": "Title"
   }
 }

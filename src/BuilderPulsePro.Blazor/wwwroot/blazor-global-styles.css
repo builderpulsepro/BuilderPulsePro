@@ -107,3 +107,33 @@
 .template-carousel .e-carousel-indicators .e-indicator-bars .e-indicator-bar.e-active .indicator {
     background-color: #3C78EF;
 }
+
+.bpp-sf-date.e-input-group {
+    background-color: #f0f4f7;
+    border-radius: 0.5rem;
+    border-color: #e8eef3 !important;
+    color: #062a44;
+    padding: 0.675rem 1.25rem;
+    padding-right: 0.25rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    box-shadow: none !important;
+}
+.bpp-sf-date.e-input-group input.e-input {
+    background-color: #f0f4f7;
+    border-radius: 0.5rem;
+    border-color: #e8eef3;
+    color: #062a44;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    font-weight: 500;
+    padding: 0;
+    height: auto;
+}
+.bpp-sf-date.e-input-group.e-input-focus input.e-input {
+    padding: 0;
+}
+.bpp-sf-date.e-input-group span.e-input-group-icon {
+    min-height: 12px;
+    height: 20px;
+}
