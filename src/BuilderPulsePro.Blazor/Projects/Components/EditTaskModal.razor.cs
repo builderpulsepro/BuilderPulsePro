@@ -65,7 +65,8 @@ namespace BuilderPulsePro.Blazor.Projects.Components
                 }
 
                 //ProjectTask.PrerequisiteTasks.Clear();
-                //ProjectTask.PrerequisiteTasks = Tasks.Where(x => PrerequisiteTaskIds.Contains(x.Id!.Value)).ToList();
+                ProjectTask.PrerequisiteTasks = new List<CreateUpdateProjectTaskDto>();
+                ProjectTask.DependentTasks = new List<CreateUpdateProjectTaskDto>();
 
                 //ProjectTask.PrerequisiteTaskIds.Clear();
                 //ProjectTask.PrerequisiteTaskIds.AddRange(SelectedTaskIds);

@@ -78,11 +78,11 @@
 						</Column>
 					}
 					<Column>
-						<Field>
+						@* <Field>
 							<FieldLabel>Prerequisites</FieldLabel>
 							<SfMultiSelect TValue="List<Guid>" TItem="CreateUpdateProjectTaskDto" Mode="@VisualMode.Box" DataSource="PrerequisiteTasks" Placeholder="Select Prerequisite Tasks" @bind-Value="@PrerequisiteTaskIds">
 								<MultiSelectFieldSettings Text="Title" Value="Id"></MultiSelectFieldSettings>
-							</SfMultiSelect>
+							</SfMultiSelect> *@
 							@* <Telerik.Blazor.Components.TelerikMultiSelect 
 								Data="PrerequisiteTasks"
 								@bind-Value="@SelectedTaskIds"
@@ -94,10 +94,10 @@
 								AutoClose="false">
 
 							</Telerik.Blazor.Components.TelerikMultiSelect> *@
-						</Field>
+						@* </Field> *@
 					</Column>
 					<Column>
-						<Field>
+						@* <Field>
 							<FieldLabel>Dependencies</FieldLabel>
 							@* <Telerik.Blazor.Components.TelerikMultiSelect Data="DependentTasks"
 																		  @bind-Value="@SelectedDependencyTaskIds"
@@ -108,8 +108,8 @@
 																		  Placeholder="Select Dependent Tasks"
 																		  AutoClose="false">
 
-							</Telerik.Blazor.Components.TelerikMultiSelect> *@
-						</Field>
+							</Telerik.Blazor.Components.TelerikMultiSelect> 
+						</Field> *@
 					</Column>
 				</Row>
 				<Row>

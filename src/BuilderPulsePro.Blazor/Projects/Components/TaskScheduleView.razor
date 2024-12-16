@@ -1,0 +1,13 @@
+﻿@using BuilderPulsePro.Projects
+@inherits BuilderPulseProComponentBase
+
+@if (TaskAppointments != null)
+{ 
+    <SfSchedule TValue="AppointmentData"   @bind-SelectedDate="StartDate" @bind-CurrentView=@CurrentView EnableAutoRowHeight="true" ShowQuickInfo="false"   >
+        <ScheduleEvents TValue="AppointmentData" Resized="OnResizeStop" Dragged="OnDragStop" OnCellDoubleClick="(args) => {args.Cancel = true;}" OnPopupOpen="(args) => {args.Cancel = true;}"></ScheduleEvents>
+        <ScheduleEventSettings DataSource="TaskAppointments" ></ScheduleEventSettings>
+        <ScheduleViews>
+            <ScheduleView Option="View.Month" MaxEventsPerRow="3"></ScheduleView>
+        </ScheduleViews>
+    </SfSchedule>
+}

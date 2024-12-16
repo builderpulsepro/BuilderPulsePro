@@ -28,6 +28,7 @@
     <PackageReference Include="Syncfusion.Blazor.Calendars" Version="28.1.33" />
     <PackageReference Include="Syncfusion.Blazor.Inputs" Version="28.1.33" />
     <PackageReference Include="Syncfusion.Blazor.Navigations" Version="28.1.33" />
+    <PackageReference Include="Syncfusion.Blazor.Schedule" Version="28.1.33" />
     <PackageReference Include="Syncfusion.Blazor.Themes" Version="28.1.33" />
   </ItemGroup>
 
