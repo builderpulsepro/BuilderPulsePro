@@ -27,6 +27,8 @@ namespace BuilderPulsePro.Blazor.Projects.Components
 
         public EditTaskModal EditTaskModal { get; set; }
 
+        public ScheduleTaskModal ScheduleTaskModal { get; set; }
+
         protected override Task OnParametersSetAsync()
         {
             if (Tasks != null)
@@ -87,7 +89,18 @@ namespace BuilderPulsePro.Blazor.Projects.Components
             await EditTaskModal.Show(Tasks.First(x => x.Id!.Value == args.Data.Id));
         }
 
+        public async Task HandleCellDoubleClick(CellClickEventArgs args)
+        {
+            args.Cancel = true;
+            await ScheduleTaskModal.Show(args.StartTime);
+        }
+
         private async Task ProjectTaskSaved(CreateUpdateProjectTaskDto projectTaskDto)
+        {
+            LoadTaskAppointments();
+        }
+
+        private async Task ScheduledTaskSaved(CreateUpdateProjectTaskDto projectTaskDto)
         {
             LoadTaskAppointments();
         }

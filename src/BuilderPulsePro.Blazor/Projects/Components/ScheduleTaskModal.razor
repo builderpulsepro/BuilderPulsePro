@@ -1,0 +1,48 @@
+﻿@using BuilderPulsePro.Enums
+@using BuilderPulsePro.Projects
+@using Volo.Abp.Guids
+
+@inherits BuilderPulseProComponentBase
+@inject IGuidGenerator GuidGenerator
+
+<Modal @ref=Modal>
+    <ModalContent Centered Padding="Padding.Is2" Size="ModalSize.ExtraLarge" >
+		<ModalHeader>
+            <ModalTitle TextAlignment="TextAlignment.Start">@L["Schedule a Task"]</ModalTitle>
+            <CloseButton VerticalAlignment="VerticalAlignment.Top" Float="Float.End" Clicked="Close" Style="cursor:pointer;"></CloseButton>
+        </ModalHeader>
+        <ModalBody>
+            @if (Tasks.Any(x => !x.StartDate.HasValue)) {
+                <Tabs TabPosition="TabPosition.Start" SelectedTab="@selectedTab" SelectedTabChanged="@OnSelectedTabChanged">
+                    <Items>
+                        <Tab Name="available">@L["Available Tasks"]</Tab>
+                        <Tab Name="new">@L["New Task"]</Tab>
+                    </Items>
+                    <Content>
+                        <TabPanel Name="available">
+                            Select a Task
+                            @foreach (var item in Tasks.Where(x => !x.StartDate.HasValue))
+                            {
+                                <Div>
+                                    <Button Color="Color.Primary" Clicked="() => SelectExistingTask(item)">@item.Title</Button>
+                                </Div>
+                            }
+                        </TabPanel>
+                        <TabPanel Name="new">
+                            <EditTaskComponent @ref="EditTaskComponent" Project="Project" Tasks="Tasks" AllowTaskTypeSelection="true" />
+                        </TabPanel>
+                    </Content>
+                </Tabs>
+            }
+            else {
+                <EditTaskComponent @ref="EditTaskComponent" Project="Project" Tasks="Tasks" AllowTaskTypeSelection="true" />
+            }
+        </ModalBody>
+        <ModalFooter>
+            @if (selectedTab != "available") {
+                <Button Color="Color.Light" Clicked="Close">@L["Close"]</Button>
+                <Button Color="Color.Primary" Clicked="() => Save(NewTask)">@L["Save"]</Button>
+            }
+        </ModalFooter>
+    </ModalContent>
+</Modal>

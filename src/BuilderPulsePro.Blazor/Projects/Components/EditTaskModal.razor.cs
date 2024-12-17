@@ -21,37 +21,17 @@ namespace BuilderPulsePro.Blazor.Projects.Components
 
         public CreateUpdateProjectTaskDto ProjectTask { get; set; } = new CreateUpdateProjectTaskDto();
 
-        private List<CreateUpdateProjectTaskDto> OtherProjectTasks { get; set; }
-
-        private List<Guid> PrerequisiteTaskIds { get; set; }
-        private List<Guid> DependentTaskIds { get; set; }
-
         public Modal Modal { get; set; }
-        public Validations Validations { get; set; }
+        
+        private EditTaskComponent EditTaskComponent { get; set; }
 
         private int AppointmentDuration { get; set; } = 1;
 
         public async Task Show(CreateUpdateProjectTaskDto task)
         {
             ProjectTask = task;
-            //SelectedDependencyTaskIds = ProjectTask.DependencyTaskIds;
-            if (ProjectTask.IsAppointment)
-            {
-                AppointmentDuration = ProjectTask.StartDate.HasValue && ProjectTask.EndDate.HasValue
-                    ? (int)(ProjectTask.EndDate.Value - ProjectTask.StartDate.Value).TotalHours
-                    : 1;
-            }
-            LoadPrerequisiteTasks();
-            await Validations.ClearAll();
+            await EditTaskComponent.Init(ProjectTask);
             await Modal.Show();
-        }
-
-        private void LoadPrerequisiteTasks()
-        {
-            OtherProjectTasks = Tasks.Where(x => x.Id != ProjectTask.Id).ToList();
-
-            PrerequisiteTaskIds = Project.ProjectTaskDependencies.Where(x => x.DependentTaskId == ProjectTask.Id!.Value).Select(x => x.PrerequisiteTaskId).ToList();
-            DependentTaskIds = Project.ProjectTaskDependencies.Where(x => x.PrerequisiteTaskId == ProjectTask.Id!.Value).Select(x => x.DependentTaskId).ToList();
         }
 
         private async Task Close()
@@ -61,38 +41,10 @@ namespace BuilderPulsePro.Blazor.Projects.Components
 
         private async void Save()
         {
-            var isValid = await Validations.ValidateAll();
+            var isValid = await EditTaskComponent.ValidateAll();
             if (isValid)
             {
-                if (ProjectTask.IsAppointment && ProjectTask.StartDate.HasValue)
-                {
-                    ProjectTask.EndDate = ProjectTask.StartDate.Value.AddHours(AppointmentDuration);
-                }
-
-                Project.ProjectTaskDependencies.RemoveAll(x => x.PrerequisiteTaskId == ProjectTask.Id!.Value || x.DependentTaskId == ProjectTask.Id!.Value);
-
-                if (PrerequisiteTaskIds != null)
-                {
-                    foreach (var prereq in PrerequisiteTaskIds)
-                    {
-                        Project.ProjectTaskDependencies.Add(new CreateUpdateProjectTaskDependencyDto
-                        {
-                            PrerequisiteTaskId = prereq,
-                            DependentTaskId = ProjectTask.Id!.Value
-                        });
-                    }
-                }
-                if (DependentTaskIds != null)
-                {
-                    foreach (var dependency in DependentTaskIds)
-                    {
-                        Project.ProjectTaskDependencies.Add(new CreateUpdateProjectTaskDependencyDto
-                        {
-                            DependentTaskId = dependency,
-                            PrerequisiteTaskId = ProjectTask.Id!.Value
-                        });
-                    }
-                }
+                await EditTaskComponent.Save();
 
                 await Close();
 

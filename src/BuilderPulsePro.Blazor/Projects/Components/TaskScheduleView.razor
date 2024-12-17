@@ -4,7 +4,7 @@
 @if (TaskAppointments != null)
 { 
     <SfSchedule TValue="AppointmentData"   @bind-SelectedDate="StartDate" @bind-CurrentView=@CurrentView EnableAutoRowHeight="true" ShowQuickInfo="false"   >
-        <ScheduleEvents TValue="AppointmentData" Resized="OnResizeStop" Dragged="OnDragStop" OnCellDoubleClick="(args) => {args.Cancel = true;}" OnPopupOpen="HandlePopupOpen"></ScheduleEvents>
+        <ScheduleEvents TValue="AppointmentData" Resized="OnResizeStop" Dragged="OnDragStop" OnCellDoubleClick="HandleCellDoubleClick" OnPopupOpen="HandlePopupOpen"></ScheduleEvents>
         <ScheduleEventSettings DataSource="TaskAppointments" ></ScheduleEventSettings>
         <ScheduleViews>
             <ScheduleView Option="View.Month" MaxEventsPerRow="3"></ScheduleView>
@@ -12,4 +12,5 @@
     </SfSchedule>
 
     <EditTaskModal @ref=EditTaskModal Saved="ProjectTaskSaved" Tasks="Tasks" Project="Project" />
+    <ScheduleTaskModal @ref=ScheduleTaskModal Saved="ScheduledTaskSaved" Tasks="Tasks" Project="Project" />
 }
