@@ -25,21 +25,6 @@ namespace BuilderPulsePro.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("BppProjectTaskPrerequisites", b =>
-                {
-                    b.Property<Guid>("DependentTaskId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("PrerequisiteTaskId")
-                        .HasColumnType("char(36)");
-
-                    b.HasKey("DependentTaskId", "PrerequisiteTaskId");
-
-                    b.HasIndex("PrerequisiteTaskId");
-
-                    b.ToTable("BppProjectTaskPrerequisites");
-                });
-
             modelBuilder.Entity("BuilderPulsePro.Builders.BuilderCollaborator", b =>
                 {
                     b.Property<Guid>("Id")
@@ -3992,21 +3977,6 @@ namespace BuilderPulsePro.Migrations
                     b.HasIndex("TenantId", "UserName");
 
                     b.ToTable("CmsUsers", (string)null);
-                });
-
-            modelBuilder.Entity("BppProjectTaskPrerequisites", b =>
-                {
-                    b.HasOne("BuilderPulsePro.Projects.ProjectTask", null)
-                        .WithMany()
-                        .HasForeignKey("DependentTaskId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("BuilderPulsePro.Projects.ProjectTask", null)
-                        .WithMany()
-                        .HasForeignKey("PrerequisiteTaskId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("BuilderPulsePro.Builders.BuilderCollaborator", b =>

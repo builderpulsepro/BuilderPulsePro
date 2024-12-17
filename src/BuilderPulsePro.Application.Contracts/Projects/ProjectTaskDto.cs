@@ -20,9 +20,5 @@ namespace BuilderPulsePro.Projects
 
         public Guid? Id { get; set; }
 
-
-        public ICollection<ProjectTaskDto> PrerequisiteTasks { get; set; }
-
-        public ICollection<ProjectTaskDto> DependentTasks { get; set; }
     }
 }

@@ -294,27 +294,8 @@ public class BuilderPulseProDbContext :
             task.HasOne<ContractorProfile>()
                 .WithMany(x => x.ProjectTasks)
                 .HasForeignKey(x => x.ContractorProfileId);
-
-            task.HasMany(pt => pt.PrerequisiteTasks)
-                .WithMany(pt => pt.DependentTasks)
-                .UsingEntity<Dictionary<string, object>>(
-                    BuilderPulseProConsts.DbTablePrefix + "ProjectTaskPrerequisites",  // Join table name
-                    j => j
-                        .HasOne<ProjectTask>()
-                        .WithMany()
-                        .HasForeignKey("DependentTaskId")  // FK to dependent task
-                        .OnDelete(DeleteBehavior.Restrict),
-                    j => j
-                        .HasOne<ProjectTask>()
-                        .WithMany()
-                        .HasForeignKey("PrerequisiteTaskId")  // FK to prerequisite task
-                        .OnDelete(DeleteBehavior.Restrict),
-                    j =>
-                    {
-                        j.HasKey("DependentTaskId", "PrerequisiteTaskId");  // Composite primary key
-                    }
-            );
         });
+
         // END PROJECTS
     }
 }

@@ -1,7 +1,9 @@
 ﻿@using BuilderPulsePro.Enums
 @using BuilderPulsePro.Projects
+@using Volo.Abp.Guids
 
 @inherits BuilderPulseProComponentBase
+@inject IGuidGenerator GuidGenerator
 
 <Modal @ref=Modal >
 	<ModalContent Centered Padding="Padding.Is2" Size="ModalSize.ExtraLarge" >
@@ -78,23 +80,12 @@
 						</Column>
 					}
 					<Column>
-						@* <Field>
+						<Field>
 							<FieldLabel>Prerequisites</FieldLabel>
 							<SfMultiSelect TValue="List<Guid>" TItem="CreateUpdateProjectTaskDto" Mode="@VisualMode.Box" DataSource="PrerequisiteTasks" Placeholder="Select Prerequisite Tasks" @bind-Value="@PrerequisiteTaskIds">
 								<MultiSelectFieldSettings Text="Title" Value="Id"></MultiSelectFieldSettings>
-							</SfMultiSelect> *@
-							@* <Telerik.Blazor.Components.TelerikMultiSelect 
-								Data="PrerequisiteTasks"
-								@bind-Value="@SelectedTaskIds"
-								ValueField="@nameof(ProjectTaskDto.Id)"
-								TextField="@nameof(ProjectTaskDto.Title)"
-								TagMode="Telerik.Blazor.MultiSelectTagMode.Multiple"
-								MaxAllowedTags="10"
-								Placeholder="Select Prerequisite Tasks"
-								AutoClose="false">
-
-							</Telerik.Blazor.Components.TelerikMultiSelect> *@
-						@* </Field> *@
+							</SfMultiSelect> 
+						</Field>
 					</Column>
 					<Column>
 						@* <Field>

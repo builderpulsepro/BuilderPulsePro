@@ -30,7 +30,6 @@ namespace BuilderPulsePro.Blazor.Projects.Components
         public async Task Show(CreateUpdateProjectTaskDto task)
         {
             ProjectTask = task;
-            //PrerequisiteTaskIds = ProjectTask.PrerequisiteTasks.Select(x => x.Id!.Value).ToList();
             //SelectedDependencyTaskIds = ProjectTask.DependencyTaskIds;
             if (ProjectTask.IsAppointment)
             {
@@ -45,7 +44,7 @@ namespace BuilderPulsePro.Blazor.Projects.Components
 
         private void LoadPrerequisiteTasks()
         {
-            //PrerequisiteTasks = Tasks.Where(x => x.Id != ProjectTask.Id).ToList();
+            PrerequisiteTasks = Tasks.Where(x => x.Id != ProjectTask.Id).ToList();
            // DependentTasks = Tasks.Where(x => x.Id != ProjectTask.Id && x.ProjectId == ProjectTask.ProjectId).ToList();
         }
 
@@ -65,8 +64,7 @@ namespace BuilderPulsePro.Blazor.Projects.Components
                 }
 
                 //ProjectTask.PrerequisiteTasks.Clear();
-                ProjectTask.PrerequisiteTasks = new List<CreateUpdateProjectTaskDto>();
-                ProjectTask.DependentTasks = new List<CreateUpdateProjectTaskDto>();
+                
 
                 //ProjectTask.PrerequisiteTaskIds.Clear();
                 //ProjectTask.PrerequisiteTaskIds.AddRange(SelectedTaskIds);
