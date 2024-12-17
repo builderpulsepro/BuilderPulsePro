@@ -20,5 +20,7 @@ namespace BuilderPulsePro.Projects
         public Guid? ClientUserID { get; set; }
 
         public ICollection<ProjectTaskDto> ProjectTasks { get; set; }
+
+        public ICollection<ProjectTaskDependencyDto> ProjectTaskDependencies { get; set; }
     }
 }

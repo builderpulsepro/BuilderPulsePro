@@ -49,6 +49,7 @@ public class BuilderPulseProDbContext :
     public DbSet<ContractorCollaboratorInvitation> ContractorCollaboratorInvitations { get; set; }
     public DbSet<Project> Projects { get; set; }
     public DbSet<ProjectTask> ProjectTasks { get; set; }
+    public DbSet<ProjectTaskDependency> ProjectTaskDependencies { get; set; }
 
     #region Entities from the modules
 
@@ -289,11 +290,25 @@ public class BuilderPulseProDbContext :
             task.HasOne<Project>()
                 .WithMany(x => x.ProjectTasks)
                 .HasForeignKey(x => x.ProjectId)
-                .IsRequired();
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
 
             task.HasOne<ContractorProfile>()
                 .WithMany(x => x.ProjectTasks)
                 .HasForeignKey(x => x.ContractorProfileId);
+        });
+
+        builder.Entity<ProjectTaskDependency>(dependency =>
+        {
+            dependency.ToTable(BuilderPulseProConsts.DbTablePrefix + "ProjectTaskDependencies");
+            dependency.ConfigureByConvention();
+            dependency.HasKey(x => x.Id);
+
+            dependency.HasOne<Project>()
+                .WithMany(x => x.ProjectTaskDependencies)
+                .HasForeignKey(x => x.ProjectId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         // END PROJECTS

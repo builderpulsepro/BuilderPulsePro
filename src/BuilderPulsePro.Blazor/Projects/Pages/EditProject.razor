@@ -8,6 +8,8 @@
 @inject IProjectAppService projectAppService
 @inject NavigationManager NavigationManager
 
+@attribute [Authorize]
+
 <Card>
 	<CardHeader>
 		<Heading Size="HeadingSize.Is1">
@@ -35,7 +37,7 @@
                         </Validation>
                     </TabPanel>
                     <TabPanel Name="Tasks">
-                        <TaskViewer Tasks="@ProjectDto.ProjectTasks"/>
+                        <TaskViewer Tasks="@ProjectDto.ProjectTasks" Project="@ProjectDto"/>
                     </TabPanel>
                 </Content>
             </Tabs>

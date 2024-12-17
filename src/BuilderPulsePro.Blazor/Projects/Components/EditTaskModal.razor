@@ -79,29 +79,25 @@
 							</Field>
 						</Column>
 					}
-					<Column>
-						<Field>
-							<FieldLabel>Prerequisites</FieldLabel>
-							<SfMultiSelect TValue="List<Guid>" TItem="CreateUpdateProjectTaskDto" Mode="@VisualMode.Box" DataSource="PrerequisiteTasks" Placeholder="Select Prerequisite Tasks" @bind-Value="@PrerequisiteTaskIds">
-								<MultiSelectFieldSettings Text="Title" Value="Id"></MultiSelectFieldSettings>
-							</SfMultiSelect> 
-						</Field>
-					</Column>
-					<Column>
-						@* <Field>
-							<FieldLabel>Dependencies</FieldLabel>
-							@* <Telerik.Blazor.Components.TelerikMultiSelect Data="DependentTasks"
-																		  @bind-Value="@SelectedDependencyTaskIds"
-																		  ValueField="@nameof(ProjectTaskDto.Id)"
-																		  TextField="@nameof(ProjectTaskDto.Title)"
-																		  TagMode="Telerik.Blazor.MultiSelectTagMode.Multiple"
-																		  MaxAllowedTags="10"
-																		  Placeholder="Select Dependent Tasks"
-																		  AutoClose="false">
-
-							</Telerik.Blazor.Components.TelerikMultiSelect> 
-						</Field> *@
-					</Column>
+					@if (!ProjectTask.IsAppointment)
+					{
+						<Column>
+							<Field>
+								<FieldLabel>Prerequisites</FieldLabel>
+								<SfMultiSelect TValue="List<Guid>" TItem="CreateUpdateProjectTaskDto" CssClass="bpp-sf-multiselect" Mode="@VisualMode.Box" DataSource="OtherProjectTasks" Placeholder="Select Prerequisite Tasks" @bind-Value="@PrerequisiteTaskIds">
+									<MultiSelectFieldSettings Text="Title" Value="Id"></MultiSelectFieldSettings>
+								</SfMultiSelect> 
+							</Field>
+						</Column>
+						<Column>
+							<Field>
+								<FieldLabel>Dependencies</FieldLabel>
+								<SfMultiSelect TValue="List<Guid>" TItem="CreateUpdateProjectTaskDto" CssClass="bpp-sf-multiselect" Mode="@VisualMode.Box" DataSource="OtherProjectTasks" Placeholder="Select Dependent Tasks" @bind-Value="@DependentTaskIds">
+									<MultiSelectFieldSettings Text="Title" Value="Id"></MultiSelectFieldSettings>
+								</SfMultiSelect>
+							</Field>
+						</Column>
+					}
 				</Row>
 				<Row>
 

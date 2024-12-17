@@ -87,7 +87,8 @@ public class BuilderPulseProEntityFrameworkCoreModule : AbpModule
             options.Entity<Project>(orderOptions =>
             {
                 orderOptions.DefaultWithDetailsFunc = query => query
-                    .Include(p => p.ProjectTasks);
+                    .Include(p => p.ProjectTasks)
+                    .Include(p => p.ProjectTaskDependencies);
             });
 
             options.Entity<ProjectTask>(orderOptions =>

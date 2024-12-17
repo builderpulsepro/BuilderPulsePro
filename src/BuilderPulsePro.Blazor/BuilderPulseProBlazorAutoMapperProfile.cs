@@ -32,5 +32,7 @@ public class BuilderPulseProBlazorAutoMapperProfile : Profile
 
         CreateMap<ProjectTaskDto, CreateUpdateProjectTaskDto>();
 
+        CreateMap<ProjectTaskDependencyDto, CreateUpdateProjectTaskDependencyDto>();
+
     }
 }

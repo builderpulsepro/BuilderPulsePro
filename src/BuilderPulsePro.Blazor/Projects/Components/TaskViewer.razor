@@ -89,7 +89,7 @@
 }
 else if (ViewMode == "schedule") 
 {
-	<TaskScheduleView Tasks="Tasks" />
+	<TaskScheduleView Tasks="Tasks" Project="Project" />
 }
 
-<EditTaskModal @ref=EditTaskModal Saved="ProjectTaskSaved" Tasks="Tasks" />
+<EditTaskModal @ref=EditTaskModal Saved="ProjectTaskSaved" Tasks="Tasks" Project="Project" />

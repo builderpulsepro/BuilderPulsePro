@@ -16,6 +16,9 @@ namespace BuilderPulsePro.Blazor.Projects.Components
         [Parameter]
         public ICollection<CreateUpdateProjectTaskDto> Tasks { get; set; }
 
+        [Parameter]
+        public CreateUpdateProjectDto Project { get; set; }
+
         private EditTaskModal EditTaskModal { get; set; }
 
         private DataGrid<CreateUpdateProjectTaskDto> DataGrid { get; set; }

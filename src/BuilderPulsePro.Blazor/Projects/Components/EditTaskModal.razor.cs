@@ -16,11 +16,15 @@ namespace BuilderPulsePro.Blazor.Projects.Components
         [Parameter]
         public ICollection<CreateUpdateProjectTaskDto> Tasks { get; set; }
 
+        [Parameter]
+        public CreateUpdateProjectDto Project { get; set; }
+
         public CreateUpdateProjectTaskDto ProjectTask { get; set; } = new CreateUpdateProjectTaskDto();
 
-        private List<CreateUpdateProjectTaskDto> PrerequisiteTasks { get; set; }
+        private List<CreateUpdateProjectTaskDto> OtherProjectTasks { get; set; }
 
         private List<Guid> PrerequisiteTaskIds { get; set; }
+        private List<Guid> DependentTaskIds { get; set; }
 
         public Modal Modal { get; set; }
         public Validations Validations { get; set; }
@@ -44,8 +48,10 @@ namespace BuilderPulsePro.Blazor.Projects.Components
 
         private void LoadPrerequisiteTasks()
         {
-            PrerequisiteTasks = Tasks.Where(x => x.Id != ProjectTask.Id).ToList();
-           // DependentTasks = Tasks.Where(x => x.Id != ProjectTask.Id && x.ProjectId == ProjectTask.ProjectId).ToList();
+            OtherProjectTasks = Tasks.Where(x => x.Id != ProjectTask.Id).ToList();
+
+            PrerequisiteTaskIds = Project.ProjectTaskDependencies.Where(x => x.DependentTaskId == ProjectTask.Id!.Value).Select(x => x.PrerequisiteTaskId).ToList();
+            DependentTaskIds = Project.ProjectTaskDependencies.Where(x => x.PrerequisiteTaskId == ProjectTask.Id!.Value).Select(x => x.DependentTaskId).ToList();
         }
 
         private async Task Close()
@@ -63,14 +69,30 @@ namespace BuilderPulsePro.Blazor.Projects.Components
                     ProjectTask.EndDate = ProjectTask.StartDate.Value.AddHours(AppointmentDuration);
                 }
 
-                //ProjectTask.PrerequisiteTasks.Clear();
-                
+                Project.ProjectTaskDependencies.RemoveAll(x => x.PrerequisiteTaskId == ProjectTask.Id!.Value || x.DependentTaskId == ProjectTask.Id!.Value);
 
-                //ProjectTask.PrerequisiteTaskIds.Clear();
-                //ProjectTask.PrerequisiteTaskIds.AddRange(SelectedTaskIds);
-
-                //ProjectTask.DependencyTaskIds.Clear();
-                //ProjectTask.DependencyTaskIds.AddRange(SelectedDependencyTaskIds);
+                if (PrerequisiteTaskIds != null)
+                {
+                    foreach (var prereq in PrerequisiteTaskIds)
+                    {
+                        Project.ProjectTaskDependencies.Add(new CreateUpdateProjectTaskDependencyDto
+                        {
+                            PrerequisiteTaskId = prereq,
+                            DependentTaskId = ProjectTask.Id!.Value
+                        });
+                    }
+                }
+                if (DependentTaskIds != null)
+                {
+                    foreach (var dependency in DependentTaskIds)
+                    {
+                        Project.ProjectTaskDependencies.Add(new CreateUpdateProjectTaskDependencyDto
+                        {
+                            DependentTaskId = dependency,
+                            PrerequisiteTaskId = ProjectTask.Id!.Value
+                        });
+                    }
+                }
 
                 await Close();
 

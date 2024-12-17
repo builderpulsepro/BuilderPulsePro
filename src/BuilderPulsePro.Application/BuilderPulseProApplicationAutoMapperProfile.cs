@@ -48,5 +48,8 @@ public class BuilderPulseProApplicationAutoMapperProfile : Profile
 
         CreateMap<ProjectTask, ProjectTaskDto>();
         CreateMap<CreateUpdateProjectTaskDto, ProjectTask>();
+
+        CreateMap<ProjectTaskDependency, ProjectTaskDependencyDto>();
+        CreateMap<CreateUpdateProjectTaskDependencyDto, ProjectTaskDependency>();
     }
 }
