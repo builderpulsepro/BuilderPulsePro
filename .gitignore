@@ -276,3 +276,4 @@ src/BuilderPulsePro.Blazor/appsettings.keys.json
 src/BuilderPulsePro.HttpApi.Host/appsettings.keys.json
 src/BuilderPulsePro.AuthServer/appsettings.keys.json
 src/BuilderPulsePro.DbMigrator/appsettings.keys.json
+src/BuilderPulsePro.Web.Public/appsettings.keys.json
