@@ -18,7 +18,7 @@
                 {
                     <CarouselItem>
                         <figure class="img-container position-relative">
-                            <Image Source="@($"api/portfolio-images/{item.BlobName}")" Fluid Class="photo-image" style="height:100%;width:100%;"></Image>
+                            <Image Source="@($"api/contractor-portfolio-images/{item.BlobName}")" Fluid Class="photo-image" style="height:100%;width:100%;"></Image>
                             <Button Color="Color.Danger" Size="Size.Small" Class="delete-button position-absolute top-0 start-0 m-1" Clicked="() => DeletePortfolioItem(item)">
                                 <Icon Name="IconName.Delete" />
                             </Button>
@@ -30,7 +30,7 @@
                 @if (IsIndexInVisibleIndicators(context.Index)) 
                 {
                     <div class="indicator">
-                        <img src="@($"api/portfolio-images/{GetVisibleBlobName(context.Index)}")" alt="image" style="height:100%;width:100%;" />
+                        <img src="@($"api/contractor-portfolio-images/{GetVisibleBlobName(context.Index)}")" alt="image" style="height:100%;width:100%;" />
                     </div>
                 }
             </IndicatorsTemplate>

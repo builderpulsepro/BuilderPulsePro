@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using BuilderPulsePro.Enums;
 using BuilderPulsePro.Global;
 
 namespace BuilderPulsePro.Contractors
@@ -28,6 +29,9 @@ namespace BuilderPulsePro.Contractors
         [EmailAddress]
         [StringLength(BuilderPulseProGlobalConsts.MaxEmailAddressLength)]
         public string? EmailAddress { get; set; }
+
+        [Required]
+        public ProjectTaskType Specializations { get; set; }
 
         public ICollection<CreateUpdateContractorLocationDto> Locations { get; set; } = new List<CreateUpdateContractorLocationDto>();
 

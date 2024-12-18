@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise;
 using BuilderPulsePro.Contractors;
+using BuilderPulsePro.Enums;
 using Microsoft.AspNetCore.Components;
 
 namespace BuilderPulsePro.Blazor.Contractors.Pages
@@ -19,6 +21,9 @@ namespace BuilderPulsePro.Blazor.Contractors.Pages
 
         private Validations Validator;
 
+        private bool SpecializationsInvalid { get; set; }
+        private bool ValidatorIsInvalid { get; set; }
+
         private string selectedTab = "General";
 
         protected override async Task OnParametersSetAsync()
@@ -27,6 +32,12 @@ namespace BuilderPulsePro.Blazor.Contractors.Pages
             {
                 var profile = await contractorAppService.GetAsync(Id.Value);
                 Profile = ObjectMapper.Map<ContractorProfileDto, CreateUpdateContractorProfileDto>(profile);
+
+
+                SelectedSpecializations = Enum.GetValues(typeof(ProjectTaskType))
+                    .Cast<ProjectTaskType>()
+                    .Where(task => Profile.Specializations.HasFlag(task))
+                    .ToList();
             }
             else
             {
@@ -39,6 +50,7 @@ namespace BuilderPulsePro.Blazor.Contractors.Pages
         private async Task Save()
         {
             var isValid = await Validator.ValidateAll();
+            ValidatorIsInvalid = !isValid;
             if (isValid)
             {
                 foreach (var item in Profile.PortfolioItems.Where(x => x.IsDeleted))
@@ -48,6 +60,21 @@ namespace BuilderPulsePro.Blazor.Contractors.Pages
                 }
 
                 Profile.PortfolioItems = Profile.PortfolioItems.Where(x => !x.IsDeleted).ToList();
+
+                if (SelectedSpecializations.Count == 0)
+                {
+                    SpecializationsInvalid = true;
+                    return;
+                }
+
+                ProjectTaskType selectedSpecializations = SelectedSpecializations.First();
+
+                foreach (var task in SelectedSpecializations.Skip(1))
+                {
+                    selectedSpecializations |= task;  // Bitwise OR
+                }
+
+                Profile.Specializations = selectedSpecializations;
 
                 if (!Id.HasValue)
                 {
@@ -78,5 +105,24 @@ namespace BuilderPulsePro.Blazor.Contractors.Pages
 
             await Task.CompletedTask;
         }
+
+        private bool IsTaskSelected(ProjectTaskType task)
+        {
+            return SelectedSpecializations.Contains(task);
+        }
+
+        private void ToggleSelection(ProjectTaskType task)
+        {
+            if (SelectedSpecializations.Contains(task))
+            {
+                SelectedSpecializations.Remove(task);
+            }
+            else
+            {
+                SelectedSpecializations.Add(task);
+            }
+        }
+
+        private List<ProjectTaskType> SelectedSpecializations = new List<ProjectTaskType>();
     }
 }

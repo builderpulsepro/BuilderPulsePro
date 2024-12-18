@@ -460,6 +460,9 @@ namespace BuilderPulsePro.Migrations
                         .HasMaxLength(15)
                         .HasColumnType("varchar(15)");
 
+                    b.Property<int>("Specializations")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CreatorId");
@@ -469,6 +472,143 @@ namespace BuilderPulsePro.Migrations
                     b.HasIndex("LastModifierId");
 
                     b.ToTable("BppContractorProfiles", (string)null);
+                });
+
+            modelBuilder.Entity("BuilderPulsePro.Projects.Project", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid?>("BuilderProfileID")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid?>("ClientUserID")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("varchar(40)")
+                        .HasColumnName("ConcurrencyStamp");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("CreationTime");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("CreatorId");
+
+                    b.Property<Guid?>("DeleterId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("DeleterId");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("DeletionTime");
+
+                    b.Property<string>("ExtraProperties")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint(1)")
+                        .HasDefaultValue(false)
+                        .HasColumnName("IsDeleted");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("LastModificationTime");
+
+                    b.Property<Guid?>("LastModifierId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("LastModifierId");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BuilderProfileID");
+
+                    b.HasIndex("CreatorId");
+
+                    b.HasIndex("DeleterId");
+
+                    b.HasIndex("LastModifierId");
+
+                    b.ToTable("BppProjects", (string)null);
+                });
+
+            modelBuilder.Entity("BuilderPulsePro.Projects.ProjectTask", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid?>("ContractorProfileId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsAppointment")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TaskType")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContractorProfileId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("BppProjectTasks", (string)null);
+                });
+
+            modelBuilder.Entity("BuilderPulsePro.Projects.ProjectTaskDependency", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("DependentTaskId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("PrerequisiteTaskId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("BppProjectTaskDependencies", (string)null);
                 });
 
             modelBuilder.Entity("BuilderPulsePro.Subscriptions.UserSubscription", b =>
@@ -3974,6 +4114,53 @@ namespace BuilderPulsePro.Migrations
                     b.Navigation("LastModifier");
                 });
 
+            modelBuilder.Entity("BuilderPulsePro.Projects.Project", b =>
+                {
+                    b.HasOne("BuilderPulsePro.Builders.BuilderProfile", null)
+                        .WithMany("Projects")
+                        .HasForeignKey("BuilderProfileID");
+
+                    b.HasOne("Volo.Abp.Identity.IdentityUser", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId");
+
+                    b.HasOne("Volo.Abp.Identity.IdentityUser", "Deleter")
+                        .WithMany()
+                        .HasForeignKey("DeleterId");
+
+                    b.HasOne("Volo.Abp.Identity.IdentityUser", "LastModifier")
+                        .WithMany()
+                        .HasForeignKey("LastModifierId");
+
+                    b.Navigation("Creator");
+
+                    b.Navigation("Deleter");
+
+                    b.Navigation("LastModifier");
+                });
+
+            modelBuilder.Entity("BuilderPulsePro.Projects.ProjectTask", b =>
+                {
+                    b.HasOne("BuilderPulsePro.Contractors.ContractorProfile", null)
+                        .WithMany("ProjectTasks")
+                        .HasForeignKey("ContractorProfileId");
+
+                    b.HasOne("BuilderPulsePro.Projects.Project", null)
+                        .WithMany("ProjectTasks")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("BuilderPulsePro.Projects.ProjectTaskDependency", b =>
+                {
+                    b.HasOne("BuilderPulsePro.Projects.Project", null)
+                        .WithMany("ProjectTaskDependencies")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Volo.Abp.BlobStoring.Database.DatabaseBlob", b =>
                 {
                     b.HasOne("Volo.Abp.BlobStoring.Database.DatabaseBlobContainer", null)
@@ -4145,6 +4332,8 @@ namespace BuilderPulsePro.Migrations
                     b.Navigation("Locations");
 
                     b.Navigation("PortfolioItems");
+
+                    b.Navigation("Projects");
                 });
 
             modelBuilder.Entity("BuilderPulsePro.Contractors.ContractorProfile", b =>
@@ -4156,6 +4345,15 @@ namespace BuilderPulsePro.Migrations
                     b.Navigation("Locations");
 
                     b.Navigation("PortfolioItems");
+
+                    b.Navigation("ProjectTasks");
+                });
+
+            modelBuilder.Entity("BuilderPulsePro.Projects.Project", b =>
+                {
+                    b.Navigation("ProjectTaskDependencies");
+
+                    b.Navigation("ProjectTasks");
                 });
 
             modelBuilder.Entity("Volo.Abp.Gdpr.GdprRequest", b =>

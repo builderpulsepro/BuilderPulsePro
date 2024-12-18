@@ -1,6 +1,7 @@
 using AutoMapper;
 using BuilderPulsePro.Builders;
 using BuilderPulsePro.Contractors;
+using BuilderPulsePro.Projects;
 using NetTopologySuite.Geometries;
 
 namespace BuilderPulsePro;
@@ -12,6 +13,8 @@ public class BuilderPulseProApplicationAutoMapperProfile : Profile
         /* You can configure your AutoMapper mapping configuration here.
          * Alternatively, you can split your mapping configurations
          * into multiple profile classes for a better organization. */
+
+        // TODO : New Entity
 
         // BUILDERS
         CreateMap<BuilderProfile, BuilderProfileDto>();
@@ -38,5 +41,15 @@ public class BuilderPulseProApplicationAutoMapperProfile : Profile
 
         CreateMap<ContractorPortfolioItem, ContractorPortfolioItemDto>();
         CreateMap<CreateUpdateContractorPortfolioItemDto, ContractorPortfolioItem>();
+
+        // PROJECTS
+        CreateMap<Project, ProjectDto>();
+        CreateMap<CreateUpdateProjectDto, Project>();
+
+        CreateMap<ProjectTask, ProjectTaskDto>();
+        CreateMap<CreateUpdateProjectTaskDto, ProjectTask>();
+
+        CreateMap<ProjectTaskDependency, ProjectTaskDependencyDto>();
+        CreateMap<CreateUpdateProjectTaskDependencyDto, ProjectTaskDependency>();
     }
 }

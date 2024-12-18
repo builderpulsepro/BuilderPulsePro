@@ -15,7 +15,7 @@
         </DataGridEntityActionsColumn>
     </DataGridColumns>
 </DataGrid>
-<Button Color="Color.Primary" Clicked="() => ShowLocationModal(new CreateUpdateContractorLocationDto())">Add Location</Button>
+<Button Color="Color.Primary" Clicked="() => ShowLocationModal(new CreateUpdateContractorLocationDto())">@L["LocationMultiSelect:AddLocation"]</Button>
 <Modal @ref="LocationModal">
     <ModalContent Size="ModalSize.Large">
         <ModalHeader>
@@ -34,8 +34,8 @@
             </Validations>
         </ModalBody>
         <ModalFooter>
-            <Button Color="Color.Light" Clicked="CloseLocationModal">Cancel</Button>
-            <Button Color="Color.Primary" Clicked="SaveLocation">Save</Button>
+            <Button Color="Color.Light" Clicked="CloseLocationModal">@L["Site:Cancel"]</Button>
+            <Button Color="Color.Primary" Clicked="SaveLocation">@L["Site:Save"]</Button>
         </ModalFooter>
     </ModalContent>
 </Modal>

@@ -270,7 +270,23 @@ namespace BuilderPulsePro;
                     container.UseAzure(azure =>
                     {
                         azure.ConnectionString = configuration["Azure:BlobStorageConnectionString"]!;
-                        azure.ContainerName = "builder-portfolio";
+                        azure.ContainerName = BlobConsts.BuilderPortfolioBlobContainerName;
+                        azure.CreateContainerIfNotExists = true;
+                    });
+                }
+            });
+            options.Containers.Configure<ContractorPortfolioContainer>(container =>
+            {
+                if (hostingEnvironment.IsDevelopment())
+                {
+                    container.UseDatabase();
+                }
+                else
+                {
+                    container.UseAzure(azure =>
+                    {
+                        azure.ConnectionString = configuration["Azure:BlobStorageConnectionString"]!;
+                        azure.ContainerName = BlobConsts.ContractorPortfolioBlobContainerName;
                         azure.CreateContainerIfNotExists = true;
                     });
                 }

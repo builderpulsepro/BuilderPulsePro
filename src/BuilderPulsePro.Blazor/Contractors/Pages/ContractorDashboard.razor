@@ -1,7 +1,13 @@
 ﻿@page "/ContractorDashboard"
+
+@attribute [Authorize]
+
 @using BuilderPulsePro.Contractors
+@using BuilderPulsePro.Projects
+@using Volo.Abp.Application.Dtos
 @inherits BuilderPulseProComponentBase
 @inject IContractorProfileAppService contractorAppService
+@inject IProjectAppService projectAppService
 
 @if (Profile != null) {
     <Row>
@@ -10,12 +16,26 @@
                 <CardHeader>
                     <h3>@L["ContractorDashboard:Projects"]</h3>
                 </CardHeader>
+                <CardBody>
+                    <DataGrid TItem="ProjectDto" Data="@Projects.Items" TotalItems="@((int?)Projects.TotalCount)"
+                              ShowPager Sortable PageSize="pageSize" CurrentPage="currentPage" SortMode="DataGridSortMode.Single"
+                              Responsive>
+                        <EmptyTemplate>
+                            @L["ContractorDashboard:NoProjects"]
+                        </EmptyTemplate>
+                        <DataGridColumns>
+                            <DataGridColumn TItem="ProjectDto" Field="@nameof(ProjectDto.Title)" Caption="Title" />
+                        </DataGridColumns>
+                    </DataGrid>
+                </CardBody>
             </Card>
         </Column>
         <Column ColumnSize="ColumnSize.IsHalf">
             <Card>
                 <CardHeader>
                     <h3>@L["ContractorDashboard:Profile"]</h3>
+                </CardHeader>
+                <CardBody>
                     <Div Margin="Margin.Is2.FromBottom">
                         @L["ContractorDashboard:Name"]: @Profile.Name
                     </Div>
@@ -31,8 +51,8 @@
                             @L["ContractorDashboard:PhoneNumber"]: @Profile.PhoneNumber
                         </Div>
                     }
-                    <Button Color="Color.Primary" Type="ButtonType.Link" To="@($"/ContractorProfile/{Profile.Id}")" Margin="Margin.Is2.FromBottom">@L["ContractorDashboard:Edit"]</Button>
-                </CardHeader>
+                    <Button Color="Color.Primary" Type="ButtonType.Link" To="@($"/ContractorProfile/{Profile.Id}")" Margin="Margin.Is2.FromBottom">@L["Site:Edit"]</Button>
+                </CardBody>
             </Card>
         </Column>
     </Row>
@@ -43,11 +63,13 @@ else {
             <Card>
                 <CardHeader>
                     <h3>@L["BuilderDashboard:Profile"]</h3>
+                </CardHeader>
+                <CardBody>
                     <Div Margin="Margin.Is2.FromBottom">
                         @L["BuilderDashboard:ProfileNotFound"]
                     </Div>
-                    <Button Color="Color.Primary" Type="ButtonType.Link" To="/ContractorProfile" Margin="Margin.Is2.FromBottom">@L["BuilderDashboard:Create"]</Button>
-                </CardHeader>
+                    <Button Color="Color.Primary" Type="ButtonType.Link" To="/ContractorProfile" Margin="Margin.Is2.FromBottom">@L["Site:Create"]</Button>
+                </CardBody>
             </Card>
         </Column>
     </Row>
