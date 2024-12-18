@@ -1,0 +1,22 @@
+﻿@using BuilderPulsePro.Enums
+@using BuilderPulsePro.Projects
+@using Volo.Abp.Guids
+
+@inherits BuilderPulseProComponentBase
+@inject IGuidGenerator GuidGenerator
+
+<Modal @ref=Modal >
+	<ModalContent Centered Padding="Padding.Is2" Size="ModalSize.ExtraLarge" >
+		<ModalHeader>
+			<ModalTitle TextAlignment="TextAlignment.Start">@L["ProjectTask:EditProjectTask"]</ModalTitle>
+			<CloseButton VerticalAlignment="VerticalAlignment.Top" Float="Float.End" Clicked="Close" Style="cursor:pointer;"></CloseButton>
+		</ModalHeader>
+		<ModalBody>
+			<EditTaskComponent @ref="EditTaskComponent" Project="Project" Tasks="Tasks" />
+		</ModalBody>
+		<ModalFooter>
+			<Button Color="Color.Light" Clicked="Close">@L["Site:Close"]</Button>
+			<Button Color="Color.Primary" Clicked="Save">@L["Site:Save"]</Button>
+		</ModalFooter>
+	</ModalContent>
+</Modal>

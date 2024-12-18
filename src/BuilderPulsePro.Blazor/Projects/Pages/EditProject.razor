@@ -1,0 +1,50 @@
+﻿@page "/project/{ProjectId:guid}"
+
+@using BuilderPulsePro.Blazor.Projects.Components
+@using BuilderPulsePro.Projects
+
+@inherits BuilderPulseProComponentBase
+
+@inject IProjectAppService projectAppService
+@inject NavigationManager NavigationManager
+
+@attribute [Authorize]
+
+<Card>
+	<CardHeader>
+		<Heading Size="HeadingSize.Is1">
+			@ProjectDto.Title
+		</Heading>
+	</CardHeader>
+    <CardBody>
+        <Validations Model="ProjectDto" @ref=Validations Mode="ValidationMode.Manual" ValidateOnLoad="false">
+		    <Tabs TabPosition="TabPosition.Start" SelectedTab="@selectedTab" SelectedTabChanged="@OnSelectedTabChanged">
+                <Items>
+                    <Tab Name="Details">@L["Project:TabDetails"]</Tab>
+                    <Tab Name="Tasks">@L["Project:TabTasks"]</Tab>
+                </Items>
+                <Content>
+                    <TabPanel Name="Details">
+                        <Validation>
+                            <Field>
+                                <FieldLabel>@L["Project:Title"]</FieldLabel>
+                                <TextEdit @bind-Text="ProjectDto.Title" MaxLength="ProjectConsts.MaxTitleLength">
+                                    <Feedback>
+                                        <ValidationError />
+                                    </Feedback>
+                                </TextEdit>
+                            </Field>
+                        </Validation>
+                    </TabPanel>
+                    <TabPanel Name="Tasks">
+                        <TaskViewer Tasks="@ProjectDto.ProjectTasks" Project="@ProjectDto"/>
+                    </TabPanel>
+                </Content>
+            </Tabs>
+		</Validations>
+	</CardBody>
+    <CardFooter>
+        <Button Color="Color.Light" Clicked="Back">@L["Site:Back"]</Button>
+        <Button Color="Color.Primary" Type="ButtonType.Submit" PreventDefaultOnSubmit Clicked="SaveAsync">@L["Site:Save"]</Button>
+    </CardFooter>
+</Card>

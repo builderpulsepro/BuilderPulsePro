@@ -1,0 +1,39 @@
+﻿@using BuilderPulsePro.Contractors
+@using Volo.Abp.Guids
+@inherits BuilderPulseProComponentBase
+@inject IContractorProfileAppService contractorAppService
+@inject IGuidGenerator GuidGenerator
+
+
+<Field>
+    <FileEdit Multiple Changed="OnFileEditChanged" Filter="image/jpg, image/jpeg, image/png" />
+</Field>
+
+@if (PortfolioItems != null)
+{
+    <div class="control-container">
+        <SfCarousel CssClass="template-carousel" SelectedIndexChanged="OnSelectedIndexChanged"  >
+            <ChildContent>
+                @foreach (var item in PortfolioItems.Where(x => !x.IsDeleted))
+                {
+                    <CarouselItem>
+                        <figure class="img-container position-relative">
+                            <Image Source="@($"api/contractor-portfolio-images/{item.BlobName}")" Fluid Class="photo-image" style="height:100%;width:100%;"></Image>
+                            <Button Color="Color.Danger" Size="Size.Small" Class="delete-button position-absolute top-0 start-0 m-1" Clicked="() => DeletePortfolioItem(item)">
+                                <Icon Name="IconName.Delete" />
+                            </Button>
+                        </figure>
+                    </CarouselItem>
+                }
+            </ChildContent>
+            <IndicatorsTemplate>
+                @if (IsIndexInVisibleIndicators(context.Index)) 
+                {
+                    <div class="indicator">
+                        <img src="@($"api/contractor-portfolio-images/{GetVisibleBlobName(context.Index)}")" alt="image" style="height:100%;width:100%;" />
+                    </div>
+                }
+            </IndicatorsTemplate>
+        </SfCarousel>
+    </div>
+}

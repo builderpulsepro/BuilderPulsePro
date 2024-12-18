@@ -9,7 +9,7 @@ using Volo.Abp.BlobStoring;
 
 namespace BuilderPulsePro.Blazor.Controllers;
 
-[Route("api/portfolio-images")]
+[Route("api/builder-portfolio-images")]
 public class BuilderProfileBlobContainerController : AbpController
 {
     private readonly IBuilderProfileAppService _builderAppService;

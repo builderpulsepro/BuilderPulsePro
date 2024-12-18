@@ -1,0 +1,109 @@
+﻿@using BuilderPulsePro.Enums
+@using BuilderPulsePro.Projects
+@using Volo.Abp.Guids
+
+@inherits BuilderPulseProComponentBase
+@inject IGuidGenerator GuidGenerator
+
+<Validations Model="ProjectTask" @ref=Validations Mode="ValidationMode.Manual" ValidateOnLoad="false">
+	<Row>
+		<Column>
+			<Validation>
+				<Field>
+					<FieldLabel>@L["ProjectTask:Title"]</FieldLabel>
+					<TextEdit @bind-Text="ProjectTask.Title">
+						<Feedback>
+							<ValidationError />
+						</Feedback>
+					</TextEdit>
+				</Field>
+			</Validation>
+		</Column>
+		<Column>
+			<Field>
+				<FieldLabel>@L["ProjectTask:Type"]</FieldLabel>
+				@if (!AllowTaskTypeSelection) {
+					<TextEdit Text="@ProjectTask.TaskType.ToString()" ReadOnly></TextEdit>
+				}
+				else {
+					<Select TValue="ProjectTaskType" @bind-SelectedValue="@ProjectTask.TaskType">
+						@foreach (ProjectTaskType taskType in Enum.GetValues(typeof(ProjectTaskType)))
+						{
+							<SelectItem TValue="ProjectTaskType" Value="taskType">@taskType.ToString()</SelectItem>
+						}
+					</Select>
+				}
+			</Field>
+		</Column>
+		<Column>
+			<Field>
+				<FieldLabel>@L["ProjectTask:Status"]</FieldLabel>
+				<Select TValue="ProjectTaskStatus" @bind-SelectedValue="@ProjectTask.Status">
+					@foreach (ProjectTaskStatus taskStatus in Enum.GetValues(typeof(ProjectTaskStatus)))
+					{
+						<SelectItem TValue="ProjectTaskStatus" Value="taskStatus">@taskStatus.ToString()</SelectItem>
+					}
+				</Select>
+			</Field>
+		</Column>
+	</Row>
+	<Row>
+		<Column>
+			@if (!ProjectTask.IsAppointment)
+			{
+				<Field>
+					<FieldLabel>@L["ProjectTask:StartEndDates"]</FieldLabel>
+					<SfDateRangePicker CssClass="bpp-sf-date" @bind-StartDate="ProjectTask.StartDate" @bind-EndDate="ProjectTask.EndDate" Format="d" />
+				</Field>
+			}
+			else
+			{
+				<Field>
+					<FieldLabel>@L["ProjectTask:StartTime"]</FieldLabel>
+					<SfDateTimePicker CssClass="bpp-sf-date" @bind-Value="@ProjectTask.StartDate"></SfDateTimePicker>
+				</Field>
+			}
+		</Column>
+		@if (ProjectTask.IsAppointment)
+		{
+			<Column>
+				<Field>
+					<FieldLabel>Duration</FieldLabel>
+					<Addons>
+						<Addon AddonType="AddonType.Body">
+							<NumericEdit Min="1" Max="24" @bind-Value="AppointmentDuration" />
+						</Addon>
+						<Addon AddonType="AddonType.End">
+							<AddonLabel>
+								@L["ProjectTask:Hours"]
+							</AddonLabel>
+						</Addon>
+					</Addons>
+				</Field>
+			</Column>
+		}
+		@if (!ProjectTask.IsAppointment)
+		{
+			<Column>
+				<Field>
+					<FieldLabel>@L["ProjectTask:Prerequisites"]</FieldLabel>
+					<SfMultiSelect TValue="List<Guid>" TItem="CreateUpdateProjectTaskDto" CssClass="bpp-sf-multiselect" Mode="@VisualMode.Box" DataSource="OtherProjectTasks" Placeholder="Select Prerequisite Tasks" @bind-Value="@PrerequisiteTaskIds">
+						<MultiSelectFieldSettings Text="Title" Value="Id"></MultiSelectFieldSettings>
+					</SfMultiSelect>
+				</Field>
+			</Column>
+			<Column>
+				<Field>
+					<FieldLabel>@L["ProjectTask:Dependencies"]</FieldLabel>
+					<SfMultiSelect TValue="List<Guid>" TItem="CreateUpdateProjectTaskDto" CssClass="bpp-sf-multiselect" Mode="@VisualMode.Box" DataSource="OtherProjectTasks" Placeholder="Select Dependent Tasks" @bind-Value="@DependentTaskIds">
+						<MultiSelectFieldSettings Text="Title" Value="Id"></MultiSelectFieldSettings>
+					</SfMultiSelect>
+				</Field>
+			</Column>
+		}
+	</Row>
+	<Row>
+
+	</Row>
+
+</Validations>

@@ -29,8 +29,8 @@ namespace BuilderPulsePro.Builders
         [StringLength(BuilderPulseProGlobalConsts.MaxEmailAddressLength)]
         public string? EmailAddress { get; set; }
 
-        public ICollection<CreateUpdateBuilderLocationDto> Locations { get; set; }
+        public ICollection<CreateUpdateBuilderLocationDto> Locations { get; set; } = new List<CreateUpdateBuilderLocationDto>();
 
-        public ICollection<CreateUpdateBuilderPortfolioItemDto> PortfolioItems { get; set; }
+        public ICollection<CreateUpdateBuilderPortfolioItemDto> PortfolioItems { get; set; } = new List<CreateUpdateBuilderPortfolioItemDto>();
     }
 }

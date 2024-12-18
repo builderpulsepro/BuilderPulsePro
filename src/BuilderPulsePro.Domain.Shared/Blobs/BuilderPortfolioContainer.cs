@@ -7,7 +7,7 @@ using Volo.Abp.BlobStoring;
 
 namespace BuilderPulsePro.Blobs
 {
-    [BlobContainerName("builder-portfolio")]
+    [BlobContainerName(BlobConsts.BuilderPortfolioBlobContainerName)]
     public class BuilderPortfolioContainer
     {
     }
