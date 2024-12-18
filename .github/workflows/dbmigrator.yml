@@ -1,0 +1,36 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: DbMigrator
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x'
+          include-prerelease: true
+
+      - name: Install ABP CLI
+        run: |
+          dotnet tool install -g Volo.Abp.Cli --version 8.3.4
+          abp install-libs
+        shell: bash
+    
+      - name: Build with dotnet
+        run: dotnet build --configuration Release
+
+      - name: Add DBMigrator appsettings.keys.json
+        run: echo "${{ secrets.DBMIGRATOR_KEYSJSON_DEV }}" > ./src/appsettings.keys.json
+
+      - name: Run migrations
+        run: dotnet run -- "${{ secrets.CONNECTION_STRING }}" # Set your connection string as a secret in your repository settings
+        working-directory: ./src/BuilderPulsePro.DbMigrator  # Replace with your project name
