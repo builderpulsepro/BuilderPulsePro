@@ -39,17 +39,29 @@ jobs:
       - name: Generate authserver.pfx
         run: dotnet dev-certs https -v -ep ${{env.DOTNET_ROOT}}/authserver/openiddict.pfx -p a84eebb8-a184-4d23-982d-487d3ae2a667 # Replace with your password
 
+      - name: Add AuthServer appsettings.keys.json
+        run: echo "${{ secrets.AUTHSERVER_KEYSJSON_DEV }}" > ${{env.DOTNET_ROOT}}/authserver/appsettings.keys.json
+
       - name: dotnet publish apihost
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/apihost
         working-directory: ./src/BuilderPulsePro.HttpApi.Host # Replace with your project name
+        
+      - name: Add ApiHost appsettings.keys.json
+        run: echo "${{ secrets.APIHOST_KEYSJSON_DEV }}" > ${{env.DOTNET_ROOT}}/apihost/appsettings.keys.json
 
       - name: dotnet publish webapp
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/webapp
         working-directory: ./src/BuilderPulsePro.Blazor # Replace with your project name
+        
+      - name: Add WebApp appsettings.keys.json
+        run: echo "${{ secrets.WEBAPP_KEYSJSON_DEV }}" > ${{env.DOTNET_ROOT}}/webapp/appsettings.keys.json
 
-      - name: dotnet publish webapp
+      - name: dotnet publish publicweb
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/publicweb
         working-directory: ./src/BuilderPulsePro.Web.Public # Replace with your project name
+        
+      - name: Add PublicWeb appsettings.keys.json
+        run: echo "${{ secrets.PUBLICWEB_KEYSJSON_DEV }}" > ${{env.DOTNET_ROOT}}/publicweb/appsettings.keys.json
 
       - name: Upload artifact for authserver
         uses: actions/upload-artifact@v4
