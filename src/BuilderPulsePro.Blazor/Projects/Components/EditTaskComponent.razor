@@ -10,7 +10,7 @@
 		<Column>
 			<Validation>
 				<Field>
-					<FieldLabel>Title</FieldLabel>
+					<FieldLabel>@L["ProjectTask:Title"]</FieldLabel>
 					<TextEdit @bind-Text="ProjectTask.Title">
 						<Feedback>
 							<ValidationError />
@@ -21,7 +21,7 @@
 		</Column>
 		<Column>
 			<Field>
-				<FieldLabel>Type</FieldLabel>
+				<FieldLabel>@L["ProjectTask:Type"]</FieldLabel>
 				@if (!AllowTaskTypeSelection) {
 					<TextEdit Text="@ProjectTask.TaskType.ToString()" ReadOnly></TextEdit>
 				}
@@ -37,7 +37,7 @@
 		</Column>
 		<Column>
 			<Field>
-				<FieldLabel>Status</FieldLabel>
+				<FieldLabel>@L["ProjectTask:Status"]</FieldLabel>
 				<Select TValue="ProjectTaskStatus" @bind-SelectedValue="@ProjectTask.Status">
 					@foreach (ProjectTaskStatus taskStatus in Enum.GetValues(typeof(ProjectTaskStatus)))
 					{
@@ -52,14 +52,14 @@
 			@if (!ProjectTask.IsAppointment)
 			{
 				<Field>
-					<FieldLabel>Start and End Dates</FieldLabel>
+					<FieldLabel>@L["ProjectTask:StartEndDates"]</FieldLabel>
 					<SfDateRangePicker CssClass="bpp-sf-date" @bind-StartDate="ProjectTask.StartDate" @bind-EndDate="ProjectTask.EndDate" Format="d" />
 				</Field>
 			}
 			else
 			{
 				<Field>
-					<FieldLabel>Start Date/Time</FieldLabel>
+					<FieldLabel>@L["ProjectTask:StartTime"]</FieldLabel>
 					<SfDateTimePicker CssClass="bpp-sf-date" @bind-Value="@ProjectTask.StartDate"></SfDateTimePicker>
 				</Field>
 			}
@@ -75,7 +75,7 @@
 						</Addon>
 						<Addon AddonType="AddonType.End">
 							<AddonLabel>
-								Hours
+								@L["ProjectTask:Hours"]
 							</AddonLabel>
 						</Addon>
 					</Addons>
@@ -86,7 +86,7 @@
 		{
 			<Column>
 				<Field>
-					<FieldLabel>Prerequisites</FieldLabel>
+					<FieldLabel>@L["ProjectTask:Prerequisites"]</FieldLabel>
 					<SfMultiSelect TValue="List<Guid>" TItem="CreateUpdateProjectTaskDto" CssClass="bpp-sf-multiselect" Mode="@VisualMode.Box" DataSource="OtherProjectTasks" Placeholder="Select Prerequisite Tasks" @bind-Value="@PrerequisiteTaskIds">
 						<MultiSelectFieldSettings Text="Title" Value="Id"></MultiSelectFieldSettings>
 					</SfMultiSelect>
@@ -94,7 +94,7 @@
 			</Column>
 			<Column>
 				<Field>
-					<FieldLabel>Dependencies</FieldLabel>
+					<FieldLabel>@L["ProjectTask:Dependencies"]</FieldLabel>
 					<SfMultiSelect TValue="List<Guid>" TItem="CreateUpdateProjectTaskDto" CssClass="bpp-sf-multiselect" Mode="@VisualMode.Box" DataSource="OtherProjectTasks" Placeholder="Select Dependent Tasks" @bind-Value="@DependentTaskIds">
 						<MultiSelectFieldSettings Text="Title" Value="Id"></MultiSelectFieldSettings>
 					</SfMultiSelect>

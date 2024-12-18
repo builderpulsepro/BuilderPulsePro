@@ -8,7 +8,7 @@
 	<Column>
 		<Dropdown Display="Display.InlineBlock" Margin="Margin.Is1.FromEnd">
 			<DropdownToggle Color="Color.Primary" Size="Size.Medium">
-				Add Task
+				@L["ProjectTask:AddTask"]
 			</DropdownToggle>
 			<DropdownMenu>
 				@foreach (ProjectTaskType taskType in Enum.GetValues(typeof(ProjectTaskType)))
@@ -19,7 +19,7 @@
 		</Dropdown>
 		<Dropdown Display="Display.InlineBlock">
 			<DropdownToggle Color="Color.Primary" Size="Size.Medium">
-				Add Appointment
+				@L["ProjectTask:AddAppointment"]
 			</DropdownToggle>
 			<DropdownMenu>
 				@foreach (ProjectTaskType taskType in Enum.GetValues(typeof(ProjectTaskType)))
@@ -30,17 +30,17 @@
 		</Dropdown>
 	</Column>
 	<Column TextAlignment="TextAlignment.End">
-		<Label>View:</Label>
+		<Label>@L["ProjectTask:View"]</Label>
 		<RadioGroup TValue="string" Name="viewmode" Buttons Color="Color.Primary" CheckedValue="@ViewMode" CheckedValueChanged="ViewModeChanged">
-			<Tooltip Text="List View">
+			<Tooltip Text="@L["ProjectTask:ListView"]">
 				<Radio Value="@("list")"><Icon Name="IconName.List"></Icon></Radio>
 			</Tooltip>
-			<Tooltip Text="Schedule View">
+			<Tooltip Text="@L["ProjectTask:ScheduleView"]">
 				<Radio Value="@("schedule")"><Icon Name="IconName.Calendar" IconStyle="IconStyle.Regular"></Icon></Radio>
 			</Tooltip>
 		</RadioGroup>
 
-		<Label Display="Display.InlineBlock" Margin="Margin.Is1.FromStart">Filter:</Label>
+		@* <Label Display="Display.InlineBlock" Margin="Margin.Is1.FromStart">Filter:</Label>
 		<Dropdown Display="Display.InlineFlex">
 			<DropdownToggle Color="Color.Primary" Size="Size.Medium" Style="padding-top:0.6rem; padding-bottom: 0.8rem;">
 				<Icon Name="IconName.Filter"></Icon>
@@ -54,7 +54,7 @@
 				<DropdownItem ShowCheckbox>In Progress</DropdownItem>
 				<DropdownItem ShowCheckbox>Completed</DropdownItem>
 			</DropdownMenu>
-		</Dropdown>
+		</Dropdown> *@
 	</Column>
 </Row>
 
@@ -79,7 +79,7 @@
 				<DisplayTemplate>
 					<Div @onclick:stopPropagation="true">
 						<EntityActions TItem="CreateUpdateProjectTaskDto">
-							<EntityAction TItem="CreateUpdateProjectTaskDto" Clicked="() => Delete(context)" Text="Delete"></EntityAction>
+							<EntityAction TItem="CreateUpdateProjectTaskDto" Clicked="() => Delete(context)" Text="@L["Site:Delete"]"></EntityAction>
 						</EntityActions>
 					</Div>
 				</DisplayTemplate>

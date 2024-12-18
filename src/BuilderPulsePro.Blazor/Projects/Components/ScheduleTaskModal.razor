@@ -8,19 +8,19 @@
 <Modal @ref=Modal>
     <ModalContent Centered Padding="Padding.Is2" Size="ModalSize.ExtraLarge" >
 		<ModalHeader>
-            <ModalTitle TextAlignment="TextAlignment.Start">@L["Schedule a Task"]</ModalTitle>
+            <ModalTitle TextAlignment="TextAlignment.Start">@L["ProjectTask:ScheduleATask"]</ModalTitle>
             <CloseButton VerticalAlignment="VerticalAlignment.Top" Float="Float.End" Clicked="Close" Style="cursor:pointer;"></CloseButton>
         </ModalHeader>
         <ModalBody>
             @if (Tasks.Any(x => !x.StartDate.HasValue)) {
-                <Tabs TabPosition="TabPosition.Start" SelectedTab="@selectedTab" SelectedTabChanged="@OnSelectedTabChanged">
+                <Tabs SelectedTab="@selectedTab" SelectedTabChanged="@OnSelectedTabChanged">
                     <Items>
-                        <Tab Name="available">@L["Available Tasks"]</Tab>
-                        <Tab Name="new">@L["New Task"]</Tab>
+                        <Tab Name="available">@L["ProjectTask:AvailableTasks"]</Tab>
+                        <Tab Name="new">@L["ProjectTask:NewTask"]</Tab>
                     </Items>
                     <Content>
                         <TabPanel Name="available">
-                            Select a Task
+                            @L["ProjectTask:SelectATask"]
                             @foreach (var item in Tasks.Where(x => !x.StartDate.HasValue))
                             {
                                 <Div>
@@ -40,8 +40,8 @@
         </ModalBody>
         <ModalFooter>
             @if (selectedTab != "available") {
-                <Button Color="Color.Light" Clicked="Close">@L["Close"]</Button>
-                <Button Color="Color.Primary" Clicked="() => Save(NewTask)">@L["Save"]</Button>
+                <Button Color="Color.Light" Clicked="Close">@L["Site:Close"]</Button>
+                <Button Color="Color.Primary" Clicked="() => Save(NewTask)">@L["Site:Save"]</Button>
             }
         </ModalFooter>
     </ModalContent>
