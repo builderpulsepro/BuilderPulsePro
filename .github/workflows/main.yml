@@ -28,6 +28,9 @@ jobs:
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
+      - name: Add DBMigrator appsettings.keys.json
+        run: echo "${{ secrets.DBMIGRATOR_KEYSJSON_DEV }}" > ./src/appsettings.keys.json
+
       - name: Run migrations
         run: dotnet run -- "${{ secrets.CONNECTION_STRING }}" # Set your connection string as a secret in your repository settings
         working-directory: ./src/BuilderPulsePro.DbMigrator  # Replace with your project name
