@@ -42,22 +42,23 @@ jobs:
       - name: Generate authserver.pfx
         run: dotnet dev-certs https -v -ep ${{env.DOTNET_ROOT}}/authserver/openiddict.pfx -p a84eebb8-a184-4d23-982d-487d3ae2a667 # Replace with your password
 
-      - name: Export AUTHSERVER_KEYSJSON_DEV to ENV
-        run: echo "AUTH_KEYSJSON=${{ secrets.AUTHSERVER_KEYSJSON_DEV }}" >> $GITHUB_ENV
+      #- name: Export AUTHSERVER_KEYSJSON_DEV to ENV
+      #  run: echo "AUTH_KEYSJSON=${{ secrets.AUTHSERVER_KEYSJSON_DEV }}" >> $GITHUB_ENV
 
       - name: Add AuthServer appsettings.keys.json
         run: |
-          printf "%s\n" "$AUTH_KEYSJSON" > "${{env.DOTNET_ROOT}}/authserver/appsettings.keys.json"
+          echo "${{ secrets.AUTHSERVER_KEYSJSON_DEV }}" | sed -e 's/\r$//' > "${{ env.DOTNET_ROOT }}/authserver/appsettings.keys.json"
 
       - name: Verify File Content
         run: |
           if [ -s "${{ env.DOTNET_ROOT }}/authserver/appsettings.keys.json" ]; then
             echo "File created successfully and is not empty."
+            head -n 5 "${{ env.DOTNET_ROOT }}/authserver/appsettings.keys.json" | sed 's/./*/g'
           else
             echo "File is empty or was not created."
             exit 1
           fi
-
+          
       - name: dotnet publish apihost
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/apihost
         working-directory: ./src/BuilderPulsePro.HttpApi.Host # Replace with your project name
