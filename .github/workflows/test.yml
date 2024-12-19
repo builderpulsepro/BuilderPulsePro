@@ -1,0 +1,21 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Debug Environment Variables
+        run: |
+          if [[ -z "${{ secrets.AUTHSERVER_KEYSJSON_DEV }}" ]]; then
+            echo "KEY_JSON is empty or not set."
+            exit 1
+          else
+            echo "KEY_JSON is set (hidden for security)."
+          fi
