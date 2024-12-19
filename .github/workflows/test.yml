@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Debug Environment Variables
         run: |
-          if [ -z "${{ secrets.KEY_JSON }}" ]; then
+          if [ -z "${{ secrets.AUTHSERVER_KEYSJSON_DEV }}" ]; then
             echo "KEY_JSON is empty or not set."
             exit 1
           else
