@@ -52,9 +52,9 @@ jobs:
       #  run: |
       #    echo "$AUTH_KEYSJSON" > "${{ env.DOTNET_ROOT }}/authserver/appsettings.keys.json"
 
-      #- name: Create Stub Empty File
-      #  run: |
-      #    touch "${{ env.DOTNET_ROOT }}/authserver/appsettings.keys.json"
+      - name: Create Stub Empty File
+        run: |
+          touch "/home/runner/work/BuilderPulsePro/BuilderPulsePro/appsettings.keys.json"
 
       - name: Create appsettings.keys.json
         id: create-json
