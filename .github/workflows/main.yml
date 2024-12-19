@@ -45,12 +45,20 @@ jobs:
       #- name: Export AUTHSERVER_KEYSJSON_DEV to ENV
       #  run: echo "AUTH_KEYSJSON=${{ secrets.AUTHSERVER_KEYSJSON_DEV }}" >> $GITHUB_ENV
 
-      - name: Set Secret as Environment Variable
-        run: echo "AUTH_KEYSJSON=${{ secrets.AUTHSERVER_KEYSJSON_DEV }}" >> $GITHUB_ENV
+      #- name: Set Secret as Environment Variable
+      #  run: echo "AUTH_KEYSJSON=${{ secrets.AUTHSERVER_KEYSJSON_DEV }}" >> $GITHUB_ENV
         
-      - name: Add AuthServer appsettings.keys.json
-        run: |
-          echo "$AUTH_KEYSJSON" > "${{ env.DOTNET_ROOT }}/authserver/appsettings.keys.json"
+      #- name: Add AuthServer appsettings.keys.json
+      #  run: |
+      #    echo "$AUTH_KEYSJSON" > "${{ env.DOTNET_ROOT }}/authserver/appsettings.keys.json"
+
+      - name: Create appsettings.keys.json
+        id: create-json
+        uses: jsdaniell/create-json@v1.2.3
+        with:
+          name: "${{ env.DOTNET_ROOT }}/authserver/appsettings.keys.json"
+          json: ${{ secrets.AUTHSERVER_KEYSJSON_DEV }}
+
 
       - name: Verify File Content
         run: |
