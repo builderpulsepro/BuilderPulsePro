@@ -45,9 +45,12 @@ jobs:
       #- name: Export AUTHSERVER_KEYSJSON_DEV to ENV
       #  run: echo "AUTH_KEYSJSON=${{ secrets.AUTHSERVER_KEYSJSON_DEV }}" >> $GITHUB_ENV
 
+      - name: Set Secret as Environment Variable
+        run: echo "AUTH_KEYSJSON=${{ secrets.AUTHSERVER_KEYSJSON_DEV }}" >> $GITHUB_ENV
+        
       - name: Add AuthServer appsettings.keys.json
         run: |
-          echo "${{ secrets.AUTHSERVER_KEYSJSON_DEV }}" | sed -e 's/\r$//' > "${{ env.DOTNET_ROOT }}/authserver/appsettings.keys.json"
+          printf "%2" "$AUTH_KEYSJSON" > "${{ env.DOTNET_ROOT }}/authserver/appsettings.keys.json"
 
       - name: Verify File Content
         run: |
@@ -58,6 +61,10 @@ jobs:
             echo "File is empty or was not created."
             exit 1
           fi
+
+      - name: Check File Size
+        run: |
+          stat --printf="File size: %s bytes\n" "${{ env.DOTNET_ROOT }}/authserver/appsettings.keys.json"
           
       - name: dotnet publish apihost
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/apihost
