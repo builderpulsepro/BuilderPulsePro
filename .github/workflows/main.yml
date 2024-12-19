@@ -62,13 +62,13 @@ jobs:
         run: |
           dotnet new file --name "${{env.DOTNET_ROOT}}/webapp/appsettings.keys.json" --content "${{ secrets.WEBAPP_KEYSJSON_DEV }}"
 
-      - name: dotnet publish publicweb
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/publicweb
-        working-directory: ./src/BuilderPulsePro.Web.Public # Replace with your project name
+      #- name: dotnet publish publicweb
+      #  run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/publicweb
+      #  working-directory: ./src/BuilderPulsePro.Web.Public # Replace with your project name
         
-      - name: Add PublicWeb appsettings.keys.json
-        run: |
-          dotnet new file --name "${{env.DOTNET_ROOT}}/publicweb/appsettings.keys.json" --content "${{ secrets.PUBLICWEB_KEYSJSON_DEV }}"
+      #- name: Add PublicWeb appsettings.keys.json
+      #  run: |
+      #    dotnet new file --name "${{env.DOTNET_ROOT}}/publicweb/appsettings.keys.json" --content "${{ secrets.PUBLICWEB_KEYSJSON_DEV }}"
 
       - name: Upload artifact for authserver
         uses: actions/upload-artifact@v4
@@ -88,11 +88,11 @@ jobs:
           name: .net-webapp
           path: ${{env.DOTNET_ROOT}}/webapp
 
-      - name: Upload artifact for publicweb
-        uses: actions/upload-artifact@v4
-        with:
-          name: .net-publicweb
-          path: ${{env.DOTNET_ROOT}}/publicweb
+      #- name: Upload artifact for publicweb
+      #  uses: actions/upload-artifact@v4
+      #  with:
+      #    name: .net-publicweb
+      #     path: ${{env.DOTNET_ROOT}}/publicweb
 
   deploy:
     runs-on: ubuntu-latest
@@ -147,17 +147,17 @@ jobs:
           publish-profile: ${{ secrets.webappblazorserverPublishSettings }} # Set your Azure Web App publish your profile as a secret in your repository settings
           package: ./webapp
 
-      - name: Download artifact from public web
-        uses: actions/download-artifact@v4
-        with:
-          name: .net-publicweb
-          path: ./publicweb
+      #- name: Download artifact from public web
+      #  uses: actions/download-artifact@v4
+      #  with:
+      #    name: .net-publicweb
+      #    path: ./publicweb
 
-      - name: Deploy public web
-        id: deploy-to-webpublic-4
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: 'BuilderPulsePro-Dev-PublicWeb' # Replace with your app name
-          slot-name: 'Production'
-          publish-profile: ${{ secrets.publicwebblazorserverPublishSettings }} # Set your Azure Web App publish your profile as a secret in your repository settings
-          package: ./publicweb
+      #- name: Deploy public web
+      #  id: deploy-to-webpublic-4
+      #  uses: azure/webapps-deploy@v3
+      #  with:
+      #    app-name: 'BuilderPulsePro-Dev-PublicWeb' # Replace with your app name
+      #    slot-name: 'Production'
+      #    publish-profile: ${{ secrets.publicwebblazorserverPublishSettings }} # Set your Azure Web App publish your profile as a secret in your repository settings
+      #    package: ./publicweb
