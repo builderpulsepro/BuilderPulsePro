@@ -44,7 +44,7 @@ jobs:
 
       - name: Add AuthServer appsettings.keys.json
         run: |
-          dotnet new file --name "${{env.DOTNET_ROOT}}/authserver/appsettings.keys.json" --content "${{ secrets.AUTHSERVER_KEYSJSON_DEV }}"
+          printf "%s" "${{ secrets.AUTHSERVER_KEYSJSON_DEV }}" > "${{env.DOTNET_ROOT}}/authserver/appsettings.keys.json"
 
       - name: dotnet publish apihost
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/apihost
@@ -52,7 +52,7 @@ jobs:
 
       - name: Add HttpApiHost appsettings.keys.json
         run: |
-          dotnet new file --name "${{env.DOTNET_ROOT}}/apihost/appsettings.keys.json" --content "${{ secrets.APIHOST_KEYSJSON_DEV }}"
+          printf "%s" "${{ secrets.APIHOST_KEYSJSON_DEV }}" > "${{env.DOTNET_ROOT}}/apihost/appsettings.keys.json"
 
       - name: dotnet publish webapp
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/webapp
@@ -60,7 +60,7 @@ jobs:
         
       - name: Add WebApp appsettings.keys.json
         run: |
-          dotnet new file --name "${{env.DOTNET_ROOT}}/webapp/appsettings.keys.json" --content "${{ secrets.WEBAPP_KEYSJSON_DEV }}"
+          printf "%s" "${{ secrets.WEBAPP_KEYSJSON_DEV }}" > "${{env.DOTNET_ROOT}}/webapp/appsettings.keys.json"
 
       #- name: dotnet publish publicweb
       #  run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/publicweb
