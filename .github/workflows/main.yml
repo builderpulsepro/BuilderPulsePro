@@ -46,6 +46,15 @@ jobs:
         run: |
           printf "%s" "${{ secrets.AUTHSERVER_KEYSJSON_DEV }}" > "${{env.DOTNET_ROOT}}/authserver/appsettings.keys.json"
 
+      - name: Verify File Content
+        run: |
+          if [ -s "${{ env.DOTNET_ROOT }}/authserver/appsettings.keys.json" ]; then
+            echo "File created successfully and is not empty."
+          else
+            echo "File is empty or was not created."
+            exit 1
+          fi
+
       - name: dotnet publish apihost
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/apihost
         working-directory: ./src/BuilderPulsePro.HttpApi.Host # Replace with your project name
