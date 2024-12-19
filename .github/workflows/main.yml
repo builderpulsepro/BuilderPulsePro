@@ -50,7 +50,7 @@ jobs:
         
       - name: Add AuthServer appsettings.keys.json
         run: |
-          printf "%2" "$AUTH_KEYSJSON" > "${{ env.DOTNET_ROOT }}/authserver/appsettings.keys.json"
+          printf "%s" "$AUTH_KEYSJSON" > "${{ env.DOTNET_ROOT }}/authserver/appsettings.keys.json"
 
       - name: Verify File Content
         run: |
