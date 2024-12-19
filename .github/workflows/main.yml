@@ -42,9 +42,12 @@ jobs:
       - name: Generate authserver.pfx
         run: dotnet dev-certs https -v -ep ${{env.DOTNET_ROOT}}/authserver/openiddict.pfx -p a84eebb8-a184-4d23-982d-487d3ae2a667 # Replace with your password
 
+      - name: Export AUTHSERVER_KEYSJSON_DEV to ENV
+        run: echo "AUTH_KEYSJSON=${{ secrets.AUTHSERVER_KEYSJSON_DEV }}" >> $GITHUB_ENV
+
       - name: Add AuthServer appsettings.keys.json
         run: |
-          printf "%s\n" "${{ secrets.AUTHSERVER_KEYSJSON_DEV }}" > "${{env.DOTNET_ROOT}}/authserver/appsettings.keys.json"
+          printf "%s\n" "$AUTH_KEYSJSON" > "${{env.DOTNET_ROOT}}/authserver/appsettings.keys.json"
 
       - name: Verify File Content
         run: |
