@@ -52,16 +52,17 @@ jobs:
       #  run: |
       #    echo "$AUTH_KEYSJSON" > "${{ env.DOTNET_ROOT }}/authserver/appsettings.keys.json"
 
-      - name: Create Stub Empty File
-        run: |
-          touch "${{ env.DOTNET_ROOT }}/authserver/appsettings.keys.json"
+      #- name: Create Stub Empty File
+      #  run: |
+      #    touch "${{ env.DOTNET_ROOT }}/authserver/appsettings.keys.json"
 
       - name: Create appsettings.keys.json
         id: create-json
         uses: jsdaniell/create-json@v1.2.3
         with:
-          name: "${{ env.DOTNET_ROOT }}/authserver/appsettings.keys.json"
+          name: "appsettings.keys.json"
           json: ${{ secrets.AUTHSERVER_KEYSJSON_DEV }}
+          dir: "${{ env.DOTNET_ROOT }}/authserver/"
 
 
       - name: Verify File Content
