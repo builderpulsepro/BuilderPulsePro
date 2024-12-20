@@ -42,7 +42,7 @@ jobs:
       - name: Generate authserver.pfx
         run: dotnet dev-certs https -v -ep ${{env.DOTNET_ROOT}}/authserver/openiddict.pfx -p a84eebb8-a184-4d23-982d-487d3ae2a667 # Replace with your password
 
-      - name: Create appsettings.keys.json
+      - name: Create AuthServer appsettings.keys.json
         id: create-json
         uses: jsdaniell/create-json@v1.2.3
         with:
@@ -66,8 +66,8 @@ jobs:
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/apihost
         working-directory: ./src/BuilderPulsePro.HttpApi.Host # Replace with your project name
 
-      - name: Create appsettings.keys.json
-        id: create-json
+      - name: Create ApiHost appsettings.keys.json
+        id: create-json-api
         uses: jsdaniell/create-json@v1.2.3
         with:
           name: "appsettings.apihostkeysplaceholder.json"
@@ -90,8 +90,8 @@ jobs:
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/webapp
         working-directory: ./src/BuilderPulsePro.Blazor # Replace with your project name
 
-      - name: Create appsettings.keys.json
-        id: create-json
+      - name: Create WebApp appsettings.keys.json
+        id: create-json-webapp
         uses: jsdaniell/create-json@v1.2.3
         with:
           name: "appsettings.webappkeysplaceholder.json"
