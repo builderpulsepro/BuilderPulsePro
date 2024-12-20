@@ -60,20 +60,22 @@ jobs:
         id: create-json
         uses: jsdaniell/create-json@v1.2.3
         with:
-          name: "appsettings.keys.json"
+          name: "appsettings.keysplaceholder.json"
           json: ${{ secrets.AUTHSERVER_KEYSJSON_DEV }}
-          dir: "${{ env.DOTNET_ROOT }}/authserver/"
 
 
       - name: Verify File Content
         run: |
-          if [ -s "${{ env.DOTNET_ROOT }}/authserver/appsettings.keys.json" ]; then
+          if [ -s "${{ env.DOTNET_ROOT }}/authserver/appsettings.keysplaceholder.json" ]; then
             echo "File created successfully and is not empty."
-            head -n 5 "${{ env.DOTNET_ROOT }}/authserver/appsettings.keys.json" | sed 's/./*/g'
+            head -n 5 "${{ env.DOTNET_ROOT }}/authserver/appsettings.keysplaceholder.json" | sed 's/./*/g'
           else
             echo "File is empty or was not created."
             exit 1
           fi
+
+      - name: Rename  appsettings.keys.json
+        run: mv "${{ env.DOTNET_ROOT }}/authserver/appsettings.keysplaceholder.json" ${{ env.DOTNET_ROOT }}/authserver/appsettings.keys.json
 
       - name: Check File Size
         run: |
