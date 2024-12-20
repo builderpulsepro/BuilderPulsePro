@@ -75,7 +75,7 @@ jobs:
 
       - name: Verify File Content
         run: |
-          if [ -s "/home/runner/work/BuilderPulsePro/BuilderPulsePro/appsettings.apihostkeyssplaceholder.json" ]; then
+          if [ -s "/home/runner/work/BuilderPulsePro/BuilderPulsePro/appsettings.apihostkeysplaceholder.json" ]; then
             echo "File created successfully and is not empty."
             head -n 5 "/home/runner/work/BuilderPulsePro/BuilderPulsePro/appsettings.apihostkeysplaceholder.json" | sed 's/./*/g'
           else
@@ -99,7 +99,7 @@ jobs:
 
       - name: Verify File Content
         run: |
-          if [ -s "/home/runner/work/BuilderPulsePro/BuilderPulsePro/appsettings.webappkeyssplaceholder.json" ]; then
+          if [ -s "/home/runner/work/BuilderPulsePro/BuilderPulsePro/appsettings.webappkeysplaceholder.json" ]; then
             echo "File created successfully and is not empty."
             head -n 5 "/home/runner/work/BuilderPulsePro/BuilderPulsePro/appsettings.webappkeysplaceholder.json" | sed 's/./*/g'
           else
