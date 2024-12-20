@@ -108,7 +108,7 @@ jobs:
           fi
 
       - name: Rename  appsettings.keys.json
-        run: mv /home/runner/work/BuilderPulsePro/BuilderPulsePro/appsettings.webappkeysplaceholder.json ${{ env.DOTNET_ROOT }}/publicweb/appsettings.keys.json
+        run: mv /home/runner/work/BuilderPulsePro/BuilderPulsePro/appsettings.webappkeysplaceholder.json ${{ env.DOTNET_ROOT }}/webapp/appsettings.keys.json
 
       #- name: dotnet publish publicweb
       #  run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/publicweb
